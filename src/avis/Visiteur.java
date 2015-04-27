@@ -4,6 +4,13 @@ package avis;
 public class Visiteur {
 
 	/**
+	 * 
+	 */
+	public Visiteur() {
+		super();
+	}
+
+	/**
 	 * @uml.property  name="id_session"
 	 */
 	private String id_session;

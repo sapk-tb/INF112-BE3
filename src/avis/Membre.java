@@ -6,6 +6,19 @@ import java.util.LinkedList;
 public class Membre extends Visiteur {
 
 	/**
+	 * @param pseudo
+	 * @param password
+	 * @param profil
+	 */
+	public Membre(String pseudo, String password, String profil) {
+		super();
+		this.pseudo = pseudo;
+		this.password = password;
+		this.profil = profil;
+		this.reviews = new LinkedList<Review>();
+	}
+
+	/**
 	 * @uml.property  name="pseudo"
 	 */
 	private String pseudo;

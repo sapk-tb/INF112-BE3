@@ -1,6 +1,7 @@
 package avis;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 
@@ -252,17 +253,17 @@ public class SocialNetwork {
 	 * @uml.property  name="books"
 	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Book"
 	 */
-	private LinkedList<Book> books;
+	private LinkedHashMap<String, Book> books;
 	/**
 	 * @uml.property  name="films"
 	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Film"
 	 */
-	private LinkedList<Film> films;
+	private LinkedHashMap<String, Film> films;
 	/**
 	 * @uml.property  name="membres"
 	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Membre"
 	 */
-	private LinkedList<Membre> membres;
+	private LinkedHashMap<String, Membre> membres;
 
 
 }
