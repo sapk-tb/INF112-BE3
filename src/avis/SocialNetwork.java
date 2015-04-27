@@ -338,14 +338,34 @@ public class SocialNetwork {
 
 	/**
 		 */
-	public boolean isMemberAlreadyExist(String pseudo) {
+	protected boolean isMemberAlreadyExists(String pseudo) {
 		return membres.containsKey(pseudo.toLowerCase().trim());
 	}
 
 	/**
 			 */
-	public boolean isValidMemberInput(String pseudo, String password,
+	protected boolean isValidMemberInput(String pseudo, String password,
 			String profil) {
+		return false;
+	}
+
+	/**
+		 */
+	protected boolean isValidBookInput(String pseudo, String password,
+			String titre, String genre, String auteur, int nbPages) {
+		return false;
+	}
+
+	/**
+		 */
+	protected boolean isBookAlreadyExists(String titre) {
+		return books.containsKey(titre.toLowerCase().trim());
+	}
+
+	/**
+		 */
+	protected boolean isValidReviewInput(String pseudo, String password,
+			String titre, float note, String commentaire) {
 		return false;
 	}
 

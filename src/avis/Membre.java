@@ -2,6 +2,7 @@ package avis;
 
 import java.util.LinkedList;
 
+import exception.NotMember;
 
 public class Membre extends Visiteur {
 
@@ -19,14 +20,15 @@ public class Membre extends Visiteur {
 	}
 
 	/**
-	 * @uml.property  name="pseudo"
+	 * @uml.property name="pseudo"
 	 */
 	private String pseudo;
 
 	/**
 	 * Getter of the property <tt>pseudo</tt>
-	 * @return  Returns the pseudo.
-	 * @uml.property  name="pseudo"
+	 * 
+	 * @return Returns the pseudo.
+	 * @uml.property name="pseudo"
 	 */
 	public String getPseudo() {
 		return pseudo;
@@ -34,22 +36,25 @@ public class Membre extends Visiteur {
 
 	/**
 	 * Setter of the property <tt>pseudo</tt>
-	 * @param pseudo  The pseudo to set.
-	 * @uml.property  name="pseudo"
+	 * 
+	 * @param pseudo
+	 *            The pseudo to set.
+	 * @uml.property name="pseudo"
 	 */
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
 
 	/**
-	 * @uml.property  name="password"
+	 * @uml.property name="password"
 	 */
 	private String password;
 
 	/**
 	 * Getter of the property <tt>password</tt>
-	 * @return  Returns the password.
-	 * @uml.property  name="password"
+	 * 
+	 * @return Returns the password.
+	 * @uml.property name="password"
 	 */
 	public String getPassword() {
 		return password;
@@ -57,22 +62,25 @@ public class Membre extends Visiteur {
 
 	/**
 	 * Setter of the property <tt>password</tt>
-	 * @param password  The password to set.
-	 * @uml.property  name="password"
+	 * 
+	 * @param password
+	 *            The password to set.
+	 * @uml.property name="password"
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * @uml.property  name="profil"
+	 * @uml.property name="profil"
 	 */
 	private String profil;
 
 	/**
 	 * Getter of the property <tt>profil</tt>
-	 * @return  Returns the profil.
-	 * @uml.property  name="profil"
+	 * 
+	 * @return Returns the profil.
+	 * @uml.property name="profil"
 	 */
 	public String getProfil() {
 		return profil;
@@ -80,23 +88,27 @@ public class Membre extends Visiteur {
 
 	/**
 	 * Setter of the property <tt>profil</tt>
-	 * @param profil  The profil to set.
-	 * @uml.property  name="profil"
+	 * 
+	 * @param profil
+	 *            The profil to set.
+	 * @uml.property name="profil"
 	 */
 	public void setProfil(String profil) {
 		this.profil = profil;
 	}
 
 	/**
-	 * @uml.property  name="reviews"
-	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="membre:avis.Review"
+	 * @uml.property name="reviews"
+	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
+	 *                     inverse="membre:avis.Review"
 	 */
-	private  LinkedList<Review> reviews;
+	private LinkedList<Review> reviews;
 
 	/**
 	 * Getter of the property <tt>reviews</tt>
-	 * @return  Returns the reviews.
-	 * @uml.property  name="reviews"
+	 * 
+	 * @return Returns the reviews.
+	 * @uml.property name="reviews"
 	 */
 	public LinkedList<Review> getReviews() {
 		return reviews;
@@ -104,13 +116,47 @@ public class Membre extends Visiteur {
 
 	/**
 	 * Setter of the property <tt>reviews</tt>
-	 * @param reviews  The reviews to set.
-	 * @uml.property  name="reviews"
+	 * 
+	 * @param reviews
+	 *            The reviews to set.
+	 * @uml.property name="reviews"
 	 */
 	public void setReviews(LinkedList<Review> reviews) {
 		this.reviews = reviews;
 	}
 
+	/**
+	 * @uml.property name="items"
+	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
+	 *                     inverse="membre:avis.Item"
+	 */
+	private LinkedList<Item> items;
 
+	/**
+	 * Getter of the property <tt>items</tt>
+	 * 
+	 * @return Returns the items.
+	 * @uml.property name="items"
+	 */
+	public LinkedList<Item> getItems() {
+		return items;
+	}
+
+	/**
+	 * Setter of the property <tt>items</tt>
+	 * 
+	 * @param items
+	 *            The items to set.
+	 * @uml.property name="items"
+	 */
+	public void setItems(LinkedList<Item> items) {
+		this.items = items;
+	}
+
+	/**
+		 */
+	protected Membre Authentification(String pseudo, String password) throws NotMember{
+		return null;
+	}
 
 }

@@ -4,6 +4,20 @@ package avis;
 public class Review {
 
 	/**
+	 * @param item
+	 * @param membre
+	 * @param note
+	 * @param commentaire
+	 */
+	public Review(Item item, Membre membre, float note, String commentaire) {
+		super();
+		this.item = item;
+		this.membre = membre;
+		this.note = note;
+		this.commentaire = commentaire;
+	}
+
+	/**
 	 * @uml.property  name="item"
 	 * @uml.associationEnd  multiplicity="(1 1)" inverse="reviews:avis.Item"
 	 */
