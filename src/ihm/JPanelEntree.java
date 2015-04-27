@@ -11,12 +11,13 @@ import javax.swing.event.CaretListener;
 
 
 /**
- * 
- * @author prou
- *
+ * @author  prou
  */
 public class JPanelEntree  extends JPanel {
 
+	/**
+	 * @uml.property  name="entree"
+	 */
 	String entree;
 	JTextField jTextField;
 
@@ -35,11 +36,19 @@ public class JPanelEntree  extends JPanel {
 		setVisible(true);
 	}
 	
+	/**
+	 * @param entree
+	 * @uml.property  name="entree"
+	 */
 	public void setEntree(String entree) {
 		this.entree = entree;
 		jTextField.setText(entree);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="entree"
+	 */
 	public String getEntree() {
 		return entree;
 	}

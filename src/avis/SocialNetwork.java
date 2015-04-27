@@ -248,6 +248,73 @@ public class SocialNetwork {
 
 
 
+	/**
+	 * @uml.property  name="visiteurs"
+	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Visiteur"
+	 */
+	private LinkedList<Visiteur> visiteurs;
+
+
+	/**
+	 * Getter of the property <tt>visiteurs</tt>
+	 * @return  Returns the visiteurs.
+	 * @uml.property  name="visiteurs"
+	 */
+	public LinkedList<Visiteur> getVisiteurs() {
+		return visiteurs;
+	}
+
+	/**
+	 * Setter of the property <tt>visiteurs</tt>
+	 * @param visiteurs  The visiteurs to set.
+	 * @uml.property  name="visiteurs"
+	 */
+	public void setVisiteurs(LinkedList<Visiteur> visiteurs) {
+		this.visiteurs = visiteurs;
+	}
+
+
+	/**
+	 * @uml.property  name="administrateurs"
+	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Administrateur"
+	 */
+	private LinkedList<Administrateur> administrateurs;
+
+
+	/**
+	 * Getter of the property <tt>administrateurs</tt>
+	 * @return  Returns the administrateurs.
+	 * @uml.property  name="administrateurs"
+	 */
+	public LinkedList<Administrateur> getAdministrateurs() {
+		return administrateurs;
+	}
+
+	/**
+	 * Setter of the property <tt>administrateurs</tt>
+	 * @param administrateurs  The administrateurs to set.
+	 * @uml.property  name="administrateurs"
+	 */
+	public void setAdministrateurs(LinkedList<Administrateur> administrateurs) {
+		this.administrateurs = administrateurs;
+	}
+
+
+
+	/**
+	 * @uml.property  name="books"
+	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Book"
+	 */
+	private LinkedList<Book> books;
+	/**
+	 * @uml.property  name="films"
+	 * @uml.associationEnd  multiplicity="(0 -1)" dimension="1" ordering="true" inverse="socialNetwork:avis.Film"
+	 */
+	private LinkedList<Film> films;
+
+
+
+
 
 
 }

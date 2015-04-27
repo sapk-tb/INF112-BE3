@@ -10,12 +10,13 @@ import javax.swing.event.CaretListener;
 
 
 /**
- * 
- * @author prou
- *
+ * @author  prou
  */
 public class JPanelPassword extends JPanel {
 
+	/**
+	 * @uml.property  name="password"
+	 */
 	private String password;
 	private JPasswordField jPasswordField;
 
@@ -35,6 +36,10 @@ public class JPanelPassword extends JPanel {
 
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
 	public String getPassword() {
 		return password;
 	}
