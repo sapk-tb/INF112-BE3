@@ -1,5 +1,7 @@
 package avis;
 
+import exception.BadEntry;
+
 
 public class Review {
 
@@ -9,7 +11,7 @@ public class Review {
 	 * @param note
 	 * @param commentaire
 	 */
-	public Review(Item item, Membre membre, float note, String commentaire) {
+	public Review(Item item, Membre membre, float note, String commentaire) throws BadEntry {
 		super();
 		this.item = item;
 		this.membre = membre;
@@ -33,15 +35,6 @@ public class Review {
 	}
 
 	/**
-	 * Setter of the property <tt>item</tt>
-	 * @param item  The item to set.
-	 * @uml.property  name="item"
-	 */
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	/**
 	 * @uml.property  name="membre"
 	 * @uml.associationEnd  multiplicity="(1 1)" inverse="reviews:avis.Membre"
 	 */
@@ -54,15 +47,6 @@ public class Review {
 	 */
 	public Membre getMembre() {
 		return membre;
-	}
-
-	/**
-	 * Setter of the property <tt>membre</tt>
-	 * @param membre  The membre to set.
-	 * @uml.property  name="membre"
-	 */
-	public void setMembre(Membre membre) {
-		this.membre = membre;
 	}
 
 	/**
@@ -111,5 +95,12 @@ public class Review {
 		this.commentaire = commentaire;
 	}
 
+
+	/**
+		 */
+	private boolean isValidReviewInput(String pseudo, String password,
+			String titre, float note, String commentaire) {
+		return false;
+	}
 
 }

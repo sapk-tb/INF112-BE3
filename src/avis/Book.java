@@ -2,6 +2,8 @@ package avis;
 
 import java.util.LinkedList;
 
+import exception.BadEntry;
+
 public class Book extends Item {
 
 	/**
@@ -12,9 +14,9 @@ public class Book extends Item {
 	 * @param auteur
 	 * @param nbPages
 	 */
-	public Book(String titre, String genre, Membre membre, String auteur,
-			int nbPages) {
-		super(titre, genre, membre);
+	public Book(String titre, String genre, Membre creator, String auteur,
+			int nbPages) throws BadEntry {
+		super(titre, genre, creator);
 		this.auteur = auteur;
 		this.nbPages = nbPages;
 	}
@@ -69,6 +71,15 @@ public class Book extends Item {
 	 */
 	public void setNbPages(int nbPages) {
 		this.nbPages = nbPages;
+	}
+
+	
+
+	/**
+		 */
+	private boolean isValidBookInput(String pseudo, String password,
+			String titre, String genre, String auteur, int nbPages) {
+		return false;
 	}
 
 }

@@ -2,6 +2,8 @@ package avis;
 
 import java.util.LinkedList;
 
+import exception.BadEntry;
+
 public abstract class Item {
 
 	/**
@@ -10,12 +12,12 @@ public abstract class Item {
 	 * @param reviews
 	 * @param membre
 	 */
-	public Item(String titre, String genre, Membre membre) {
+	public Item(String titre, String genre, Membre creator) throws BadEntry{
 		super();
 		this.titre = titre;
 		this.genre = genre;
 		this.reviews = new LinkedList<Review>();
-		this.membre = membre;
+		this.creator = creator;
 	}
 
 	/**
@@ -88,46 +90,29 @@ public abstract class Item {
 	}
 
 	/**
-	 * Setter of the property <tt>reviews</tt>
-	 * 
-	 * @param reviews
-	 *            The reviews to set.
-	 * @uml.property name="reviews"
 	 */
-	public void setReviews(LinkedList<Review> reviews) {
-		this.reviews = reviews;
+	public float addReview(Review review ) {
+		return 0;
 	}
-
 	/**
 		 */
 	public void getMoyenne() {
 	}
 
-	/**
-	 * @uml.property name="membre"
+	/** 
+	 * @uml.property name="creator"
 	 * @uml.associationEnd multiplicity="(1 1)" inverse="items:avis.Membre"
 	 */
-	private Membre membre = null;
+	private Membre creator = null;
 
-	/**
+	/** 
 	 * Getter of the property <tt>membre</tt>
-	 * 
 	 * @return Returns the membre.
-	 * @uml.property name="membre"
+	 * @uml.property  name="creator"
 	 */
-	public Membre getMembre() {
-		return membre;
+	public Membre getCreator() {
+		return creator;
 	}
 
-	/**
-	 * Setter of the property <tt>membre</tt>
-	 * 
-	 * @param membre
-	 *            The membre to set.
-	 * @uml.property name="membre"
-	 */
-	public void setMembre(Membre membre) {
-		this.membre = membre;
-	}
 
 }

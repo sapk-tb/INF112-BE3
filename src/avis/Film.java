@@ -2,6 +2,8 @@ package avis;
 
 import java.util.LinkedList;
 
+import exception.BadEntry;
+
 public class Film extends Item {
 
 	/**
@@ -13,9 +15,9 @@ public class Film extends Item {
 	 * @param scenariste
 	 * @param duree
 	 */
-	public Film(String titre, String genre, Membre membre, String realisateur,
-			String scenariste, int duree) {
-		super(titre, genre, membre);
+	public Film(String titre, String genre, Membre creator, String realisateur,
+			String scenariste, int duree) throws BadEntry {
+		super(titre, genre, creator);
 		this.realisateur = realisateur;
 		this.scenariste = scenariste;
 		this.duree = duree;
@@ -97,6 +99,13 @@ public class Film extends Item {
 	 */
 	public void setDuree(int duree) {
 		this.duree = duree;
+	}
+
+	/**
+		 */
+	private boolean isValidFilmInput(String titre, String genre, Membre creator, String realisateur,
+			String scenariste, int duree) {
+		return false;
 	}
 
 }

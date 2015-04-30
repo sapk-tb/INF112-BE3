@@ -2,6 +2,8 @@ package avis;
 
 import java.util.LinkedList;
 
+import exception.BadAuth;
+import exception.BadEntry;
 import exception.NotMember;
 
 public class Membre extends Visiteur {
@@ -11,7 +13,7 @@ public class Membre extends Visiteur {
 	 * @param password
 	 * @param profil
 	 */
-	public Membre(String pseudo, String password, String profil) {
+	public Membre(String pseudo, String password, String profil) throws BadEntry{
 		super();
 		this.pseudo = pseudo;
 		this.password = password;
@@ -115,48 +117,44 @@ public class Membre extends Visiteur {
 	}
 
 	/**
-	 * Setter of the property <tt>reviews</tt>
-	 * 
-	 * @param reviews
-	 *            The reviews to set.
-	 * @uml.property name="reviews"
 	 */
-	public void setReviews(LinkedList<Review> reviews) {
-		this.reviews = reviews;
+	public void addReview(Review review ) {
+
 	}
 
-	/**
+	/** 
 	 * @uml.property name="items"
-	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
-	 *                     inverse="membre:avis.Item"
+	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true" inverse="creator:avis.Item"
 	 */
-	private LinkedList<Item> items;
+	private Item[] items;
 
-	/**
+	/** 
 	 * Getter of the property <tt>items</tt>
-	 * 
 	 * @return Returns the items.
 	 * @uml.property name="items"
 	 */
-	public LinkedList<Item> getItems() {
+	public Item[] getItems() {
 		return items;
 	}
 
 	/**
-	 * Setter of the property <tt>items</tt>
-	 * 
-	 * @param items
-	 *            The items to set.
-	 * @uml.property name="items"
 	 */
-	public void setItems(LinkedList<Item> items) {
-		this.items = items;
+	public void addItem(Item item ) {
+
+	}
+	/**
+		 */
+	protected Membre auth(String password) throws NotMember, BadAuth{
+		return null;
 	}
 
 	/**
-		 */
-	protected Membre Authentification(String pseudo, String password) throws NotMember{
-		return null;
+	 * Setter of the property <tt>items</tt>
+	 * @param items  The items to set.
+	 * @uml.property  name="items"
+	 */
+	public void setItems(Item[] items) {
+		this.items = items;
 	}
 
 }

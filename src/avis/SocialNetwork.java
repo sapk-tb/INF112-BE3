@@ -342,19 +342,6 @@ public class SocialNetwork {
 		return membres.containsKey(pseudo.toLowerCase().trim());
 	}
 
-	/**
-			 */
-	protected boolean isValidMemberInput(String pseudo, String password,
-			String profil) {
-		return false;
-	}
-
-	/**
-		 */
-	protected boolean isValidBookInput(String pseudo, String password,
-			String titre, String genre, String auteur, int nbPages) {
-		return false;
-	}
 
 	/**
 		 */
@@ -364,9 +351,7 @@ public class SocialNetwork {
 
 	/**
 		 */
-	protected boolean isValidReviewInput(String pseudo, String password,
-			String titre, float note, String commentaire) {
-		return false;
+	protected boolean isFilmAlreadyExists(String titre) {
+		return films.containsKey(titre.toLowerCase().trim());
 	}
-
 }
