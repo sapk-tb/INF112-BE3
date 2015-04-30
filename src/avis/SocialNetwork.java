@@ -163,7 +163,12 @@ public class SocialNetwork {
 	public void addItemFilm(String pseudo, String password, String titre,
 			String genre, String realisateur, String scenariste, int duree)
 			throws BadEntry, NotMember, ItemFilmAlreadyExists {
-
+		// On crée un membre pour vérifier que les données sont valides
+		Membre membre = new Membre(pseudo, password, "");
+		
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo+" n'est pas un membre"); 
+		}
 	}
 
 	/**
@@ -346,8 +351,6 @@ public class SocialNetwork {
 	/**
 		 */
 	protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
-		if(pseudo == null)
-			throw new BadEntry("Pseudo non instancié");
 		return membres.containsKey(pseudo.toLowerCase().trim());
 	}
 

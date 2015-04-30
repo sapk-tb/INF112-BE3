@@ -16,10 +16,9 @@ public class Membre extends Visiteur {
 	public Membre(String pseudo, String password, String profil)
 			throws BadEntry {
 		super();
-		pseudo = pseudo.trim();
 		if (!isValidMemberInput(pseudo, password, profil))
 			throw new BadEntry("Input invalid !");
-		this.pseudo = pseudo;
+		this.pseudo = pseudo.trim();
 		this.password = password;
 		this.profil = profil;
 		this.reviews = new LinkedList<Review>();
@@ -29,13 +28,15 @@ public class Membre extends Visiteur {
 		 */
 	private boolean isValidMemberInput(String pseudo, String password,
 			String profil) {
-		if( (pseudo == null)||pseudo.replaceAll("\\s","").length()<1)
+		if (pseudo == null)
 			return false;
-		if(pseudo.length()<4)
+		if (pseudo.replaceAll("\\s", "").length() < 1)
 			return false;
-		if(profil == null)
+		if (pseudo.length() < 4)
 			return false;
-		
+		if (profil == null)
+			return false;
+
 		return true;
 	}
 
