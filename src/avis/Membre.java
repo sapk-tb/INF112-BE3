@@ -13,12 +13,30 @@ public class Membre extends Visiteur {
 	 * @param password
 	 * @param profil
 	 */
-	public Membre(String pseudo, String password, String profil) throws BadEntry{
+	public Membre(String pseudo, String password, String profil)
+			throws BadEntry {
 		super();
+		pseudo = pseudo.trim();
+		if (!isValidMemberInput(pseudo, password, profil))
+			throw new BadEntry("Input invalid !");
 		this.pseudo = pseudo;
 		this.password = password;
 		this.profil = profil;
 		this.reviews = new LinkedList<Review>();
+	}
+
+	/**
+		 */
+	private boolean isValidMemberInput(String pseudo, String password,
+			String profil) {
+		if( (pseudo == null)||pseudo.replaceAll("\\s","").length()<1)
+			return false;
+		if(pseudo.length()<4)
+			return false;
+		if(profil == null)
+			return false;
+		
+		return true;
 	}
 
 	/**
@@ -118,43 +136,37 @@ public class Membre extends Visiteur {
 
 	/**
 	 */
-	public void addReview(Review review ) {
+	public void addReview(Review review) {
 
 	}
 
-	/** 
+	/**
 	 * @uml.property name="items"
-	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true" inverse="creator:avis.Item"
+	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
+	 *                     inverse="creator:avis.Item"
 	 */
-	private Item[] items;
+	private LinkedList<Item> items;
 
-	/** 
+	/**
 	 * Getter of the property <tt>items</tt>
+	 * 
 	 * @return Returns the items.
 	 * @uml.property name="items"
 	 */
-	public Item[] getItems() {
+	public LinkedList<Item> getItems() {
 		return items;
 	}
 
 	/**
 	 */
-	public void addItem(Item item ) {
+	public void addItem(Item item) {
 
 	}
+
 	/**
 		 */
-	protected Membre auth(String password) throws NotMember, BadAuth{
+	protected Membre auth(String password) throws NotMember, BadAuth {
 		return null;
-	}
-
-	/**
-	 * Setter of the property <tt>items</tt>
-	 * @param items  The items to set.
-	 * @uml.property  name="items"
-	 */
-	public void setItems(Item[] items) {
-		this.items = items;
 	}
 
 }

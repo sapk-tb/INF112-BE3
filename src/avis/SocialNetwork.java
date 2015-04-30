@@ -51,6 +51,9 @@ public class SocialNetwork {
 	 */
 
 	public SocialNetwork() {
+		membres = new LinkedHashMap<String, Membre>();
+		books = new LinkedHashMap<String, Book>();
+		films = new LinkedHashMap<String, Film>();
 	}
 
 	/**
@@ -59,7 +62,7 @@ public class SocialNetwork {
 	 * @return le nombre de membres
 	 */
 	public int nbMembers() {
-		return 0;
+		return membres.size();
 	}
 
 	/**
@@ -68,7 +71,7 @@ public class SocialNetwork {
 	 * @return le nombre de films
 	 */
 	public int nbFilms() {
-		return 0;
+		return films.size();
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class SocialNetwork {
 	 * @return le nombre de livres
 	 */
 	public int nbBooks() {
-		return 0;
+		return books.size();
 	}
 
 	/**
@@ -109,7 +112,11 @@ public class SocialNetwork {
 	 */
 	public void addMember(String pseudo, String password, String profil)
 			throws BadEntry, MemberAlreadyExists {
-
+		if (memberAlreadyExists(pseudo)) {
+			throw new MemberAlreadyExists(); 
+		}
+		Membre membre = new Membre(pseudo, password, profil);
+		membres.put(membre.getPseudo().toLowerCase().trim(), membre);
 	}
 
 	/**
@@ -338,20 +345,21 @@ public class SocialNetwork {
 
 	/**
 		 */
-	protected boolean isMemberAlreadyExists(String pseudo) {
+	protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
+		if(pseudo == null)
+			throw new BadEntry("Pseudo non instancié");
 		return membres.containsKey(pseudo.toLowerCase().trim());
 	}
 
-
 	/**
 		 */
-	protected boolean isBookAlreadyExists(String titre) {
+	protected boolean bookAlreadyExists(String titre) {
 		return books.containsKey(titre.toLowerCase().trim());
 	}
 
 	/**
 		 */
-	protected boolean isFilmAlreadyExists(String titre) {
+	protected boolean filmAlreadyExists(String titre) {
 		return films.containsKey(titre.toLowerCase().trim());
 	}
 }
