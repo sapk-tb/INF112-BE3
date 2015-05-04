@@ -14,9 +14,11 @@ public abstract class Item {
 	 */
 	public Item(String titre, String genre, Membre creator) throws BadEntry{
 		super();
-		this.titre = titre;
-		this.genre = genre;
+		this.setTitre(titre);
+		this.setGenre(genre);
 		this.reviews = new LinkedList<Review>();
+		if(!isInstanced(creator))
+			throw new BadEntry("Creator invalid");
 		this.creator = creator;
 	}
 
@@ -42,7 +44,9 @@ public abstract class Item {
 	 *            The titre to set.
 	 * @uml.property name="titre"
 	 */
-	public void setTitre(String titre) {
+	public void setTitre(String titre) throws BadEntry{
+		if(!isValidTitre(titre))
+			throw new BadEntry("Titre invalid");
 		this.titre = titre;
 	}
 
@@ -68,7 +72,9 @@ public abstract class Item {
 	 *            The genre to set.
 	 * @uml.property name="genre"
 	 */
-	public void setGenre(String genre) {
+	public void setGenre(String genre) throws BadEntry{
+		if(!isInstanced(genre))
+			throw new BadEntry("");
 		this.genre = genre;
 	}
 
@@ -114,5 +120,16 @@ public abstract class Item {
 		return creator;
 	}
 
-
+	public static boolean isValidTitre(String titre) {
+		if (titre == null)
+			return false;
+		if (titre.replaceAll("\\s", "").length() < 1)
+			return false;
+		return true;
+	}
+	public static boolean isInstanced(Object s) {
+		if (s == null)
+			return false;
+		return true;
+	}
 }

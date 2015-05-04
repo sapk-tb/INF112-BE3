@@ -23,6 +23,10 @@ public class Tests {
 	      TestsAddItemFilm.main(resultats);
 	      
 	      System.out.println("\n\n ***************************************\n");
+	      
+	      TestsAddItemBook.main(resultats);
+	      
+	      System.out.println("\n\n ***************************************\n");
 
 	      TestsReviewItemFilm.main(resultats);
 	      

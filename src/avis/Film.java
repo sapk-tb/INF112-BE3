@@ -1,7 +1,5 @@
 package avis;
 
-import java.util.LinkedList;
-
 import exception.BadEntry;
 
 public class Film extends Item {
@@ -18,9 +16,9 @@ public class Film extends Item {
 	public Film(String titre, String genre, Membre creator, String realisateur,
 			String scenariste, int duree) throws BadEntry {
 		super(titre, genre, creator);
-		this.realisateur = realisateur;
-		this.scenariste = scenariste;
-		this.duree = duree;
+		this.setRealisateur(realisateur);
+		this.setScenariste(scenariste);
+		this.setDuree(duree);
 	}
 
 	/**
@@ -45,7 +43,9 @@ public class Film extends Item {
 	 *            The realisateur to set.
 	 * @uml.property name="realisateur"
 	 */
-	public void setRealisateur(String realisateur) {
+	public void setRealisateur(String realisateur)  throws BadEntry{
+		if(!isInstanced(realisateur))
+			throw new BadEntry("");
 		this.realisateur = realisateur;
 	}
 
@@ -71,7 +71,9 @@ public class Film extends Item {
 	 *            The scenariste to set.
 	 * @uml.property name="scenariste"
 	 */
-	public void setScenariste(String scenariste) {
+	public void setScenariste(String scenariste) throws BadEntry {
+		if(!isInstanced(scenariste))
+			throw new BadEntry("");
 		this.scenariste = scenariste;
 	}
 
@@ -97,15 +99,24 @@ public class Film extends Item {
 	 *            The duree to set.
 	 * @uml.property name="duree"
 	 */
-	public void setDuree(int duree) {
+	public void setDuree(int duree) throws BadEntry {
+		if(!isValidDuree(duree))
+			throw new BadEntry("Duration invalid");
 		this.duree = duree;
 	}
 
 	/**
 		 */
-	private boolean isValidFilmInput(String titre, String genre, Membre creator, String realisateur,
+	public static boolean isValidFilmInput(String titre, String genre, Membre creator, String realisateur,
 			String scenariste, int duree) {
-		return false;
+		return isValidTitre(titre) && isInstanced(creator) && isInstanced(genre)&& isInstanced(realisateur) && isInstanced(scenariste) && isValidDuree(duree);
 	}
 
+
+	public static boolean isValidDuree(int duree) {
+		if (duree <=0)
+			return false;
+		
+		return true;
+	}
 }

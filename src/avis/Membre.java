@@ -26,19 +26,32 @@ public class Membre extends Visiteur {
 
 	/**
 		 */
-	private boolean isValidMemberInput(String pseudo, String password,
+	public static boolean isValidMemberInput(String pseudo, String password,
 			String profil) {
+		return isValidPseudo(pseudo) && isValidPassword(password) && isValidProfil(profil);
+	}
+	public static boolean isValidPseudo(String pseudo) {
 		if (pseudo == null)
 			return false;
 		if (pseudo.replaceAll("\\s", "").length() < 1)
 			return false;
-		if (pseudo.length() < 4)
+
+		return true;
+	}
+	public static boolean isValidPassword(String password) {
+		if (password == null)
 			return false;
-		if (profil == null)
+		if (password.trim().length() < 4)
 			return false;
 
 		return true;
 	}
+	public static boolean isValidProfil(String profil) {
+		if (profil == null)
+			return false;
+		return true;
+	}
+
 
 	/**
 	 * @uml.property name="pseudo"
@@ -62,7 +75,9 @@ public class Membre extends Visiteur {
 	 *            The pseudo to set.
 	 * @uml.property name="pseudo"
 	 */
-	public void setPseudo(String pseudo) {
+	public void setPseudo(String pseudo) throws BadEntry {
+		if(!isValidPseudo(pseudo))
+			throw new BadEntry("Pseudo invalid");
 		this.pseudo = pseudo;
 	}
 
@@ -88,7 +103,9 @@ public class Membre extends Visiteur {
 	 *            The password to set.
 	 * @uml.property name="password"
 	 */
-	public void setPassword(String password) {
+	public void setPassword(String password)  throws BadEntry {
+		if(!isValidPassword(password))
+			throw new BadEntry("Password invalid");
 		this.password = password;
 	}
 
@@ -103,7 +120,7 @@ public class Membre extends Visiteur {
 	 * @return Returns the profil.
 	 * @uml.property name="profil"
 	 */
-	public String getProfil() {
+	public String getProfil()  {
 		return profil;
 	}
 
@@ -114,7 +131,9 @@ public class Membre extends Visiteur {
 	 *            The profil to set.
 	 * @uml.property name="profil"
 	 */
-	public void setProfil(String profil) {
+	public void setProfil(String profil) throws BadEntry {
+		if(!isValidProfil(profil))
+			throw new BadEntry("Profil invalid");
 		this.profil = profil;
 	}
 
@@ -136,6 +155,7 @@ public class Membre extends Visiteur {
 	}
 
 	/**
+	 * TODO
 	 */
 	public void addReview(Review review) {
 
@@ -166,8 +186,8 @@ public class Membre extends Visiteur {
 
 	/**
 		 */
-	protected Membre auth(String password) throws NotMember, BadAuth {
-		return null;
+	protected boolean auth(String password) {
+		return this.password == password;
 	}
 
 }

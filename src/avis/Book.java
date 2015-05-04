@@ -1,9 +1,7 @@
 package avis;
 
-import java.util.LinkedList;
-
 import exception.BadEntry;
-
+//TODO
 public class Book extends Item {
 
 	/**
@@ -17,8 +15,8 @@ public class Book extends Item {
 	public Book(String titre, String genre, Membre creator, String auteur,
 			int nbPages) throws BadEntry {
 		super(titre, genre, creator);
-		this.auteur = auteur;
-		this.nbPages = nbPages;
+		this.setAuteur(auteur);
+		this.setNbPages(nbPages);
 	}
 
 	/**
@@ -43,7 +41,9 @@ public class Book extends Item {
 	 *            The auteur to set.
 	 * @uml.property name="auteur"
 	 */
-	public void setAuteur(String auteur) {
+	public void setAuteur(String auteur) throws BadEntry{
+		if(!isInstanced(auteur))
+			throw new BadEntry("");
 		this.auteur = auteur;
 	}
 
@@ -69,7 +69,9 @@ public class Book extends Item {
 	 *            The nbPages to set.
 	 * @uml.property name="nbPages"
 	 */
-	public void setNbPages(int nbPages) {
+	public void setNbPages(int nbPages) throws BadEntry{
+		if(!isValidnbPages(nbPages))
+			throw new BadEntry("");
 		this.nbPages = nbPages;
 	}
 
@@ -77,9 +79,15 @@ public class Book extends Item {
 
 	/**
 		 */
-	private boolean isValidBookInput(String pseudo, String password,
-			String titre, String genre, String auteur, int nbPages) {
-		return false;
+	public static boolean isValidBookInput(Membre creator, String titre, String genre, String auteur, int nbPages) {
+		return isValidTitre(titre) && isInstanced(creator) && isInstanced(genre)&& isInstanced(auteur)  && isValidnbPages(nbPages);
 	}
 
+
+	public static boolean isValidnbPages(int nbPages) {
+		if (nbPages <=0)
+			return false;
+		
+		return true;
+	}
 }

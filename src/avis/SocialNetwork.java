@@ -1,6 +1,5 @@
 package avis;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -163,12 +162,28 @@ public class SocialNetwork {
 	public void addItemFilm(String pseudo, String password, String titre,
 			String genre, String realisateur, String scenariste, int duree)
 			throws BadEntry, NotMember, ItemFilmAlreadyExists {
-		// On crée un membre pour vérifier que les données sont valides
-		Membre membre = new Membre(pseudo, password, "");
-		
-		if (!memberAlreadyExists(pseudo)) {
-			throw new NotMember(pseudo+" n'est pas un membre"); 
+
+		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+			throw new BadEntry("Utilisateur incorrect"); 
 		}
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo+" is not a member"); 
+		}
+		Membre creator = membres.get(pseudo.trim().toLowerCase());
+		if(!creator.auth(password)){
+			throw new NotMember("Password incorrect"); 
+		}
+		
+		if(!Film.isValidFilmInput(titre, genre, creator, realisateur, scenariste, duree)){
+			throw new BadEntry("Film data incorrect");
+		}
+		
+		if (filmAlreadyExists(titre)) {
+			throw new ItemFilmAlreadyExists(); 
+		}
+		
+		films.put(titre.trim().toLowerCase(), new Film(titre, genre, creator, realisateur, scenariste, duree));
+		
 	}
 
 	/**
@@ -213,6 +228,27 @@ public class SocialNetwork {
 	public void addItemBook(String pseudo, String password, String titre,
 			String genre, String auteur, int nbPages) throws BadEntry,
 			NotMember, ItemBookAlreadyExists {
+
+		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+			throw new BadEntry("Utilisateur incorrect"); 
+		}
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo+" is not a member"); 
+		}
+		Membre creator = membres.get(pseudo.trim().toLowerCase());
+		if(!creator.auth(password)){
+			throw new NotMember("Password incorrect"); 
+		}
+		
+		if(!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)){
+			throw new BadEntry("Film data incorrect");
+		}
+		
+		if (bookAlreadyExists(titre)) {
+			throw new ItemBookAlreadyExists(); 
+		}
+		
+		books.put(titre.trim().toLowerCase(), new Book(titre, genre, creator, auteur, nbPages));
 
 	}
 
@@ -350,19 +386,19 @@ public class SocialNetwork {
 
 	/**
 		 */
-	protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
-		return membres.containsKey(pseudo.toLowerCase().trim());
+	protected boolean memberAlreadyExists(String pseudo){
+		return Membre.isValidPseudo(pseudo) && membres.containsKey(pseudo.toLowerCase().trim());
 	}
 
 	/**
 		 */
 	protected boolean bookAlreadyExists(String titre) {
-		return books.containsKey(titre.toLowerCase().trim());
+		return Book.isValidTitre(titre) &&  books.containsKey(titre.toLowerCase().trim());
 	}
 
 	/**
 		 */
 	protected boolean filmAlreadyExists(String titre) {
-		return films.containsKey(titre.toLowerCase().trim());
+		return Film.isValidTitre(titre) &&  films.containsKey(titre.toLowerCase().trim());
 	}
 }
