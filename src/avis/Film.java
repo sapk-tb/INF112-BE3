@@ -4,6 +4,13 @@ import exception.BadEntry;
 
 public class Film extends Item {
 
+	@Override
+	public String toString() {
+		return "Film [realisateur=" + realisateur + ", scenariste="
+				+ scenariste + ", duree=" + duree + ", "
+				+ super.toString() + "]";
+	}
+
 	/**
 	 * @param titre
 	 * @param genre

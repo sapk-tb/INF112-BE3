@@ -4,6 +4,12 @@ import exception.BadEntry;
 //TODO
 public class Book extends Item {
 
+	@Override
+	public String toString() {
+		return "Book [auteur=" + auteur + ", nbPages=" + nbPages
+				+ ", " + super.toString() + "]";
+	}
+
 	/**
 	 * @param titre
 	 * @param genre

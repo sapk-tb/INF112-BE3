@@ -2,6 +2,8 @@ package avis;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import exception.BadEntry;
 import exception.ItemFilmAlreadyExists;
@@ -112,7 +114,7 @@ public class SocialNetwork {
 	public void addMember(String pseudo, String password, String profil)
 			throws BadEntry, MemberAlreadyExists {
 		if (memberAlreadyExists(pseudo)) {
-			throw new MemberAlreadyExists(); 
+			throw new MemberAlreadyExists();
 		}
 		Membre membre = new Membre(pseudo, password, profil);
 		membres.put(membre.getPseudo().toLowerCase().trim(), membre);
@@ -164,26 +166,28 @@ public class SocialNetwork {
 			throws BadEntry, NotMember, ItemFilmAlreadyExists {
 
 		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
-			throw new BadEntry("Utilisateur incorrect"); 
+			throw new BadEntry("Utilisateur incorrect");
 		}
 		if (!memberAlreadyExists(pseudo)) {
-			throw new NotMember(pseudo+" is not a member"); 
+			throw new NotMember(pseudo + " is not a member");
 		}
 		Membre creator = membres.get(pseudo.trim().toLowerCase());
-		if(!creator.auth(password)){
-			throw new NotMember("Password incorrect"); 
+		if (!creator.auth(password)) {
+			throw new NotMember("Password incorrect");
 		}
-		
-		if(!Film.isValidFilmInput(titre, genre, creator, realisateur, scenariste, duree)){
+
+		if (!Film.isValidFilmInput(titre, genre, creator, realisateur,
+				scenariste, duree)) {
 			throw new BadEntry("Film data incorrect");
 		}
-		
+
 		if (filmAlreadyExists(titre)) {
-			throw new ItemFilmAlreadyExists(); 
+			throw new ItemFilmAlreadyExists();
 		}
-		
-		films.put(titre.trim().toLowerCase(), new Film(titre, genre, creator, realisateur, scenariste, duree));
-		
+
+		films.put(titre.trim().toLowerCase(), new Film(titre, genre, creator,
+				realisateur, scenariste, duree));
+
 	}
 
 	/**
@@ -230,25 +234,26 @@ public class SocialNetwork {
 			NotMember, ItemBookAlreadyExists {
 
 		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
-			throw new BadEntry("Utilisateur incorrect"); 
+			throw new BadEntry("Utilisateur incorrect");
 		}
 		if (!memberAlreadyExists(pseudo)) {
-			throw new NotMember(pseudo+" is not a member"); 
+			throw new NotMember(pseudo + " is not a member");
 		}
 		Membre creator = membres.get(pseudo.trim().toLowerCase());
-		if(!creator.auth(password)){
-			throw new NotMember("Password incorrect"); 
+		if (!creator.auth(password)) {
+			throw new NotMember("Password incorrect");
 		}
-		
-		if(!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)){
+
+		if (!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)) {
 			throw new BadEntry("Film data incorrect");
 		}
-		
+
 		if (bookAlreadyExists(titre)) {
-			throw new ItemBookAlreadyExists(); 
+			throw new ItemBookAlreadyExists();
 		}
-		
-		books.put(titre.trim().toLowerCase(), new Book(titre, genre, creator, auteur, nbPages));
+
+		books.put(titre.trim().toLowerCase(), new Book(titre, genre, creator,
+				auteur, nbPages));
 
 	}
 
@@ -268,7 +273,18 @@ public class SocialNetwork {
 	 *         correspond)
 	 */
 	public LinkedList<String> consultItems(String nom) throws BadEntry {
-		return new LinkedList<String>();
+		LinkedList<String> results = new LinkedList<String>();
+		for (Entry<String, Film> film : films.entrySet()) {
+			if (film.getValue().getTitre().contains(nom)) {
+				results.add(film.getValue().toString());
+			}
+		}
+		for (Entry<String, Book> book : books.entrySet()) {
+			if (book.getValue().getTitre().contains(nom)) {
+				results.add(book.getValue().toString());
+			}
+		}
+		return results;
 	}
 
 	/**
@@ -310,7 +326,34 @@ public class SocialNetwork {
 	 */
 	public float reviewItemFilm(String pseudo, String password, String titre,
 			float note, String commentaire) throws BadEntry, NotMember, NotItem {
-		return 0.0f;
+
+		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+			throw new BadEntry("User invalid");
+		}
+		if (!(Item.isValidTitre(titre))) {
+			throw new BadEntry("Titre invalid");
+		}
+		if (!(Review.isValidNote(note) && Review
+				.isValidCommentaire(commentaire))) {
+			throw new BadEntry("Review data invalid");
+		}
+
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo + " is not a member");
+		}
+
+		Membre membre = membres.get(pseudo.trim().toLowerCase());
+		if (!membre.auth(password)) {
+			throw new NotMember("Password incorrect");
+		}
+		if (!filmAlreadyExists(titre)) {
+			throw new NotItem("Le film n'existe pas");
+		}
+
+		Film film = films.get(titre.trim().toLowerCase());
+
+		return film.addReview(new Review(film, membre, note, commentaire));
+
 	}
 
 	/**
@@ -352,9 +395,67 @@ public class SocialNetwork {
 	 */
 	public float reviewItemBook(String pseudo, String password, String titre,
 			float note, String commentaire) throws BadEntry, NotMember, NotItem {
-		return 0.0f;
-	}
+		
+		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+			throw new BadEntry("User invalid");
+		}
+		if (!(Item.isValidTitre(titre))) {
+			throw new BadEntry("Titre invalid");
+		}
+		if (!(Review.isValidNote(note) && Review
+				.isValidCommentaire(commentaire))) {
+			throw new BadEntry("Review data invalid");
+		}
 
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo + " is not a member");
+		}
+
+		Membre membre = membres.get(pseudo.trim().toLowerCase());
+		if (!membre.auth(password)) {
+			throw new NotMember("Password incorrect");
+		}
+		if (!bookAlreadyExists(titre)) {
+			throw new NotItem("Le book n'existe pas");
+		}
+
+		Book book = books.get(titre.trim().toLowerCase());
+
+		return book.addReview(new Review(book, membre, note, commentaire));
+	}
+	/* TODO analyze cast on LinkedHashMap
+	private float reviewItemOf(LinkedHashMap<String, Item> items, String pseudo, String password, String titre,
+			float note, String commentaire) throws BadEntry, NotMember, NotItem {
+		
+		if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+			throw new BadEntry("User invalid");
+		}
+		if (!(Item.isValidTitre(titre))) {
+			throw new BadEntry("Titre invalid");
+		}
+		if (!(Review.isValidNote(note) && Review
+				.isValidCommentaire(commentaire))) {
+			throw new BadEntry("Review data invalid");
+		}
+
+		if (!memberAlreadyExists(pseudo)) {
+			throw new NotMember(pseudo + " is not a member");
+		}
+
+		Membre membre = membres.get(pseudo.trim().toLowerCase());
+		if (!membre.auth(password)) {
+			throw new NotMember("Password incorrect");
+		}
+		if (!filmAlreadyExists(titre)) {
+			throw new NotItem("Le film n'existe pas");
+		}
+
+		Item item = items.get(titre.trim().toLowerCase());
+
+		return item.addReview(new Review(item, membre, note, commentaire));
+	}
+	//*/
+	
 	/**
 	 * Obtenir une représentation textuelle du <i>SocialNetwork</i>.
 	 * 
@@ -362,7 +463,7 @@ public class SocialNetwork {
 	 *         <i>SocialNetwork</i>
 	 */
 	public String toString() {
-		return "";
+		return "Social Network contains : " + this.nbMembers() + " Membres, " + this.nbBooks() + " Books, " + this.nbFilms() + " Films" ;
 	}
 
 	/**
@@ -386,19 +487,28 @@ public class SocialNetwork {
 
 	/**
 		 */
-	protected boolean memberAlreadyExists(String pseudo){
-		return Membre.isValidPseudo(pseudo) && membres.containsKey(pseudo.toLowerCase().trim());
+	protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
+		if (!Membre.isValidPseudo(pseudo)) {
+			throw new BadEntry("Pseudo invalid");
+		}
+		return membres.containsKey(pseudo.toLowerCase().trim());
 	}
 
 	/**
 		 */
-	protected boolean bookAlreadyExists(String titre) {
-		return Book.isValidTitre(titre) &&  books.containsKey(titre.toLowerCase().trim());
+	protected boolean bookAlreadyExists(String titre) throws BadEntry {
+		if (!Book.isValidTitre(titre)) {
+			throw new BadEntry("Titre invalid");
+		}
+		return books.containsKey(titre.toLowerCase().trim());
 	}
 
 	/**
 		 */
-	protected boolean filmAlreadyExists(String titre) {
-		return Film.isValidTitre(titre) &&  films.containsKey(titre.toLowerCase().trim());
+	protected boolean filmAlreadyExists(String titre) throws BadEntry {
+		if (!Film.isValidTitre(titre)) {
+			throw new BadEntry("Titre invalid");
+		}
+		return films.containsKey(titre.toLowerCase().trim());
 	}
 }

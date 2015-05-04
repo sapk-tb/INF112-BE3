@@ -32,6 +32,10 @@ public class Tests {
 	      
 	      System.out.println("\n\n ***************************************\n");
 	      
+	      TestsReviewItemBook.main(resultats);
+	      
+	      System.out.println("\n\n ***************************************\n");
+	      
 	      // .... d'autres appels à des tests
 	      
 	      System.out.println("Bilan des Tests :   " + resultats[1] + 

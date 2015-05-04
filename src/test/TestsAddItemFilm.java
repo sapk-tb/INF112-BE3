@@ -177,8 +177,8 @@ public class TestsAddItemFilm {
 			System.out.println("Erreur  :  le nombre de livres après utilisation de addItemFilm a été modifié");	
 			nbErreurs++;
 		}
-//		nbErreurs += addItemFilmBadEntryTest(sn, "Antoine", "antoine", "Forrest Gump", "Comédie dramatique", "Robert Zemeckis", "Eric Roth", 145, "0.0", "Nothing");
-		// bilan du test de addItemFilm
+		// ce n'est pas du test, mais cela peut "rassurer"...
+		System.out.println(sn);
 		System.out.println("TestsAddItemFilm :   " + nbErreurs + " erreur(s) / " +  nbTests + " tests effectués");
 	    
 		// ajouts au bilan en cours si le bilan est passé en paramètre

@@ -15,11 +15,9 @@ import exception.NotItem;
 public class TestsReviewItemFilm {
 
     static class Moyenne {
-
         public float value;
     }
 
-    //TODO ajouter verification la modification de la note ?
     public static int reviewItemFilmBadEntryTest(SocialNetwork sn, Moyenne moyenne, String pseudo, String password, String titre, float note, String commentaire, String idTest, String messErreur) {
         float moy = moyenne.value;
         int nbFilms = sn.nbFilms();
@@ -166,7 +164,7 @@ public class TestsReviewItemFilm {
         nbTests++;
         nbErreurs += reviewItemFilmBadEntryTest(sn, moyenne, "UtilisateurReviewTest", null, "Pulp Fiction", 0, "un commentaire", "2.3", "L'ajout d'une review dont le password n'est pas instancié est accepté");
         nbTests++;
-        nbErreurs += reviewItemFilmBadEntryTest(sn, moyenne, "UtilisateurReviewTest", "   qwd ", "Pulp Fiction", 0, "un commentaire", "2.4", "L'ajout d'un film dont le password ne contient pas au moins 4 caracteres, autre que des espaces de début ou de fin, est accepté");
+        nbErreurs += reviewItemFilmBadEntryTest(sn, moyenne, "UtilisateurReviewTest", "   qwd ", "Pulp Fiction", 0, "un commentaire", "2.4", "L'ajout d'un review dont le password ne contient pas au moins 4 caracteres, autre que des espaces de début ou de fin, est accepté");
         nbTests++;
         nbErreurs += reviewItemFilmBadEntryTest(sn, moyenne, "UtilisateurReviewTest", "password", null, 0, "un commentaire", "2.5", "L'ajout d'une review dont le titre n'est pas instancié est accepté");
         nbTests++;
@@ -197,7 +195,9 @@ public class TestsReviewItemFilm {
             nbErreurs++;
         }
 
-        // bilan du test de addItemFilm
+		// ce n'est pas du test, mais cela peut "rassurer"...
+		System.out.println(sn);
+        // bilan du test de ReviewItemFilm
         System.out.println("TestsReviewItemFilm :   " + nbErreurs + " erreur(s) / " + nbTests + " tests effectués");
 
         // ajouts au bilan en cours si le bilan est passé en paramètre

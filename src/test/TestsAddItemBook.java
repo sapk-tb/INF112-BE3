@@ -175,6 +175,8 @@ public class TestsAddItemBook {
 			nbErreurs++;
 		}
 
+		// ce n'est pas du test, mais cela peut "rassurer"...
+		System.out.println(sn);
 		// bilan du test de addItemBook
 		System.out.println("TestsAddItemBook :   " + nbErreurs + " erreur(s) / " +  nbTests + " tests effectués");
 	    

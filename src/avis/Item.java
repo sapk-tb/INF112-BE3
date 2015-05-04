@@ -1,10 +1,17 @@
 package avis;
 
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import exception.BadEntry;
 
 public abstract class Item {
+
+	@Override
+	public String toString() {
+		return " titre=" + titre + ", genre=" + genre + ", reviews="
+				+ reviews + ", creator=" + creator ;
+	}
 
 	/**
 	 * @param titre
@@ -16,7 +23,7 @@ public abstract class Item {
 		super();
 		this.setTitre(titre);
 		this.setGenre(genre);
-		this.reviews = new LinkedList<Review>();
+		this.reviews = new LinkedHashMap<String, Review>();
 		if(!isInstanced(creator))
 			throw new BadEntry("Creator invalid");
 		this.creator = creator;
@@ -83,26 +90,33 @@ public abstract class Item {
 	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
 	 *                     inverse="item:avis.Review"
 	 */
-	private LinkedList<Review> reviews;
-
+	private LinkedHashMap<String, Review> reviews;
 	/**
 	 * Getter of the property <tt>reviews</tt>
 	 * 
 	 * @return Returns the reviews.
 	 * @uml.property name="reviews"
 	 */
-	public LinkedList<Review> getReviews() {
+	public LinkedHashMap<String, Review> getReviews() {
 		return reviews;
 	}
 
 	/**
+	 * TODO
 	 */
-	public float addReview(Review review ) {
-		return 0;
+	public float addReview(Review review) {
+		reviews.put(review.getMembre().getPassword().trim().toLowerCase(), review);
+		return this.getMoyenne();
 	}
 	/**
+	 * TODO
 		 */
-	public void getMoyenne() {
+	public float getMoyenne() {
+		float moyenne = 0;
+		for (Map.Entry<String, Review> review : reviews.entrySet()) {
+			moyenne += review.getValue().getNote();
+		}
+		return moyenne/(float)reviews.size();
 	}
 
 	/** 
