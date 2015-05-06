@@ -9,8 +9,8 @@ public abstract class Item {
 
 	@Override
 	public String toString() {
-		return " titre=" + titre + ", genre=" + genre + ", reviews="
-				+ reviews + ", creator=" + creator ;
+		return " titre=" + titre + ", genre=" + genre + ", moyenne=" + getMoyenne() + ", reviews="
+				+ reviews + ", creator=" + creator;
 	}
 
 	/**
@@ -105,7 +105,8 @@ public abstract class Item {
 	 * TODO
 	 */
 	public float addReview(Review review) {
-		reviews.put(review.getMembre().getPassword().trim().toLowerCase(), review);
+		reviews.put(review.getMembre().getPseudo().trim().toLowerCase(), review);
+                review.getMembre().addReview(review);
 		return this.getMoyenne();
 	}
 	/**

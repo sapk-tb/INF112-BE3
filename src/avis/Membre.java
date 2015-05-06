@@ -2,192 +2,207 @@ package avis;
 
 import java.util.LinkedList;
 
-import exception.BadAuth;
 import exception.BadEntry;
-import exception.NotMember;
+import java.util.LinkedHashMap;
 
 public class Membre extends Visiteur {
 
-	/**
-	 * @param pseudo
-	 * @param password
-	 * @param profil
-	 */
-	public Membre(String pseudo, String password, String profil)
-			throws BadEntry {
-		super();
-		if (!isValidMemberInput(pseudo, password, profil))
-			throw new BadEntry("Input invalid !");
-		this.pseudo = pseudo.trim();
-		this.password = password;
-		this.profil = profil;
-		this.reviews = new LinkedList<Review>();
-	}
+    /**
+     * @param pseudo
+     * @param password
+     * @param profil
+     * @throws exception.BadEntry
+     */
+    public Membre(String pseudo, String password, String profil)
+            throws BadEntry {
+        super();
+        if (!isValidMemberInput(pseudo, password, profil)) {
+            throw new BadEntry("Input invalid !");
+        }
+        this.pseudo = pseudo.trim();
+        this.password = password;
+        this.profil = profil;
+        this.reviews = new LinkedHashMap<String, Review>();
+        this.items = new LinkedHashMap<String, Item>();
+    }
 
-	/**
-		 */
-	public static boolean isValidMemberInput(String pseudo, String password,
-			String profil) {
-		return isValidPseudo(pseudo) && isValidPassword(password) && isValidProfil(profil);
-	}
-	public static boolean isValidPseudo(String pseudo) {
-		if (pseudo == null)
-			return false;
-		if (pseudo.replaceAll("\\s", "").length() < 1)
-			return false;
+    /**
+     * @param pseudo
+     * @param profil
+     * @param password
+     * @return
+     */
+    public static boolean isValidMemberInput(String pseudo, String password,
+            String profil) {
+        return isValidPseudo(pseudo) && isValidPassword(password) && isValidProfil(profil);
+    }
 
-		return true;
-	}
-	public static boolean isValidPassword(String password) {
-		if (password == null)
-			return false;
-		if (password.trim().length() < 4)
-			return false;
+    public static boolean isValidPseudo(String pseudo) {
+        if (pseudo == null) {
+            return false;
+        }
+        if (pseudo.replaceAll("\\s", "").length() < 1) {
+            return false;
+        }
 
-		return true;
-	}
-	public static boolean isValidProfil(String profil) {
-		if (profil == null)
-			return false;
-		return true;
-	}
+        return true;
+    }
 
+    public static boolean isValidPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+        if (password.trim().length() < 4) {
+            return false;
+        }
 
-	/**
-	 * @uml.property name="pseudo"
-	 */
-	private String pseudo;
+        return true;
+    }
 
-	/**
-	 * Getter of the property <tt>pseudo</tt>
-	 * 
-	 * @return Returns the pseudo.
-	 * @uml.property name="pseudo"
-	 */
-	public String getPseudo() {
-		return pseudo;
-	}
+    public static boolean isValidProfil(String profil) {
+        return profil != null;
+    }
 
-	/**
-	 * Setter of the property <tt>pseudo</tt>
-	 * 
-	 * @param pseudo
-	 *            The pseudo to set.
-	 * @uml.property name="pseudo"
-	 */
-	public void setPseudo(String pseudo) throws BadEntry {
-		if(!isValidPseudo(pseudo))
-			throw new BadEntry("Pseudo invalid");
-		this.pseudo = pseudo;
-	}
+    /**
+     * @uml.property name="pseudo"
+     */
+    private String pseudo;
 
-	/**
-	 * @uml.property name="password"
-	 */
-	private String password;
+    /**
+     * Getter of the property <tt>pseudo</tt>
+     *
+     * @return Returns the pseudo.
+     * @uml.property name="pseudo"
+     */
+    public String getPseudo() {
+        return pseudo;
+    }
 
-	/**
-	 * Getter of the property <tt>password</tt>
-	 * 
-	 * @return Returns the password.
-	 * @uml.property name="password"
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * Setter of the property <tt>pseudo</tt>
+     *
+     * @param pseudo The pseudo to set.
+     * @uml.property name="pseudo"
+     */
+    public void setPseudo(String pseudo) throws BadEntry {
+        if (!isValidPseudo(pseudo)) {
+            throw new BadEntry("Pseudo invalid");
+        }
+        this.pseudo = pseudo;
+    }
 
-	/**
-	 * Setter of the property <tt>password</tt>
-	 * 
-	 * @param password
-	 *            The password to set.
-	 * @uml.property name="password"
-	 */
-	public void setPassword(String password)  throws BadEntry {
-		if(!isValidPassword(password))
-			throw new BadEntry("Password invalid");
-		this.password = password;
-	}
+    /**
+     * @uml.property name="password"
+     */
+    private String password;
 
-	/**
-	 * @uml.property name="profil"
-	 */
-	private String profil;
+    /**
+     * Getter of the property <tt>password</tt>
+     *
+     * @return Returns the password.
+     * @uml.property name="password"
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	/**
-	 * Getter of the property <tt>profil</tt>
-	 * 
-	 * @return Returns the profil.
-	 * @uml.property name="profil"
-	 */
-	public String getProfil()  {
-		return profil;
-	}
+    /**
+     * Setter of the property <tt>password</tt>
+     *
+     * @param password The password to set.
+     * @uml.property name="password"
+     */
+    public void setPassword(String password) throws BadEntry {
+        if (!isValidPassword(password)) {
+            throw new BadEntry("Password invalid");
+        }
+        this.password = password;
+    }
 
-	/**
-	 * Setter of the property <tt>profil</tt>
-	 * 
-	 * @param profil
-	 *            The profil to set.
-	 * @uml.property name="profil"
-	 */
-	public void setProfil(String profil) throws BadEntry {
-		if(!isValidProfil(profil))
-			throw new BadEntry("Profil invalid");
-		this.profil = profil;
-	}
+    /**
+     * @uml.property name="profil"
+     */
+    private String profil;
 
-	/**
-	 * @uml.property name="reviews"
-	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
-	 *                     inverse="membre:avis.Review"
-	 */
-	private LinkedList<Review> reviews;
+    /**
+     * Getter of the property <tt>profil</tt>
+     *
+     * @return Returns the profil.
+     * @uml.property name="profil"
+     */
+    public String getProfil() {
+        return profil;
+    }
 
-	/**
-	 * Getter of the property <tt>reviews</tt>
-	 * 
-	 * @return Returns the reviews.
-	 * @uml.property name="reviews"
-	 */
-	public LinkedList<Review> getReviews() {
-		return reviews;
-	}
+    /**
+     * Setter of the property <tt>profil</tt>
+     *
+     * @param profil The profil to set.
+     * @uml.property name="profil"
+     */
+    public void setProfil(String profil) throws BadEntry {
+        if (!isValidProfil(profil)) {
+            throw new BadEntry("Profil invalid");
+        }
+        this.profil = profil;
+    }
 
-	/**
-	 * TODO
-	 */
-	public void addReview(Review review) {
+    /**
+     * @uml.property name="reviews"
+     * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
+     * inverse="membre:avis.Review"
+     */
+    private LinkedHashMap<String, Review> reviews;
 
-	}
+    /**
+     * Getter of the property <tt>reviews</tt>
+     *
+     * @return Returns the reviews.
+     * @uml.property name="reviews"
+     */
+    public LinkedHashMap<String, Review> getReviews() {
+        return reviews;
+    }
 
-	/**
-	 * @uml.property name="items"
-	 * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
-	 *                     inverse="creator:avis.Item"
-	 */
-	private LinkedList<Item> items;
+    public void addReview(Review review) {
+        reviews.put(review.getItem().getTitre().trim().toLowerCase(), review);
+    }
 
-	/**
-	 * Getter of the property <tt>items</tt>
-	 * 
-	 * @return Returns the items.
-	 * @uml.property name="items"
-	 */
-	public LinkedList<Item> getItems() {
-		return items;
-	}
+    @Override
+    public String toString() {
+        return "Membre{" + "pseudo=" + pseudo + ", profil=" + profil + ", reviews=" + reviews.size() + ", items=" + items.size() + '}';
+    }
 
-	/**
-	 */
-	public void addItem(Item item) {
+    /**
+     * @uml.property name="items"
+     * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
+     * inverse="creator:avis.Item"
+     */
+    private LinkedHashMap<String, Item> items;
 
-	}
+    /**
+     * Getter of the property <tt>items</tt>
+     *
+     * @return Returns the items.
+     * @uml.property name="items"
+     */
+    public LinkedHashMap<String, Item> getItems() {
+        return items;
+    }
 
-	/**
-		 */
-	protected boolean auth(String password) {
-		return this.password == password;
-	}
+    /**
+     * @param item
+     */
+    public void addItem(Item item) {
+        items.put(item.getTitre().trim().toLowerCase(),item);
+    }
+
+    /**
+     * @param password
+     * @return Return true if the password is good
+     */
+    protected boolean auth(String password) {
+        return this.password.equals(password);
+    }
 
 }
