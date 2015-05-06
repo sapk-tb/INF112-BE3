@@ -2,7 +2,6 @@ package avis;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import exception.BadEntry;
@@ -16,8 +15,10 @@ import exception.NotMember;
  * @author A. Beugnard,
  * @author G. Ouvradou
  * @author B. Prou
- * @date février - mars 2011
- * @version V0.6
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
  */
 /**
  * <p>
@@ -419,6 +420,7 @@ public class SocialNetwork {
      * @return la chaîne de caractères représentation textuelle du
      * <i>SocialNetwork</i>
      */
+    @Override
     public String toString() {
         return "Social Network contains : " + this.nbMembers() + " Membres, " + this.nbBooks() + " Books, " + this.nbFilms() + " Films";
     }
@@ -443,6 +445,9 @@ public class SocialNetwork {
     private LinkedHashMap<String, Membre> membres;
 
     /**
+     * @param pseudo
+     * @return
+     * @throws exception.BadEntry
      */
     protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
         if (!Membre.isValidPseudo(pseudo)) {
@@ -452,6 +457,9 @@ public class SocialNetwork {
     }
 
     /**
+     * @param titre
+     * @return
+     * @throws exception.BadEntry
      */
     protected boolean bookAlreadyExists(String titre) throws BadEntry {
         if (!Book.isValidTitre(titre)) {
@@ -461,6 +469,9 @@ public class SocialNetwork {
     }
 
     /**
+     * @param titre
+     * @return
+     * @throws exception.BadEntry
      */
     protected boolean filmAlreadyExists(String titre) throws BadEntry {
         if (!Film.isValidTitre(titre)) {

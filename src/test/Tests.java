@@ -1,12 +1,16 @@
 package test;
-
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
+ */
 public class Tests {
 
 	   /**
 	    * @param args
 	    */
 	   public static void main(String[] args) {
-	      // TODO Auto-generated method stub
 
 	      String nbTests = "" + 0;
 	      String nbErreurs = "" + 0;

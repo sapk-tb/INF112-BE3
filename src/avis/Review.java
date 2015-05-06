@@ -1,6 +1,12 @@
 package avis;
 
 import exception.BadEntry;
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
+ */
 
 public class Review {
 
@@ -14,6 +20,7 @@ public class Review {
      * @param membre
      * @param note
      * @param commentaire
+     * @throws exception.BadEntry
      */
     public Review(Item item, Membre membre, float note, String commentaire)
             throws BadEntry {
@@ -82,6 +89,7 @@ public class Review {
      * Setter of the property <tt>note</tt>
      *
      * @param note The note to set.
+     * @throws exception.BadEntry
      * @uml.property name="note"
      */
     public void setNote(float note) throws BadEntry {
@@ -110,6 +118,7 @@ public class Review {
      * Setter of the property <tt>commentaire</tt>
      *
      * @param commentaire The commentaire to set.
+     * @throws exception.BadEntry
      * @uml.property name="commentaire"
      */
     public void setCommentaire(String commentaire) throws BadEntry {
@@ -120,6 +129,11 @@ public class Review {
     }
 
     /**
+     * @param item
+     * @param membre
+     * @param note
+     * @param commentaire
+     * @return
      */
     public static boolean isValidReviewInput(Item item, Membre membre,
             float note, String commentaire) {

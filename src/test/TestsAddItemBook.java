@@ -1,16 +1,14 @@
-/**
- * 
- */
 package test;
 
 import exception.BadEntry;
 import exception.ItemBookAlreadyExists;
 import exception.NotMember;
 import avis.SocialNetwork;
-
-/**
- * @author Antoine GIRARD, Simon LILLE
- *
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
  */
 public class TestsAddItemBook {
 

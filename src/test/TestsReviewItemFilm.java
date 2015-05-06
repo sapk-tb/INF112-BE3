@@ -1,6 +1,3 @@
-/**
- *
- */
 package test;
 
 import exception.BadEntry;
@@ -8,9 +5,11 @@ import exception.NotMember;
 import avis.SocialNetwork;
 import exception.NotItem;
 
-/**
- * @author Antoine GIRARD, Simon LILLE
- *
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
  */
 public class TestsReviewItemFilm {
 
@@ -42,7 +41,6 @@ public class TestsReviewItemFilm {
         }
     }
 
-    //TODO ajouter verification la modification de la note ?
     public static int reviewItemFilmNotMemberTest(SocialNetwork sn, Moyenne moyenne, String pseudo, String password, String titre, float note, String commentaire, String idTest, String messErreur) {
         float moy = moyenne.value;
         int nbFilms = sn.nbFilms();
@@ -67,7 +65,6 @@ public class TestsReviewItemFilm {
         }
     }
 
-    //TODO ajouter verification la modification de la note ?
     public static int reviewItemFilmNotItemTest(SocialNetwork sn, Moyenne moyenne, String pseudo, String password, String titre, float note, String commentaire, String idTest, String messErreur) {
         float moy = moyenne.value;
         int nbFilms = sn.nbFilms();
@@ -92,7 +89,6 @@ public class TestsReviewItemFilm {
         }
     }
 
-    //TODO ajouter verification la modification de la note ? et ajour du comentaire
     public static int reviewItemFilmOKTest(SocialNetwork sn, Moyenne moyenne, String pseudo, String password, String titre, float note, String commentaire, String idTest) {
         int nbFilms = sn.nbFilms();
         try {

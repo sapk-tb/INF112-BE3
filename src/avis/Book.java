@@ -1,99 +1,107 @@
 package avis;
 
 import exception.BadEntry;
-//TODO
+
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
+ */
 public class Book extends Item {
 
-	@Override
-	public String toString() {
-		return "Book [auteur=" + auteur + ", nbPages=" + nbPages
-				+ ", " + super.toString() + "]";
-	}
+    @Override
+    public String toString() {
+        return "Book [auteur=" + auteur + ", nbPages=" + nbPages
+                + ", " + super.toString() + "]";
+    }
 
-	/**
-	 * @param titre
-	 * @param genre
-	 * @param reviews
-	 * @param membre
-	 * @param auteur
-	 * @param nbPages
-	 */
-	public Book(String titre, String genre, Membre creator, String auteur,
-			int nbPages) throws BadEntry {
-		super(titre, genre, creator);
-		this.setAuteur(auteur);
-		this.setNbPages(nbPages);
-	}
+    /**
+     * @param titre
+     * @param genre
+     * @param creator
+     * @param auteur
+     * @param nbPages
+     * @throws exception.BadEntry
+     */
+    public Book(String titre, String genre, Membre creator, String auteur,
+            int nbPages) throws BadEntry {
+        super(titre, genre, creator);
+        this.setAuteur(auteur);
+        this.setNbPages(nbPages);
+    }
 
-	/**
-	 * @uml.property name="auteur"
-	 */
-	private String auteur;
+    /**
+     * @uml.property name="auteur"
+     */
+    private String auteur;
 
-	/**
-	 * Getter of the property <tt>auteur</tt>
-	 * 
-	 * @return Returns the auteur.
-	 * @uml.property name="auteur"
-	 */
-	public String getAuteur() {
-		return auteur;
-	}
+    /**
+     * Getter of the property <tt>auteur</tt>
+     *
+     * @return Returns the auteur.
+     * @uml.property name="auteur"
+     */
+    public String getAuteur() {
+        return auteur;
+    }
 
-	/**
-	 * Setter of the property <tt>auteur</tt>
-	 * 
-	 * @param auteur
-	 *            The auteur to set.
-	 * @uml.property name="auteur"
-	 */
-	public void setAuteur(String auteur) throws BadEntry{
-		if(!isInstanced(auteur))
-			throw new BadEntry("");
-		this.auteur = auteur;
-	}
+    /**
+     * Setter of the property <tt>auteur</tt>
+     *
+     * @param auteur The auteur to set.
+     * @throws exception.BadEntry
+     * @uml.property name="auteur"
+     */
+    public void setAuteur(String auteur) throws BadEntry {
+        if (!isInstanced(auteur)) {
+            throw new BadEntry("");
+        }
+        this.auteur = auteur;
+    }
 
-	/**
-	 * @uml.property name="nbPages"
-	 */
-	private int nbPages;
+    /**
+     * @uml.property name="nbPages"
+     */
+    private int nbPages;
 
-	/**
-	 * Getter of the property <tt>nbPages</tt>
-	 * 
-	 * @return Returns the nbPages.
-	 * @uml.property name="nbPages"
-	 */
-	public int getNbPages() {
-		return nbPages;
-	}
+    /**
+     * Getter of the property <tt>nbPages</tt>
+     *
+     * @return Returns the nbPages.
+     * @uml.property name="nbPages"
+     */
+    public int getNbPages() {
+        return nbPages;
+    }
 
-	/**
-	 * Setter of the property <tt>nbPages</tt>
-	 * 
-	 * @param nbPages
-	 *            The nbPages to set.
-	 * @uml.property name="nbPages"
-	 */
-	public void setNbPages(int nbPages) throws BadEntry{
-		if(!isValidnbPages(nbPages))
-			throw new BadEntry("");
-		this.nbPages = nbPages;
-	}
+    /**
+     * Setter of the property <tt>nbPages</tt>
+     *
+     * @param nbPages The nbPages to set.
+     * @throws exception.BadEntry
+     * @uml.property name="nbPages"
+     */
+    public void setNbPages(int nbPages) throws BadEntry {
+        if (!isValidnbPages(nbPages)) {
+            throw new BadEntry("");
+        }
+        this.nbPages = nbPages;
+    }
 
-	
+    /**
+     * @param creator
+     * @param titre
+     * @param genre
+     * @param auteur
+     * @param nbPages
+     * @return
+     */
+    public static boolean isValidBookInput(Membre creator, String titre, String genre, String auteur, int nbPages) {
+        return isValidTitre(titre) && isInstanced(creator) && isInstanced(genre) && isInstanced(auteur) && isValidnbPages(nbPages);
+    }
 
-	/**
-		 */
-	public static boolean isValidBookInput(Membre creator, String titre, String genre, String auteur, int nbPages) {
-		return isValidTitre(titre) && isInstanced(creator) && isInstanced(genre)&& isInstanced(auteur)  && isValidnbPages(nbPages);
-	}
-
-
-	public static boolean isValidnbPages(int nbPages) {
-		if (nbPages <=0)
-			return false;
-		
-		return true;
-	}
+    public static boolean isValidnbPages(int nbPages) {
+        return nbPages > 0;
+    }
 }

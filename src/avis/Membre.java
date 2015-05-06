@@ -1,9 +1,13 @@
 package avis;
 
-import java.util.LinkedList;
-
 import exception.BadEntry;
 import java.util.LinkedHashMap;
+/*
+ * @author Antoine GIRARD
+ * @author Simon LILLE
+ * @date mai 2015
+ * @version V1.0
+ */
 
 public class Membre extends Visiteur {
 
@@ -41,22 +45,14 @@ public class Membre extends Visiteur {
         if (pseudo == null) {
             return false;
         }
-        if (pseudo.replaceAll("\\s", "").length() < 1) {
-            return false;
-        }
-
-        return true;
+        return pseudo.replaceAll("\\s", "").length() >= 1;
     }
 
     public static boolean isValidPassword(String password) {
         if (password == null) {
             return false;
         }
-        if (password.trim().length() < 4) {
-            return false;
-        }
-
-        return true;
+        return password.trim().length() >= 4;
     }
 
     public static boolean isValidProfil(String profil) {
@@ -82,6 +78,7 @@ public class Membre extends Visiteur {
      * Setter of the property <tt>pseudo</tt>
      *
      * @param pseudo The pseudo to set.
+     * @throws exception.BadEntry
      * @uml.property name="pseudo"
      */
     public void setPseudo(String pseudo) throws BadEntry {
@@ -110,6 +107,7 @@ public class Membre extends Visiteur {
      * Setter of the property <tt>password</tt>
      *
      * @param password The password to set.
+     * @throws exception.BadEntry
      * @uml.property name="password"
      */
     public void setPassword(String password) throws BadEntry {
@@ -138,6 +136,7 @@ public class Membre extends Visiteur {
      * Setter of the property <tt>profil</tt>
      *
      * @param profil The profil to set.
+     * @throws exception.BadEntry
      * @uml.property name="profil"
      */
     public void setProfil(String profil) throws BadEntry {
@@ -194,7 +193,7 @@ public class Membre extends Visiteur {
      * @param item
      */
     public void addItem(Item item) {
-        items.put(item.getTitre().trim().toLowerCase(),item);
+        items.put(item.getTitre().trim().toLowerCase(), item);
     }
 
     /**
