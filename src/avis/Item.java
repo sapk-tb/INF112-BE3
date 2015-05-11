@@ -122,11 +122,14 @@ public abstract class Item {
 
     public float getMoyenne() {
         float moyenne = 0;
+        float total_karma = 0;
         //        moyenne = reviews.entrySet().stream().map((review) -> review.getValue().getNote()).reduce(moyenne, (accumulator, _item) -> accumulator + _item);
         for (Map.Entry<String, Review> review : reviews.entrySet()) {
-            moyenne += review.getValue().getNote();
+        	float user_karma = review.getValue().getMembre().getKarma();
+            moyenne += review.getValue().getNote()*user_karma;
+            total_karma += user_karma;
         }
-        return moyenne / (float) reviews.size();
+        return (reviews.size() == 0  || total_karma == 0)?-1f:moyenne / total_karma;
     }
 
     /**

@@ -5,7 +5,9 @@ package test;
  * @date mai 2015
  * @version V1.0
  */
-public class Tests {
+
+//TODO add timing of test
+public class TestsSocialNetwork {
 
 	   /**
 	    * @param args
@@ -37,6 +39,10 @@ public class Tests {
 	      System.out.println("\n\n ***************************************\n");
 	      
 	      TestsReviewItemBook.main(resultats);
+	      
+	      System.out.println("\n\n ***************************************\n");
+	      
+	      TestsReviewOpinion.main(resultats);
 	      
 	      System.out.println("\n\n ***************************************\n");
 	      

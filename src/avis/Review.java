@@ -1,5 +1,9 @@
 package avis;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import exception.BadEntry;
 /*
  * @author Antoine GIRARD
@@ -10,6 +14,7 @@ import exception.BadEntry;
 
 public class Review {
 
+    
     @Override
     public String toString() {
         return "Review{note=" + note + ", commentaire=" + commentaire + ", membre=" + membre + '}';
@@ -36,9 +41,30 @@ public class Review {
 
         this.setNote(note);
         this.setCommentaire(commentaire);
+
+        this.opinions = new LinkedHashMap<String, Float>();
     }
 
+    private LinkedHashMap<String, Float> opinions;
+    
     /**
+	 * @return the opinions
+	 */
+	public LinkedHashMap<String, Float> getOpinions() {
+		return opinions;
+	}
+    public float getLocalKarma() {
+        float karma = 0f;
+        for (Entry<String, Float> opinion : opinions.entrySet()) {
+        	karma += opinion.getValue();
+        }
+    	return opinions.size()==0 ? 2.5f:karma/(opinions.size()*5);
+    }
+    public void addOpinion(Membre membre, float opinion) {
+    	opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
+    }
+
+	/**
      * @uml.property name="item"
      * @uml.associationEnd multiplicity="(1 1)" inverse="reviews:avis.Item"
      */

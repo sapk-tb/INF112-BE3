@@ -141,6 +141,8 @@ public class TestsReviewItemBook {
         int nbFilms = sn.nbFilms();
         Moyenne moyenne = new Moyenne();
         moyenne.value = 0;
+        
+
         // <=> fiche numéro 6
         // Tentative d'ajout de review avec entrées "correctes"
         //Aillant un seul utilisateru de test la moyenne des reviwe doivent etre la note du dernier review de ceet utilisateur
@@ -150,6 +152,7 @@ public class TestsReviewItemBook {
         nbTests++;
         nbErreurs += reviewItemBookOKTest(sn, moyenne, "UtilisateurReviewTest", "password", "Pulp Fiction", 3, "un commentaire", "1.1b");
         //System.out.printf("%f\n", moyenne.value);
+
 
         // <=> fiche numéro 5
         // tentative d'ajout de review avec entrées "incorrectes"

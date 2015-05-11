@@ -1,6 +1,10 @@
 package avis;
 
 import exception.BadEntry;
+import exception.NotItem;
+import exception.NotReview;
+import exception.NotType;
+
 import java.util.LinkedHashMap;
 /*
  * @author Antoine GIRARD
@@ -8,6 +12,7 @@ import java.util.LinkedHashMap;
  * @date mai 2015
  * @version V1.0
  */
+import java.util.Map;
 
 public class Membre extends Visiteur {
 
@@ -167,6 +172,38 @@ public class Membre extends Visiteur {
         reviews.put(review.getItem().getTitre().trim().toLowerCase(), review);
     }
 
+    public float getKarma() {
+        float karma = 0f;
+        for (Map.Entry<String, Review> review : reviews.entrySet()) {
+        	karma += review.getValue().getLocalKarma();
+        }
+    	return (reviews.size()==0)?0.5f:karma/reviews.size();
+    }
+    
+    public float addOpinion(String titre,String type,  float opinion) throws NotReview, NotType {
+    	//System.out.println("Reviews utilisateurs "+reviews);
+    	if(!reviews.containsKey(titre.trim().toLowerCase())){
+    		throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre");
+    	}
+    	Review review = reviews.get(titre.trim().toLowerCase());
+        switch (type) {
+			case "Book":
+		        if (!review.getItem().getClass().equals(Book.class)) {
+		    		throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type book");
+		        }
+				break;
+			case "Film":
+		        if (!review.getItem().getClass().equals(Film.class)) {
+		    		throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type film");
+		        }
+				break;
+			default:
+	            throw new NotType("Type invalid !");
+		}
+        
+        review.addOpinion(this, opinion);
+		return getKarma();
+    }
     @Override
     public String toString() {
         return "Membre{" + "pseudo=" + pseudo + ", profil=" + profil + ", reviews=" + reviews.size() + ", items=" + items.size() + '}';
