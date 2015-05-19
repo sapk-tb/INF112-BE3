@@ -14,7 +14,6 @@ import exception.NotItem;
  * @version V1.0
  */
 
-//TODO verify that the moyenne doesn't change during the faulting test
 public class TestsReviewOpinion {
 
     static class Moyenne {
@@ -89,40 +88,40 @@ public class TestsReviewOpinion {
         //nbTests++;
         //nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.1","");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma, null, "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.1","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma, null, "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.1","L'ajout d'une opinion d'une review dont le pseudo n'est pas instancié est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"   ", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.2","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"   ", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.2","L'ajout d'une opinion d'une review  dont le pseudo ne contient pas un caracteres, autre que des espaces, est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", null, "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.3","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", null, "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.3","L'ajout d'une review dont le password n'est pas instancié est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "123", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.4","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "123", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"1.4","L'ajout d'une opinion d'une review dont le password ne contient pas au moins 4 caracteres, autre que des espaces de début ou de fin, est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", null, "Book", 5,"1.5","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", null, "Book", 5,"1.5","L'ajout d'une opinion d'une review dont le titre n'est pas instancié est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "  ", "Book", 5,"1.6","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "  ", "Book", 5,"1.6","L'ajout d'une opinion d'une review dont le titre ne contient pas un caracteres, autre que des espaces, est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 15,"1.7","");
+        nbErreurs += reviewOpinionBadEntry(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 15,"1.7","L'ajout d'une opinion d'une review  dont la note n'est pas comprise entre 0.0 et 5.0 est accepté");
 
         
         
         nbTests++;
-        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurNot", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"2.1","");
+        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurNot", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"2.1","L'ajout d'une opinion d'une review dont l'utilisateur n'existe pas est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurOpinionTest", "notpassword", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"2.2","");
+        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurOpinionTest", "notpassword", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"2.2","L'ajout d'une opinion d'une review dont le mot de passe ne correspond pas à celui de l'utilisateur est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurNot", "Pulp Fiction", "Book", 5,"2.3","");
+        nbErreurs += reviewOpinionNotMember(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurNot", "Pulp Fiction", "Book", 5,"2.3","L'ajout d'une opinion d'une review dont l'utilisateur noté n'existe pas est accepté");
 
         nbTests++;
-        nbErreurs += reviewOpinionNotItem(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Not Fiction", "Book", 5,"3.1","");
+        nbErreurs += reviewOpinionNotItem(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Not Fiction", "Book", 5,"3.1","L'ajout d'une opinion review dont le book n'existe pas est accepté");
         nbTests++;
-        nbErreurs += reviewOpinionNotItem(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Film", 5,"3.1","");       
+        nbErreurs += reviewOpinionNotItem(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Film", 5,"3.1","L'ajout d'une opinion review dont le film n'existe pas est accepté");       
         
         
         nbTests++;
-        nbErreurs += reviewOpinionNotReview(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction 2", "Book", 5,"4.2","");
+        nbErreurs += reviewOpinionNotReview(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction 2", "Book", 5,"4.2","L'ajout d'une opinion d'une review dont l'utilisateur noté n'a pas de review pour cet item est accepté");
         
         nbTests++;
-        nbErreurs += reviewOpinionNotType(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Not Book", 5,"5.1","");
+        nbErreurs += reviewOpinionNotType(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Not Book", 5,"5.1","l'ajout d'une opinion d'une review dont le type n'est pas book ou film est accepté");
 
         nbTests++;
         nbErreurs += reviewOpinionOK(sn,moyenne,karma,"UtilisateurOpinionTest", "password", "UtilisateurReviewTest", "Pulp Fiction", "Book", 5,"6.1");
