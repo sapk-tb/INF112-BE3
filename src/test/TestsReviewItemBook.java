@@ -177,7 +177,7 @@ public class TestsReviewItemBook {
         nbTests++;
         nbErreurs += reviewItemBookNotMemberTest(sn, moyenne, "NotAMenber", "password", "Pulp Fiction", 0, "un commentaire", "3.1", "L'ajout d'une review dont l'utilisateur n'existe pas est accepté");
         nbTests++;
-        nbErreurs += reviewItemBookNotMemberTest(sn, moyenne, "UtilisateurAddItemBookTest", "badpassword", "Pulp Fiction", 0, "un commentaire", "3.2", "L'ajout d'une review dont le mot de passe ne correspond pas à celui de l'utilisateur n'existe pas est accepté");
+        nbErreurs += reviewItemBookNotMemberTest(sn, moyenne, "UtilisateurAddItemBookTest", "badpassword", "Pulp Fiction", 0, "un commentaire", "3.2", "L'ajout d'une review dont le mot de passe ne correspond pas à celui de l'utilisateur est accepté");
 
         //Tentative d'ajout de review avec des informations book invalides (titre)
         nbTests++;

@@ -405,9 +405,7 @@ public class SocialNetwork {
 	            throw new NotType("Type invalid !");
 		}
         
-        return utilisateur.addOpinion(titre, type, note);
-        //return book.addReview(new Review(book, membre, note, commentaire));
-    	
+        return utilisateur.addOpinion(membre,titre, type, note);
     }
     /**
      * Donner son opinion sur un item livre. Ajoute l'opinion de ce membre sur

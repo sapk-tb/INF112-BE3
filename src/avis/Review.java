@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import exception.BadEntry;
+import exception.NotMember;
 /*
  * @author Antoine GIRARD
  * @author Simon LILLE
@@ -83,7 +84,10 @@ public class Review {
      * @param membre le membre qui donne son opinion
      * @param opinion l'opinion à rajouters
      */
-    public void addOpinion(Membre membre, float opinion) {
+    public void addOpinion(Membre membre, float opinion) throws NotMember{
+    	if(!isValidMembre(membre))
+    		throw new NotMember("Le membre n'est pas instancié");
+    	
     	opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
     }
 

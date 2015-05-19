@@ -14,7 +14,6 @@ import avis.SocialNetwork;
  * @version V1.0
  */
 
-//TODO verify that the moyenne doesn't change during the faulting test
 public class TestsConsultItems {
 
 	static class Moyenne {

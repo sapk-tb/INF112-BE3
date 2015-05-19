@@ -6,7 +6,6 @@ package test;
  * @version V1.0
  */
 
-//TODO add timing of test
 public class TestsSocialNetwork {
 
 	   /**
@@ -45,6 +44,10 @@ public class TestsSocialNetwork {
 	      System.out.println("\n\n ***************************************\n");
 	      
 	      TestsConsultItems.main(resultats);
+	      
+	      System.out.println("\n\n ***************************************\n");
+	      
+	      TestsChargeAndTiming.main(resultats);
 	      
 	      System.out.println("\n\n ***************************************\n");
 	      

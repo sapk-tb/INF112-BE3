@@ -2,6 +2,7 @@ package avis;
 
 import exception.BadEntry;
 import exception.NotItem;
+import exception.NotMember;
 import exception.NotReview;
 import exception.NotType;
 
@@ -228,15 +229,18 @@ public class Membre extends Visiteur {
 
     /**
      * Permet à un membre d'ajouter une opinion
+     * @param membre 
      * 
+     * @param membre le membre qui donne son opinion
      * @param titre le titre de l'item
      * @param type le type de l'item
      * @param opinion la nouvelel opinion à enregistrer
      * @return the new karma of the user 
      * @throws NotReview si l'utilisateur n'as pas donner de review de l'élément
      * @throws NotType si le type est différent de Book ou Film
+     * @throws NotMember si le memebre qui note n'est pas instancié
      */
-    public float addOpinion(String titre,String type,  float opinion) throws NotReview, NotType {
+    public float addOpinion(Membre membre, String titre,String type,  float opinion) throws NotReview, NotType, NotMember {
     	//System.out.println("Reviews utilisateurs "+reviews);
     	if(!reviews.containsKey(titre.trim().toLowerCase())){
     		throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre");
@@ -257,7 +261,7 @@ public class Membre extends Visiteur {
 	            throw new NotType("Type invalid !");
 		}
         
-        review.addOpinion(this, opinion);
+        review.addOpinion(membre, opinion);
 		return getKarma();
     }
     @Override
