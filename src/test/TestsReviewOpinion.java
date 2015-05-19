@@ -30,7 +30,7 @@ public class TestsReviewOpinion {
         int nbTests = 0;
         int nbErreurs = 0;
 
-        System.out.println("Tests de review des opinions au réseau social  ");
+        System.out.println("Tests des opinions de review au réseau social  ");
         SocialNetwork sn = new SocialNetwork();
 
 

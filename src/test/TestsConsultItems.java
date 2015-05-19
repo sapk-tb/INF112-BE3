@@ -32,7 +32,7 @@ public class TestsConsultItems {
 		int nbTests = 0;
 		int nbErreurs = 0;
 
-		System.out.println("Tests de review des opinions au réseau social  ");
+		System.out.println("Tests de cunsultItem du réseau social  ");
 		SocialNetwork sn = new SocialNetwork();
 
 		// On ajout un utilisateur qui nous servira pour les reviews
@@ -88,7 +88,7 @@ public class TestsConsultItems {
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
 		// bilan du test de ReviewOpinion
-		System.out.println("TestsReviewOpinion :   " + nbErreurs
+		System.out.println("TestsConsultItems :   " + nbErreurs
 				+ " erreur(s) / " + nbTests + " tests effectués");
 
 		// ajouts au bilan en cours si le bilan est passé en paramètre
