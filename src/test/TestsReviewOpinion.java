@@ -58,7 +58,7 @@ public class TestsReviewOpinion {
             System.out.println("Exception non prévue lors de l'ajout de opinion servant au test. " + e);
             e.printStackTrace();
         }
-        //On ajout des opinions qui nous serviront pour les reviews non noté
+        //On ajout u livre qui nous serviront pour les reviews 
         try {
             sn.addItemBook("UtilisateurReviewTest", "password", "Pulp Fiction 2", "Policier", "Quentin Tarantino", 168);
         } catch (Exception e) {

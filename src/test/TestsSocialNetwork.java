@@ -14,8 +14,6 @@ public class TestsSocialNetwork {
 	    */
 	   public static void main(String[] args) {
 
-	      String nbTests = "" + 0;
-	      String nbErreurs = "" + 0;
 	      String [] resultats = new String[] {"0", "0"};
 	      
 	      TestsInitialisation.main(resultats);
@@ -43,6 +41,10 @@ public class TestsSocialNetwork {
 	      System.out.println("\n\n ***************************************\n");
 	      
 	      TestsReviewOpinion.main(resultats);
+	      
+	      System.out.println("\n\n ***************************************\n");
+	      
+	      TestsConsultItems.main(resultats);
 	      
 	      System.out.println("\n\n ***************************************\n");
 	      
