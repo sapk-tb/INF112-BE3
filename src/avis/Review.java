@@ -12,6 +12,10 @@ import exception.BadEntry;
  * @version V1.0
  */
 
+/**
+ * @author agirar01
+ *
+ */
 public class Review {
 
     
@@ -21,11 +25,22 @@ public class Review {
     }
 
     /**
-     * @param item
-     * @param membre
-     * @param note
-     * @param commentaire
+     * @param item item associé au commentaire
+     * @param membre le membre qui ajoute le commentaire
+     * @param note la note du membre associé à l'item
+     * @param commentaire le commentaire du membre à propos de l'item
      * @throws exception.BadEntry
+     * <ul>
+     * <li>si le pseudo n'est pas instancié ou a moins de 1 caractère autre que
+     * des espaces .</li>
+     * <li>si le password n'est pas instancié ou a moins de 4 caractères autres
+     * que des leadings or trailing blanks.</li>
+     * <li>si le titre n'est pas instancié ou a moins de 1 caractère autre que
+     * des espaces.</li>
+     * <li>si la note n'est pas comprise entre 0.0 et 5.0.</li>
+     * <li>si le commentaire n'est pas instancié.</li>
+     * </ul>
+     * <br>
      */
     public Review(Item item, Membre membre, float note, String commentaire)
             throws BadEntry {
@@ -48,11 +63,14 @@ public class Review {
     private LinkedHashMap<String, Float> opinions;
     
     /**
-	 * @return the opinions
+	 * @return la liste des opinions
 	 */
 	public LinkedHashMap<String, Float> getOpinions() {
 		return opinions;
 	}
+    /**
+	 * @return le karma "local" de l'opinion
+	 */
     public float getLocalKarma() {
         float karma = 0f;
         for (Entry<String, Float> opinion : opinions.entrySet()) {
@@ -60,6 +78,11 @@ public class Review {
         }
     	return opinions.size()==0 ? 2.5f:karma/(opinions.size()*5);
     }
+    
+    /** Ajout une opinion du review
+     * @param membre le membre qui donne son opinion
+     * @param opinion l'opinion à rajouters
+     */
     public void addOpinion(Membre membre, float opinion) {
     	opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
     }
@@ -144,7 +167,7 @@ public class Review {
      * Setter of the property <tt>commentaire</tt>
      *
      * @param commentaire The commentaire to set.
-     * @throws exception.BadEntry
+     * @throws exception.BadEntry si les paramètres sont invalide
      * @uml.property name="commentaire"
      */
     public void setCommentaire(String commentaire) throws BadEntry {
@@ -155,11 +178,13 @@ public class Review {
     }
 
     /**
+     * Teste si la review du membre est valide
+     * 
      * @param item
      * @param membre
      * @param note
      * @param commentaire
-     * @return
+     * @return vrai si la reiview est valide
      */
     public static boolean isValidReviewInput(Item item, Membre membre,
             float note, String commentaire) {
@@ -167,18 +192,42 @@ public class Review {
                 && isValidCommentaire(commentaire);
     }
 
+    /**
+     * Vérifie la validité de l'item
+     * 
+     * @param item
+     * @return vrai si l'item est valide
+     */
     public static boolean isValidItem(Item item) {
         return item != null;
     }
 
+    /**
+     * Vérifie la validité de la note associée au commentaire du membre
+     * 
+     * @param note
+     * @return vrai si la note est comrpise entre 0 et 5
+     */
     public static boolean isValidNote(float note) {
         return note >= 0 && note <= 5;
     }
 
+    /**
+     * Vérifie la validité du membre
+     * 
+     * @param membre
+     * @return vrai si le membre est instancié
+     */
     public static boolean isValidMembre(Membre membre) {
         return membre != null;
     }
 
+    /**
+     * Vérifie la validité du commentaire
+     * 
+     * @param commentaire
+     * @return vrai si le commentaire est instancié
+     */
     public static boolean isValidCommentaire(String commentaire) {
         return commentaire != null;
     }

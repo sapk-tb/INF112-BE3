@@ -533,7 +533,7 @@ public class SocialNetwork {
 
     /**
      * @param pseudo
-     * @return
+     * @return vrai si le membre exist
      * @throws exception.BadEntry
      */
     protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
@@ -545,7 +545,7 @@ public class SocialNetwork {
 
     /**
      * @param titre
-     * @return
+     * @return vrai si le book exist
      * @throws exception.BadEntry
      */
     protected boolean bookAlreadyExists(String titre) throws BadEntry {
@@ -557,7 +557,7 @@ public class SocialNetwork {
 
     /**
      * @param titre
-     * @return
+     * @return vrai si le film exist
      * @throws exception.BadEntry
      */
     protected boolean filmAlreadyExists(String titre) throws BadEntry {

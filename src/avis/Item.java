@@ -18,7 +18,10 @@ public abstract class Item {
                 + reviews + ", creator=" + creator;
     }
 
+
     /**
+     * Création d'un Item par un membre
+     *
      * @param titre
      * @param genre
      * @param creator
@@ -50,11 +53,12 @@ public abstract class Item {
         return titre;
     }
 
+
     /**
      * Setter of the property <tt>titre</tt>
      *
      * @param titre The titre to set.
-     * @throws exception.BadEntry
+     * @throws exception.BadEntry si le titre de l'item est invalide
      * @uml.property name="titre"
      */
     public void setTitre(String titre) throws BadEntry {
@@ -83,7 +87,7 @@ public abstract class Item {
      * Setter of the property <tt>genre</tt>
      *
      * @param genre The genre to set.
-     * @throws exception.BadEntry
+     * @throws exception.BadEntry si le genre n'est pas instancié
      * @uml.property name="genre"
      */
     public void setGenre(String genre) throws BadEntry {
@@ -111,8 +115,10 @@ public abstract class Item {
     }
 
     /**
+     * Permet au membre d'ajouter une review
+     * 
      * @param review
-     * @return
+     * @return la note moyenne associé à l'item
      */
     public float addReview(Review review) {
         reviews.put(review.getMembre().getPseudo().trim().toLowerCase(), review);
@@ -120,6 +126,10 @@ public abstract class Item {
         return this.getMoyenne();
     }
 
+    /**
+     * 
+     * @return la note moyenne associé à l'item
+     */
     public float getMoyenne() {
         float moyenne = 0;
         float total_karma = 0;
@@ -148,6 +158,10 @@ public abstract class Item {
         return creator;
     }
 
+    /** Test le paramètre d'entrée titre
+     * @param titre titre à valider
+     * @return vrai si le paramètre est correctement instancié
+     */
     public static boolean isValidTitre(String titre) {
         if (titre == null) {
             return false;
@@ -155,7 +169,11 @@ public abstract class Item {
         return titre.replaceAll("\\s", "").length() >= 1;
     }
 
-    public static boolean isInstanced(Object s) {
-        return s != null;
+    /** Test si le paramètre est instancié
+     * @param o l'objet à verifier
+     * @return vrai si le paramètre est correctement instancié
+     */
+    public static boolean isInstanced(Object o) {
+        return o != null;
     }
 }

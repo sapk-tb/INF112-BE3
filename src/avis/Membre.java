@@ -16,11 +16,23 @@ import java.util.Map;
 
 public class Membre extends Visiteur {
 
+
     /**
-     * @param pseudo
-     * @param password
-     * @param profil
-     * @throws exception.BadEntry
+     * Ajouter un nouveau membre au <i>SocialNetwork</i>
+     *
+     * @param pseudo son pseudo
+     * @param password son mot de passe
+     * @param profil un slogan choisi par le membre pour se définir
+     *
+     * @throws BadEntry :
+     * <ul>
+     * <li>si le pseudo n'est pas instancié ou a moins de 1 caractère autre que
+     * des espaces .</li>
+     * <li>si le password n'est pas instancié ou a moins de 4 caractères autres
+     * que des leadings or trailing blanks.</li>
+     * <li>si le profil n'est pas instancié.</li>
+     * </ul>
+     * <br>
      */
     public Membre(String pseudo, String password, String profil)
             throws BadEntry {
@@ -35,17 +47,23 @@ public class Membre extends Visiteur {
         this.items = new LinkedHashMap<String, Item>();
     }
 
-    /**
-     * @param pseudo
-     * @param profil
-     * @param password
-     * @return
+
+    /** Test les paramètres d'entrée
+     * @param pseudo son pseudo
+     * @param password son mot de passe
+     * @param profil un slogan choisi par le membre pour se définir
+     * @return vrai si les paramètres sont valides
      */
     public static boolean isValidMemberInput(String pseudo, String password,
             String profil) {
         return isValidPseudo(pseudo) && isValidPassword(password) && isValidProfil(profil);
     }
 
+
+    /** Test le paramètre d'entrée pseudo
+     * @param pseudo pseudo à valider
+     * @return vrai si le paramètre est correctement instancié
+     */
     public static boolean isValidPseudo(String pseudo) {
         if (pseudo == null) {
             return false;
@@ -53,6 +71,10 @@ public class Membre extends Visiteur {
         return pseudo.replaceAll("\\s", "").length() >= 1;
     }
 
+    /** Test le paramètre d'entrée password
+     * @param password password à valider
+     * @return vrai si le paramètre est correctement instancié
+     */
     public static boolean isValidPassword(String password) {
         if (password == null) {
             return false;
@@ -60,6 +82,10 @@ public class Membre extends Visiteur {
         return password.trim().length() >= 4;
     }
 
+    /** Test le paramètre d'entrée profil
+     * @param profil profil à valider
+     * @return vrai si le paramètre est correctement instancié
+     */
     public static boolean isValidProfil(String profil) {
         return profil != null;
     }
@@ -69,7 +95,10 @@ public class Membre extends Visiteur {
      */
     private String pseudo;
 
+
     /**
+     * Récupérer le pseudo du membre 
+     * 
      * Getter of the property <tt>pseudo</tt>
      *
      * @return Returns the pseudo.
@@ -80,10 +109,12 @@ public class Membre extends Visiteur {
     }
 
     /**
+     * Changer le pseudo d'un membre
      * Setter of the property <tt>pseudo</tt>
      *
      * @param pseudo The pseudo to set.
-     * @throws exception.BadEntry
+     * @throws exception.BadEntry si le pseudo n'est pas instancié ou a moins de 1 caractère autre que
+     * des espaces
      * @uml.property name="pseudo"
      */
     public void setPseudo(String pseudo) throws BadEntry {
@@ -99,6 +130,7 @@ public class Membre extends Visiteur {
     private String password;
 
     /**
+     * Récupérer le password d'un membre
      * Getter of the property <tt>password</tt>
      *
      * @return Returns the password.
@@ -109,10 +141,12 @@ public class Membre extends Visiteur {
     }
 
     /**
+     * Changer le password d'un membre
      * Setter of the property <tt>password</tt>
      *
      * @param password The password to set.
-     * @throws exception.BadEntry
+     * @throws exception.BadEntry si le password n'est pas instancié ou a moins de 4 caractères autres
+     * que des leadings or trailing blanks.
      * @uml.property name="password"
      */
     public void setPassword(String password) throws BadEntry {
@@ -128,6 +162,7 @@ public class Membre extends Visiteur {
     private String profil;
 
     /**
+     * Récupérer le profil d'un membre
      * Getter of the property <tt>profil</tt>
      *
      * @return Returns the profil.
@@ -138,6 +173,7 @@ public class Membre extends Visiteur {
     }
 
     /**
+     * Changer le profil d'un membre
      * Setter of the property <tt>profil</tt>
      *
      * @param profil The profil to set.
@@ -159,6 +195,7 @@ public class Membre extends Visiteur {
     private LinkedHashMap<String, Review> reviews;
 
     /**
+     * Récupérer la liste de reviews d'un membre
      * Getter of the property <tt>reviews</tt>
      *
      * @return Returns the reviews.
@@ -168,10 +205,19 @@ public class Membre extends Visiteur {
         return reviews;
     }
 
+    /**
+     * Permet à un membre d'ajouter une review
+     * 
+     * @param review
+     */
     public void addReview(Review review) {
         reviews.put(review.getItem().getTitre().trim().toLowerCase(), review);
     }
-
+    /**
+     * Récupérer le karma d'un membre
+     *
+     * @return Return the karma.
+     */
     public float getKarma() {
         float karma = 0f;
         for (Map.Entry<String, Review> review : reviews.entrySet()) {
@@ -179,7 +225,17 @@ public class Membre extends Visiteur {
         }
     	return (reviews.size()==0)?0.5f:karma/reviews.size();
     }
-    
+
+    /**
+     * Permet à un membre d'ajouter une opinion
+     * 
+     * @param titre le titre de l'item
+     * @param type le type de l'item
+     * @param opinion la nouvelel opinion à enregistrer
+     * @return the new karma of the user 
+     * @throws NotReview si l'utilisateur n'as pas donner de review de l'élément
+     * @throws NotType si le type est différent de Book ou Film
+     */
     public float addOpinion(String titre,String type,  float opinion) throws NotReview, NotType {
     	//System.out.println("Reviews utilisateurs "+reviews);
     	if(!reviews.containsKey(titre.trim().toLowerCase())){
@@ -226,14 +282,20 @@ public class Membre extends Visiteur {
         return items;
     }
 
+
     /**
+     * Permet à un membre d'ajouter un item
+     * 
      * @param item
      */
     public void addItem(Item item) {
         items.put(item.getTitre().trim().toLowerCase(), item);
     }
 
+
     /**
+     * Permet d'authentifier un membre 
+     * 
      * @param password
      * @return Return true if the password is good
      */
