@@ -1,0 +1,17 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+  - openjdk6
+
+sudo: false
+
+script: 
+  - javac src/*/*.java
+  - cd src && java test/TestsSocialNetwork
+
+notifications:
+  email:
+    - sapk@sapk.fr
