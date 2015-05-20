@@ -65,10 +65,7 @@ public class Membre extends Visiteur {
      * @return vrai si le paramètre est correctement instancié
      */
     public static boolean isValidPseudo(String pseudo) {
-        if (pseudo == null) {
-            return false;
-        }
-        return pseudo.replaceAll("\\s", "").length() >= 1;
+        return pseudo != null && pseudo.trim().length() >= 1;
     }
 
     /** Test le paramètre d'entrée password
@@ -219,11 +216,14 @@ public class Membre extends Visiteur {
      * @return Return the karma.
      */
     public float getKarma() {
+        if (reviews.size() == 0) {
+            return 0.5f;
+        }
         float karma = 0f;
         for (Map.Entry<String, Review> review : reviews.entrySet()) {
         	karma += review.getValue().getLocalKarma();
         }
-    	return (reviews.size()==0)?0.5f:karma/reviews.size();
+    	return karma/reviews.size();
     }
 
     /**

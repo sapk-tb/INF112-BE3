@@ -19,7 +19,6 @@ import exception.NotMember;
  */
 public class Review {
 
-    
     @Override
     public String toString() {
         return "Review{note=" + note + ", commentaire=" + commentaire + ", membre=" + membre + '}';
@@ -62,36 +61,43 @@ public class Review {
     }
 
     private LinkedHashMap<String, Float> opinions;
-    
+
     /**
-	 * @return la liste des opinions
-	 */
-	public LinkedHashMap<String, Float> getOpinions() {
-		return opinions;
-	}
+     * @return la liste des opinions
+     */
+    public LinkedHashMap<String, Float> getOpinions() {
+        return opinions;
+    }
+
     /**
-	 * @return le karma "local" de l'opinion
-	 */
+     * @return le karma "local" de l'opinion
+     */
     public float getLocalKarma() {
+        if (opinions.size() == 0) {
+            return 2.5f;
+        }
         float karma = 0f;
         for (Entry<String, Float> opinion : opinions.entrySet()) {
-        	karma += opinion.getValue();
+            karma += opinion.getValue();
         }
-    	return opinions.size()==0 ? 2.5f:karma/(opinions.size()*5);
+        return karma / (opinions.size() * 5);
     }
-    
-    /** Ajout une opinion du review
+
+    /**
+     * Ajout une opinion du review
+     *
      * @param membre le membre qui donne son opinion
      * @param opinion l'opinion à rajouters
      */
-    public void addOpinion(Membre membre, float opinion) throws NotMember{
-    	if(!isValidMembre(membre))
-    		throw new NotMember("Le membre n'est pas instancié");
-    	
-    	opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
+    public void addOpinion(Membre membre, float opinion) throws NotMember {
+        if (!isValidMembre(membre)) {
+            throw new NotMember("Le membre n'est pas instancié");
+        }
+
+        opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
     }
 
-	/**
+    /**
      * @uml.property name="item"
      * @uml.associationEnd multiplicity="(1 1)" inverse="reviews:avis.Item"
      */
@@ -183,7 +189,7 @@ public class Review {
 
     /**
      * Teste si la review du membre est valide
-     * 
+     *
      * @param item
      * @param membre
      * @param note
@@ -198,7 +204,7 @@ public class Review {
 
     /**
      * Vérifie la validité de l'item
-     * 
+     *
      * @param item
      * @return vrai si l'item est valide
      */
@@ -208,7 +214,7 @@ public class Review {
 
     /**
      * Vérifie la validité de la note associée au commentaire du membre
-     * 
+     *
      * @param note
      * @return vrai si la note est comrpise entre 0 et 5
      */
@@ -218,7 +224,7 @@ public class Review {
 
     /**
      * Vérifie la validité du membre
-     * 
+     *
      * @param membre
      * @return vrai si le membre est instancié
      */
@@ -228,7 +234,7 @@ public class Review {
 
     /**
      * Vérifie la validité du commentaire
-     * 
+     *
      * @param commentaire
      * @return vrai si le commentaire est instancié
      */

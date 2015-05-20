@@ -160,12 +160,12 @@ public class SocialNetwork {
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
-
+/* Inutile vérifier dans le constructeur
         if (!Film.isValidFilmInput(titre, genre, creator, realisateur,
                 scenariste, duree)) {
             throw new BadEntry("Film data incorrect");
         }
-
+*/
         if (filmAlreadyExists(titre)) {
             throw new ItemFilmAlreadyExists();
         }
@@ -220,11 +220,11 @@ public class SocialNetwork {
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
-
+/* Inutile c'est validé dans le constructeur
         if (!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)) {
             throw new BadEntry("Film data incorrect");
         }
-
+*/
         if (bookAlreadyExists(titre)) {
             throw new ItemBookAlreadyExists();
         }

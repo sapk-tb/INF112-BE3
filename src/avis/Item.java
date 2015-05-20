@@ -163,10 +163,7 @@ public abstract class Item {
      * @return vrai si le paramètre est correctement instancié
      */
     public static boolean isValidTitre(String titre) {
-        if (titre == null) {
-            return false;
-        }
-        return titre.replaceAll("\\s", "").length() >= 1;
+        return titre != null && titre.trim().length() >= 1;
     }
 
     /** Test si le paramètre est instancié
