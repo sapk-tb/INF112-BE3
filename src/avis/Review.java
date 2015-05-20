@@ -77,8 +77,13 @@ public class Review {
             return 2.5f;
         }
         float karma = 0f;
+        /*
         for (Entry<String, Float> opinion : opinions.entrySet()) {
             karma += opinion.getValue();
+        }
+        */
+        for (Float opinion : opinions.values()) {
+            karma += opinion;
         }
         return karma / (opinions.size() * 5);
     }

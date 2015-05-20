@@ -18,7 +18,6 @@ public abstract class Item {
                 + reviews + ", creator=" + creator;
     }
 
-
     /**
      * Création d'un Item par un membre
      *
@@ -52,7 +51,6 @@ public abstract class Item {
     public String getTitre() {
         return titre;
     }
-
 
     /**
      * Setter of the property <tt>titre</tt>
@@ -116,7 +114,7 @@ public abstract class Item {
 
     /**
      * Permet au membre d'ajouter une review
-     * 
+     *
      * @param review
      * @return la note moyenne associé à l'item
      */
@@ -127,19 +125,30 @@ public abstract class Item {
     }
 
     /**
-     * 
+     *
      * @return la note moyenne associé à l'item
      */
     public float getMoyenne() {
+        //TODO consider caching
+        if (reviews.size() == 0) {
+            return -1f;
+        }
         float moyenne = 0;
         float total_karma = 0;
         //        moyenne = reviews.entrySet().stream().map((review) -> review.getValue().getNote()).reduce(moyenne, (accumulator, _item) -> accumulator + _item);
+        /*
         for (Map.Entry<String, Review> review : reviews.entrySet()) {
-        	float user_karma = review.getValue().getMembre().getKarma();
-            moyenne += review.getValue().getNote()*user_karma;
+            float user_karma = review.getValue().getMembre().getKarma();
+            moyenne += review.getValue().getNote() * user_karma;
             total_karma += user_karma;
         }
-        return (reviews.size() == 0  || total_karma == 0)?-1f:moyenne / total_karma;
+        */
+        for (Review review : reviews.values()) {
+            float user_karma = review.getMembre().getKarma();
+            moyenne += review.getNote() * user_karma;
+            total_karma += user_karma;
+        }
+        return (total_karma == 0) ? -1f : moyenne / total_karma;
     }
 
     /**
@@ -158,7 +167,9 @@ public abstract class Item {
         return creator;
     }
 
-    /** Test le paramètre d'entrée titre
+    /**
+     * Test le paramètre d'entrée titre
+     *
      * @param titre titre à valider
      * @return vrai si le paramètre est correctement instancié
      */
@@ -166,7 +177,9 @@ public abstract class Item {
         return titre != null && titre.trim().length() >= 1;
     }
 
-    /** Test si le paramètre est instancié
+    /**
+     * Test si le paramètre est instancié
+     *
      * @param o l'objet à verifier
      * @return vrai si le paramètre est correctement instancié
      */
