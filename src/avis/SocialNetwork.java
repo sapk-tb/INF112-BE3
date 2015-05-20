@@ -515,19 +515,19 @@ public class SocialNetwork {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="socialNetwork:avis.Book"
      */
-    private LinkedHashMap<String, Book> books;
+    private final LinkedHashMap<String, Book> books;
     /**
      * @uml.property name="films"
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="socialNetwork:avis.Film"
      */
-    private LinkedHashMap<String, Film> films;
+    private final LinkedHashMap<String, Film> films;
     /**
      * @uml.property name="membres"
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="socialNetwork:avis.Membre"
      */
-    private LinkedHashMap<String, Membre> membres;
+    private final LinkedHashMap<String, Membre> membres;
 
     /**
      * @param pseudo

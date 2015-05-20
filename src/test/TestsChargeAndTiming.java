@@ -1,10 +1,5 @@
 package test;
 
-import java.util.LinkedList;
-
-import test.TestsReviewOpinion.Karma;
-import test.TestsReviewOpinion.Moyenne;
-import exception.BadEntry;
 import avis.SocialNetwork;
 
 /*

@@ -1,7 +1,6 @@
 package avis;
 
 import exception.BadEntry;
-import exception.NotItem;
 import exception.NotMember;
 import exception.NotReview;
 import exception.NotType;
