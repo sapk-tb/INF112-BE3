@@ -28,23 +28,41 @@ public class TestsChargeAndTiming {
         nbErreurs += addNBook(sn, 2500, 2000, "1.2");
         nbTests++;
         nbErreurs += addNFilm(sn, 2500, 2000, "1.3");
-
         nbTests++;
         nbErreurs += addNReviewBook(sn, 12500, 2000, "1.4");
         nbTests++;
         nbErreurs += addNReviewFilm(sn, 12500, 2000, "1.4");
-
         nbTests++;
-        gc();
-        System.out.println("Memory used : "
-                + Runtime.getRuntime().totalMemory() / 1024 / 1024 + "Mo");
-        if (Runtime.getRuntime().totalMemory() / 1024 / 1024 / 1024 > 100 + 10 * (sn
-                .nbMembers() + sn.nbBooks() + sn.nbFilms()) / 1000) {
-            nbErreurs++;
-            System.out.println("Too much memory used!");
+        nbErreurs += memoryTest(sn);
 
-        }
-
+        
+        nbTests++;
+        nbErreurs += addNMember(sn, 5000, 2000, "1.1");
+        nbTests++;
+        nbErreurs += addNBook(sn, 25000, 2000, "1.2");
+        nbTests++;
+        nbErreurs += addNFilm(sn, 25000, 2000, "1.3");
+        nbTests++;
+        nbErreurs += addNReviewBook(sn, 125000, 2000, "1.4");
+        nbTests++;
+        nbErreurs += addNReviewFilm(sn, 125000, 2000, "1.4");
+        nbTests++;
+        nbErreurs += memoryTest(sn);
+        
+        
+        nbTests++;
+        nbErreurs += addNMember(sn, 50000, 2000, "1.1");
+        nbTests++;
+        nbErreurs += addNBook(sn, 250000, 2000, "1.2");
+        nbTests++;
+        nbErreurs += addNFilm(sn, 250000, 2000, "1.3");
+        nbTests++;
+        nbErreurs += addNReviewBook(sn, 1250000, 2000, "1.4");
+        nbTests++;
+        nbErreurs += addNReviewFilm(sn, 1250000, 2000, "1.4");
+        nbTests++;
+        nbErreurs += memoryTest(sn);
+        
         // ce n'est pas du test, mais cela peut "rassurer"...
         System.out.println(sn);
         // bilan du test de ReviewOpinion
@@ -62,8 +80,8 @@ public class TestsChargeAndTiming {
 
     /**
      * This method guarantees that garbage collection is done unlike
-     * <code>{@link System#gc()}</code>
-     * from http://stackoverflow.com/questions/1481178/forcing-garbage-collection-in-java
+     * <code>{@link System#gc()}</code> from
+     * http://stackoverflow.com/questions/1481178/forcing-garbage-collection-in-java
      */
     public static void gc() {
         Object obj = new Object();
@@ -74,24 +92,36 @@ public class TestsChargeAndTiming {
         }
     }
 
+    private static int memoryTest(SocialNetwork sn) {
+        gc();
+        System.out.println("Memory used : "
+                + Runtime.getRuntime().totalMemory() / 1024 / 1024 + "Mo");
+        if (Runtime.getRuntime().totalMemory() / 1024 / 1024 / 1024 > 100 + 10 * (sn
+                .nbMembers() + sn.nbBooks() + sn.nbFilms()) / 1000) {
+            System.out.println("Too much memory used!");
+            return 1;
+        }
+        return 0;
+    }
+
     private static int addNMember(SocialNetwork sn, int nb_user, int max_ms_op,
             String idTest) {
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_user];
         try {
-            for (int i = 1; i <= nb_user; i++) {
+            for (int i = nbMembers; i < nb_user+nbMembers; i++) {
                 long startTime = System.nanoTime();
                 sn.addMember("Utilisateur_" + i, "password_" + i,
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
-                timings[i - 1] = (endTime - startTime);
-                if (timings[i - 1] > max_ns_op) {
+                timings[i-nbMembers] = (endTime - startTime);
+                if (timings[i-nbMembers] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : L'operation a pris plus de temps que le temps maximum. "
-                                    + timings[i - 1] / (1000 * 1000) + "ms");
+                                    + " : l'operation "+(i-nbMembers)+" a pris plus de temps que le temps maximum. "
+                                    + timings[i-nbMembers] / (1000 * 1000) + "ms");
                     return 1;
                 }
             }
@@ -129,20 +159,20 @@ public class TestsChargeAndTiming {
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_book];
         try {
-            for (int i = 1; i <= nb_book; i++) {
-                int rnd = (int) (Math.random() * nbMembers) + 1;
+            for (int i = nbBooks; i < nb_book+nbBooks; i++) {
+                int rnd = (int) (Math.random() * nbMembers);
                 long startTime = System.nanoTime();
                 sn.addItemBook("Utilisateur_" + rnd, "password_" + rnd,
                         "Livre " + i, "Genre du livre " + i, "Auteur" + i,
                         10 + i);
                 long endTime = System.nanoTime();
-                timings[i - 1] = (endTime - startTime);
-                if (timings[i - 1] > max_ns_op) {
+                timings[i-nbBooks] = (endTime - startTime);
+                if (timings[i-nbBooks] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : L'operation a pris plus de temps que le temps maximum. "
-                                    + timings[i - 1] / (1000 * 1000) + "ms");
+                                    + " : l'operation "+(i-nbBooks)+" a pris plus de temps que le temps maximum. "
+                                    + timings[i-nbBooks] / (1000 * 1000) + "ms");
                     return 1;
                 }
             }
@@ -181,20 +211,20 @@ public class TestsChargeAndTiming {
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_review];
         try {
-            for (int i = 1; i <= nb_review; i++) {
-                int rnd = (int) (Math.random() * nbMembers) + 1;
-                int rnd2 = (int) (Math.random() * nbBooks) + 1;
+            for (int i = 0; i < nb_review; i++) {
+                int rnd = (int) (Math.random() * nbMembers);
+                int rnd2 = (int) (Math.random() * nbBooks);
                 float note = (float) (Math.random() * 5);
                 long startTime = System.nanoTime();
                 sn.reviewItemBook("Utilisateur_" + rnd, "password_" + rnd, "Livre " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
-                timings[i - 1] = (endTime - startTime);
-                if (timings[i - 1] > max_ns_op) {
+                timings[i] = (endTime - startTime);
+                if (timings[i] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : L'operation a pris plus de temps que le temps maximum. "
-                                    + timings[i - 1] / (1000 * 1000) + "ms");
+                                    + " : l'operation "+(i)+" a pris plus de temps que le temps maximum. "
+                                    + timings[i] / (1000 * 1000) + "ms");
                     return 1;
                 }
             }
@@ -234,20 +264,20 @@ public class TestsChargeAndTiming {
         long[] timings = new long[nb_film];
 
         try {
-            for (int i = 1; i <= nb_film; i++) {
-                int rnd = (int) (Math.random() * nbMembers) + 1;
+            for (int i = nbFilms; i < nb_film+nbFilms; i++) {
+                int rnd = (int) (Math.random() * nbMembers);
                 long startTime = System.nanoTime();
                 sn.addItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film "
                         + i, "Genre du film " + i, "Realisateur" + i,
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
-                timings[i - 1] = (endTime - startTime);
-                if (timings[i - 1] > max_ns_op) {
+                timings[i-nbFilms] = (endTime - startTime);
+                if (timings[i-nbFilms] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : L'operation a pris plus de temps que le temps maximum. "
-                                    + timings[i - 1] / (1000 * 1000) + "ms");
+                                    + " : l'operation "+(i-nbFilms)+" a pris plus de temps que le temps maximum. "
+                                    + timings[i-nbFilms] / (1000 * 1000) + "ms");
                     return 1;
                 }
             }
@@ -285,20 +315,20 @@ public class TestsChargeAndTiming {
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_review];
         try {
-            for (int i = 1; i <= nb_review; i++) {
-                int rnd = (int) (Math.random() * nbMembers) + 1;
-                int rnd2 = (int) (Math.random() * nbFilms) + 1;
+            for (int i = 0; i < nb_review; i++) {
+                int rnd = (int) (Math.random() * nbMembers);
+                int rnd2 = (int) (Math.random() * nbFilms);
                 float note = (float) (Math.random() * 5);
                 long startTime = System.nanoTime();
                 sn.reviewItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
-                timings[i - 1] = (endTime - startTime);
-                if (timings[i - 1] > max_ns_op) {
+                timings[i] = (endTime - startTime);
+                if (timings[i] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : L'operation a pris plus de temps que le temps maximum. "
-                                    + timings[i - 1] / (1000 * 1000) + "ms");
+                                    + " : l'operation "+(i)+" a pris plus de temps que le temps maximum. "
+                                    + timings[i] / (1000 * 1000) + "ms");
                     return 1;
                 }
             }
