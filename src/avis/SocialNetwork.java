@@ -160,12 +160,12 @@ public class SocialNetwork {
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
-/* Inutile vérifier dans le constructeur
-        if (!Film.isValidFilmInput(titre, genre, creator, realisateur,
-                scenariste, duree)) {
-            throw new BadEntry("Film data incorrect");
-        }
-*/
+        /* Inutile vérifier dans le constructeur
+         if (!Film.isValidFilmInput(titre, genre, creator, realisateur,
+         scenariste, duree)) {
+         throw new BadEntry("Film data incorrect");
+         }
+         */
         if (filmAlreadyExists(titre)) {
             throw new ItemFilmAlreadyExists();
         }
@@ -220,11 +220,11 @@ public class SocialNetwork {
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
-/* Inutile c'est validé dans le constructeur
-        if (!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)) {
-            throw new BadEntry("Film data incorrect");
-        }
-*/
+        /* Inutile c'est validé dans le constructeur
+         if (!Book.isValidBookInput(creator, titre, genre, auteur, nbPages)) {
+         throw new BadEntry("Film data incorrect");
+         }
+         */
         if (bookAlreadyExists(titre)) {
             throw new ItemBookAlreadyExists();
         }
@@ -326,9 +326,10 @@ public class SocialNetwork {
         return film.addReview(new Review(film, membre, note, commentaire));
 
     }
+
     /**
-     * Donner son opinion sur un review. Si une opinion de ce membre sur cet review
-     * préexiste, elle est mise à jour avec ces nouvelles valeurs.
+     * Donner son opinion sur un review. Si une opinion de ce membre sur cet
+     * review préexiste, elle est mise à jour avec ces nouvelles valeurs.
      *
      * @param pseudo pseudo du membre émettant l'opinion
      * @param password son mot de passe
@@ -343,8 +344,8 @@ public class SocialNetwork {
      * des espaces .</li>
      * <li>si le password n'est pas instancié ou a moins de 4 caractères autres
      * que des leadings or trailing blanks.</li>
-     * <li>si l'utilisateur n'est pas instancié ou a moins de 1 caractère autre que
-     * des espaces .</li>
+     * <li>si l'utilisateur n'est pas instancié ou a moins de 1 caractère autre
+     * que des espaces .</li>
      * <li>si le titre n'est pas instancié ou a moins de 1 caractère autre que
      * des espaces.</li>
      * <li>si la note n'est pas comprise entre 0.0 et 5.0.</li>
@@ -353,14 +354,15 @@ public class SocialNetwork {
      * @throws NotMember : si le pseudo n'est pas celui d'un membre ou si le
      * pseudo et le password ne correspondent pas.
      * @throws NotItem : si le titre n'est pas le titre d'un livre.
-     * @throws NotReview : si l'utilisateur n'a pas noté l'item a n'as donc pas d'opinion.
+     * @throws NotReview : si l'utilisateur n'a pas noté l'item a n'as donc pas
+     * d'opinion.
      * @throws NotType : si le typee st différetn de Film ou Book.
      *
      * @return la note moyenne des notes sur ce livre
      */
-    public float reviewOpinion(String pseudo, String password,String user, String titre,String type,
-            float note) throws BadEntry, NotMember, NotItem, NotReview, NotType  {
-    	
+    public float reviewOpinion(String pseudo, String password, String user, String titre, String type,
+            float note) throws BadEntry, NotMember, NotItem, NotReview, NotType {
+
         if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
             throw new BadEntry("User invalid");
         }
@@ -385,28 +387,31 @@ public class SocialNetwork {
         }
 
         Membre utilisateur = membres.get(user.trim().toLowerCase());
-        
+
         Item item;
-        
-        switch (type) {
-			case "Book":
-		        if (!bookAlreadyExists(titre)) {
-		            throw new NotItem("Le book n'existe pas");
-		        }
-				item = books.get(titre.trim().toLowerCase());
-				break;
-			case "Film":
-		        if (!filmAlreadyExists(titre)) {
-		            throw new NotItem("Le film n'existe pas");
-		        }
-				item = films.get(titre.trim().toLowerCase());
-				break;
-			default:
-	            throw new NotType("Type invalid !");
-		}
-        
-        return utilisateur.addOpinion(membre,titre, type, note);
+        try {
+            switch (Item.Types.valueOf(type)) {
+                case Book:
+                    if (!bookAlreadyExists(titre)) {
+                        throw new NotItem("Le book n'existe pas");
+                    }
+                    item = books.get(titre.trim().toLowerCase());
+                    break;
+                case Film:
+                    if (!filmAlreadyExists(titre)) {
+                        throw new NotItem("Le film n'existe pas");
+                    }
+                    item = films.get(titre.trim().toLowerCase());
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            //If this exception is thrown it means that the type is not in the enum of type allowed
+            throw new NotType("Type invalid !");
+        }
+
+        return utilisateur.addOpinion(membre, titre, type, note);
     }
+
     /**
      * Donner son opinion sur un item livre. Ajoute l'opinion de ce membre sur
      * ce livre au <i>SocialNetwork</i> Si une opinion de ce membre sur ce livre

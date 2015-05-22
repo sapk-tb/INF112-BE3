@@ -228,7 +228,7 @@ public class Membre extends Visiteur {
         for (Review review : reviews.values()) {
             karma += review.getLocalKarma();
         }
-        
+
         return karma / reviews.size();
     }
 
@@ -250,19 +250,22 @@ public class Membre extends Visiteur {
             throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre");
         }
         Review review = reviews.get(titre.trim().toLowerCase());
-        switch (type) {
-            case "Book":
-                if (!review.getItem().getClass().equals(Book.class)) {
-                    throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type book");
-                }
-                break;
-            case "Film":
-                if (!review.getItem().getClass().equals(Film.class)) {
-                    throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type film");
-                }
-                break;
-            default:
-                throw new NotType("Type invalid !");
+        try {
+            switch (Item.Types.valueOf(type)) {
+                case Book:
+                    if (!review.getItem().getClass().equals(Book.class)) {
+                        throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type book");
+                    }
+                    break;
+                case Film:
+                    if (!review.getItem().getClass().equals(Film.class)) {
+                        throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre de type film");
+                    }
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
+            //If this exception is thrown it means that the type is not in the enum of type allowed
+            throw new NotType("Type invalid !");
         }
 
         review.addOpinion(membre, opinion);

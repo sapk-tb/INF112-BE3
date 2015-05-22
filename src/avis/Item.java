@@ -18,6 +18,8 @@ public abstract class Item {
                 + reviews + ", creator=" + creator;
     }
 
+    public static enum Types {Book, Film}
+
     /**
      * Création d'un Item par un membre
      *
