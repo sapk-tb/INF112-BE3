@@ -2,6 +2,8 @@ package test;
 
 import avis.SocialNetwork;
 import java.lang.ref.WeakReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * @author Antoine GIRARD
@@ -87,6 +89,11 @@ public class TestsChargeAndTiming {
         obj = null;
         while (ref.get() != null) {
             System.gc();
+            try {  
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TestsChargeAndTiming.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -115,6 +122,7 @@ public class TestsChargeAndTiming {
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
                 timings[i - nbMembers] = (endTime - startTime);
+                System.out.print("Avancement "+(float)(i-nbMembers)/(float)nb_user*100+"% \r");
                 if(timings.length%1000==0){gc();}
                 if (timings[i - nbMembers] > max_ns_op) {
                     System.out
@@ -173,6 +181,7 @@ public class TestsChargeAndTiming {
                         10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbBooks] = (endTime - startTime);
+                System.out.print("Avancement "+(float)(i-nbBooks)/(float)nb_book*100+"% \r");
                 if(timings.length%1000==0){gc();}
                 if (timings[i - nbBooks] > max_ns_op) {
                     System.out
@@ -232,6 +241,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemBook("Utilisateur_" + rnd, "password_" + rnd, "Livre " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
+                System.out.print("Avancement "+(float)(i)/(float)nb_review*100+"% \r");
                 if(timings.length%1000==0){gc();}
                 if (timings[i] > max_ns_op) {
                     System.out
@@ -292,6 +302,7 @@ public class TestsChargeAndTiming {
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbFilms] = (endTime - startTime);
+                System.out.print("Avancement "+(float)(i-nbFilms)/(float)nb_film*100+"% \r");
                 if(timings.length%1000==0){gc();}
                 if (timings[i - nbFilms] > max_ns_op) {
                     System.out
@@ -350,6 +361,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
+                System.out.print("Avancement "+(float)(i)/(float)nb_review*100+"% \r");
                 if(timings.length%1000==0){gc();}
                 if (timings[i] > max_ns_op) {
                     System.out
