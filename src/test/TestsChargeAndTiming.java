@@ -23,50 +23,48 @@ public class TestsChargeAndTiming {
         SocialNetwork sn = new SocialNetwork();
 
         nbTests++;
-        nbErreurs += addNMember(sn, 500, 2000, "1.1");
+        nbErreurs += addNMember(sn, 500, 2000, true, "1.1");
         nbTests++;
-        nbErreurs += addNBook(sn, 2500, 2000, "1.2");
+        nbErreurs += addNBook(sn, 2500, 2000, true, "1.2");
         nbTests++;
-        nbErreurs += addNFilm(sn, 2500, 2000, "1.3");
+        nbErreurs += addNFilm(sn, 2500, 2000, true, "1.3");
         nbTests++;
-        nbErreurs += addNReviewBook(sn, 12500, 2000, "1.4");
+        nbErreurs += addNReviewBook(sn, 12500, 2000, false, "1.4");
         nbTests++;
-        nbErreurs += addNReviewFilm(sn, 12500, 2000, "1.4");
+        nbErreurs += addNReviewFilm(sn, 12500, 2000, false, "1.5");
         nbTests++;
         nbErreurs += memoryTest(sn);
 
-        
         nbTests++;
-        nbErreurs += addNMember(sn, 5000, 2000, "1.1");
+        nbErreurs += addNMember(sn, 5000, 2000, false, "2.1");
         nbTests++;
-        nbErreurs += addNBook(sn, 25000, 2000, "1.2");
+        nbErreurs += addNBook(sn, 25000, 2000, false, "2.2");
         nbTests++;
-        nbErreurs += addNFilm(sn, 25000, 2000, "1.3");
+        nbErreurs += addNFilm(sn, 25000, 2000, false, "2.3");
         nbTests++;
-        nbErreurs += addNReviewBook(sn, 125000, 2000, "1.4");
+        nbErreurs += addNReviewBook(sn, 125000, 2000, false, "2.4");
         nbTests++;
-        nbErreurs += addNReviewFilm(sn, 125000, 2000, "1.4");
-        nbTests++;
-        nbErreurs += memoryTest(sn);
-        
-        
-        nbTests++;
-        nbErreurs += addNMember(sn, 50000, 2000, "1.1");
-        nbTests++;
-        nbErreurs += addNBook(sn, 250000, 2000, "1.2");
-        nbTests++;
-        nbErreurs += addNFilm(sn, 250000, 2000, "1.3");
-        nbTests++;
-        nbErreurs += addNReviewBook(sn, 1250000, 2000, "1.4");
-        nbTests++;
-        nbErreurs += addNReviewFilm(sn, 1250000, 2000, "1.4");
+        nbErreurs += addNReviewFilm(sn, 125000, 2000, false, "2.5");
         nbTests++;
         nbErreurs += memoryTest(sn);
-        
+
+        nbTests++;
+        nbErreurs += addNMember(sn, 50000, 2000, false, "3.1");
+        nbTests++;
+        nbErreurs += addNBook(sn, 250000, 2000, false, "3.2");
+        nbTests++;
+        nbErreurs += addNFilm(sn, 250000, 2000, false, "3.3");
+        nbTests++;
+        nbErreurs += addNReviewBook(sn, 250000, 2000, false, "3.4");
+        nbTests++;
+        nbErreurs += addNReviewFilm(sn, 250000, 2000, false, "3.5");
+        nbTests++;
+        nbErreurs += memoryTest(sn);
+
         // ce n'est pas du test, mais cela peut "rassurer"...
         System.out.println(sn);
         // bilan du test de ReviewOpinion
-        System.out.println("TestsReviewOpinion :   " + nbErreurs
+        System.out.println("TestChargeAndTiming :   " + nbErreurs
                 + " erreur(s) / " + nbTests + " tests effectués");
 
         // ajouts au bilan en cours si le bilan est passé en paramètre
@@ -104,36 +102,41 @@ public class TestsChargeAndTiming {
         return 0;
     }
 
-    private static int addNMember(SocialNetwork sn, int nb_user, int max_ms_op,
+    private static int addNMember(SocialNetwork sn, int nb_user, int max_ms_op, boolean blocking,
             String idTest) {
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_user];
         try {
-            for (int i = nbMembers; i < nb_user+nbMembers; i++) {
+            for (int i = nbMembers; i < nb_user + nbMembers; i++) {
                 long startTime = System.nanoTime();
                 sn.addMember("Utilisateur_" + i, "password_" + i,
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
-                timings[i-nbMembers] = (endTime - startTime);
-                if (timings[i-nbMembers] > max_ns_op) {
+                timings[i - nbMembers] = (endTime - startTime);
+                if (timings[i - nbMembers] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : l'operation "+(i-nbMembers)+" a pris plus de temps que le temps maximum. "
-                                    + timings[i-nbMembers] / (1000 * 1000) + "ms");
-                    return 1;
+                                    + " : l'operation " + (i - nbMembers) + " a pris plus de temps que le temps maximum. "
+                                    + timings[i - nbMembers] / (1000 * 1000) + "ms");
+                    if (blocking) {
+                        return 1;
+                    }
                 }
             }
             // Calcul du temps moyens de toutes les opréations
             long tot = 0;
+            long max = -1;
             for (int j = 0; j < timings.length; j++) {
                 tot += timings[j];
+                max = (timings[j] > max) ? timings[j] : max;
             }
             System.out.println("Temps total pour l'ajout de " + nb_user
                     + " membre(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
+                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de membre
             if (sn.nbMembers() != nbMembers + nb_user) {
@@ -152,39 +155,44 @@ public class TestsChargeAndTiming {
         }
     }
 
-    private static int addNBook(SocialNetwork sn, int nb_book, int max_ms_op,
+    private static int addNBook(SocialNetwork sn, int nb_book, int max_ms_op, boolean blocking,
             String idTest) {
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_book];
         try {
-            for (int i = nbBooks; i < nb_book+nbBooks; i++) {
+            for (int i = nbBooks; i < nb_book + nbBooks; i++) {
                 int rnd = (int) (Math.random() * nbMembers);
                 long startTime = System.nanoTime();
                 sn.addItemBook("Utilisateur_" + rnd, "password_" + rnd,
                         "Livre " + i, "Genre du livre " + i, "Auteur" + i,
                         10 + i);
                 long endTime = System.nanoTime();
-                timings[i-nbBooks] = (endTime - startTime);
-                if (timings[i-nbBooks] > max_ns_op) {
+                timings[i - nbBooks] = (endTime - startTime);
+                if (timings[i - nbBooks] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : l'operation "+(i-nbBooks)+" a pris plus de temps que le temps maximum. "
-                                    + timings[i-nbBooks] / (1000 * 1000) + "ms");
-                    return 1;
+                                    + " : l'operation " + (i - nbBooks) + " a pris plus de temps que le temps maximum. "
+                                    + timings[i - nbBooks] / (1000 * 1000) + "ms");
+                    if (blocking) {
+                        return 1;
+                    }
                 }
             }
             // Calcul du temps moyens de toutes les opréations
             long tot = 0;
+            long max = -1;
             for (int j = 0; j < timings.length; j++) {
                 tot += timings[j];
+                max = (timings[j] > max) ? timings[j] : max;
             }
             System.out.println("Temps total pour l'ajout de " + nb_book
                     + " book(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
+                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de livre
             if (sn.nbBooks() != nbBooks + nb_book) {
@@ -204,7 +212,7 @@ public class TestsChargeAndTiming {
         }
     }
 
-    private static int addNReviewBook(SocialNetwork sn, int nb_review, int max_ms_op,
+    private static int addNReviewBook(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
@@ -223,20 +231,25 @@ public class TestsChargeAndTiming {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : l'operation "+(i)+" a pris plus de temps que le temps maximum. "
+                                    + " : l'operation " + (i) + " a pris plus de temps que le temps maximum. "
                                     + timings[i] / (1000 * 1000) + "ms");
-                    return 1;
+                    if (blocking) {
+                        return 1;
+                    }
                 }
             }
             // Calcul du temps moyens de toutes les opréations
             long tot = 0;
+            long max = -1;
             for (int j = 0; j < timings.length; j++) {
                 tot += timings[j];
+                max = (timings[j] > max) ? timings[j] : max;
             }
             System.out.println("Temps total pour l'ajout de " + nb_review
                     + " reviewBook(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
+                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
 
             // On vérifie que  nombre de livre n'a pas changé
             if (sn.nbBooks() != nbBooks) {
@@ -256,7 +269,7 @@ public class TestsChargeAndTiming {
         }
     }
 
-    private static int addNFilm(SocialNetwork sn, int nb_film, int max_ms_op,
+    private static int addNFilm(SocialNetwork sn, int nb_film, int max_ms_op, boolean blocking,
             String idTest) {
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
@@ -264,32 +277,37 @@ public class TestsChargeAndTiming {
         long[] timings = new long[nb_film];
 
         try {
-            for (int i = nbFilms; i < nb_film+nbFilms; i++) {
+            for (int i = nbFilms; i < nb_film + nbFilms; i++) {
                 int rnd = (int) (Math.random() * nbMembers);
                 long startTime = System.nanoTime();
                 sn.addItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film "
                         + i, "Genre du film " + i, "Realisateur" + i,
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
-                timings[i-nbFilms] = (endTime - startTime);
-                if (timings[i-nbFilms] > max_ns_op) {
+                timings[i - nbFilms] = (endTime - startTime);
+                if (timings[i - nbFilms] > max_ns_op) {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : l'operation "+(i-nbFilms)+" a pris plus de temps que le temps maximum. "
-                                    + timings[i-nbFilms] / (1000 * 1000) + "ms");
-                    return 1;
+                                    + " : l'operation " + (i - nbFilms) + " a pris plus de temps que le temps maximum. "
+                                    + timings[i - nbFilms] / (1000 * 1000) + "ms");
+                    if (blocking) {
+                        return 1;
+                    }
                 }
             }
             // Calcul du temps moyens de toutes les opréations
             long tot = 0;
+            long max = -1;
             for (int j = 0; j < timings.length; j++) {
                 tot += timings[j];
+                max = (timings[j] > max) ? timings[j] : max;
             }
             System.out.println("Temps total pour l'ajout de " + nb_film
                     + " films(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
+                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de film
             if (sn.nbFilms() != nbFilms + nb_film) {
@@ -308,7 +326,7 @@ public class TestsChargeAndTiming {
         }
     }
 
-    private static int addNReviewFilm(SocialNetwork sn, int nb_review, int max_ms_op,
+    private static int addNReviewFilm(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
@@ -327,20 +345,25 @@ public class TestsChargeAndTiming {
                     System.out
                             .println("Test "
                                     + idTest
-                                    + " : l'operation "+(i)+" a pris plus de temps que le temps maximum. "
+                                    + " : l'operation " + (i) + " a pris plus de temps que le temps maximum. "
                                     + timings[i] / (1000 * 1000) + "ms");
-                    return 1;
+                    if (blocking) {
+                        return 1;
+                    }
                 }
             }
             // Calcul du temps moyens de toutes les opréations
             long tot = 0;
+            long max = -1;
             for (int j = 0; j < timings.length; j++) {
                 tot += timings[j];
+                max = (timings[j] > max) ? timings[j] : max;
             }
             System.out.println("Temps total pour l'ajout de " + nb_review
                     + " reviewFilm(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
+                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
 
             // On vérifie que  nombre de livre n'a pas changé
             if (sn.nbFilms() != nbFilms) {

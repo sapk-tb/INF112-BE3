@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
  * @date mai 2015
  * @version V1.0
  */
-import java.util.Map;
 
 public class Membre extends Visiteur {
 
@@ -229,13 +228,12 @@ public class Membre extends Visiteur {
         for (Review review : reviews.values()) {
             karma += review.getLocalKarma();
         }
+        
         return karma / reviews.size();
     }
 
     /**
      * Permet à un membre d'ajouter une opinion
-     *
-     * @param membre
      *
      * @param membre le membre qui donne son opinion
      * @param titre le titre de l'item
