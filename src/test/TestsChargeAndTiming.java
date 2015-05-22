@@ -104,6 +104,7 @@ public class TestsChargeAndTiming {
 
     private static int addNMember(SocialNetwork sn, int nb_user, int max_ms_op, boolean blocking,
             String idTest) {
+        System.out.println("Testing to add "+nb_user+" Users");
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_user];
@@ -114,6 +115,7 @@ public class TestsChargeAndTiming {
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
                 timings[i - nbMembers] = (endTime - startTime);
+                if(timings.length%1000==0){gc();}
                 if (timings[i - nbMembers] > max_ns_op) {
                     System.out
                             .println("Test "
@@ -157,6 +159,7 @@ public class TestsChargeAndTiming {
 
     private static int addNBook(SocialNetwork sn, int nb_book, int max_ms_op, boolean blocking,
             String idTest) {
+        System.out.println("Testing to add "+nb_book+" Books");
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -170,6 +173,7 @@ public class TestsChargeAndTiming {
                         10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbBooks] = (endTime - startTime);
+                if(timings.length%1000==0){gc();}
                 if (timings[i - nbBooks] > max_ns_op) {
                     System.out
                             .println("Test "
@@ -214,6 +218,7 @@ public class TestsChargeAndTiming {
 
     private static int addNReviewBook(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
+        System.out.println("Testing to add "+nb_review+" ReviewBook");
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -227,6 +232,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemBook("Utilisateur_" + rnd, "password_" + rnd, "Livre " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
+                if(timings.length%1000==0){gc();}
                 if (timings[i] > max_ns_op) {
                     System.out
                             .println("Test "
@@ -271,6 +277,7 @@ public class TestsChargeAndTiming {
 
     private static int addNFilm(SocialNetwork sn, int nb_film, int max_ms_op, boolean blocking,
             String idTest) {
+        System.out.println("Testing to add "+nb_film+" Films");
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -285,6 +292,7 @@ public class TestsChargeAndTiming {
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbFilms] = (endTime - startTime);
+                if(timings.length%1000==0){gc();}
                 if (timings[i - nbFilms] > max_ns_op) {
                     System.out
                             .println("Test "
@@ -328,6 +336,7 @@ public class TestsChargeAndTiming {
 
     private static int addNReviewFilm(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
+        System.out.println("Testing to add "+nb_review+" ReviewFilm");
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -341,6 +350,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
+                if(timings.length%1000==0){gc();}
                 if (timings[i] > max_ns_op) {
                     System.out
                             .println("Test "
