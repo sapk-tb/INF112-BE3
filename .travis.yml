@@ -10,7 +10,7 @@ sudo: false
 
 script: 
   - javac src/*/*.java
-  - cd src && java test/TestsSocialNetwork
+  - cd src && java -Xmx8g -Xms256m test/TestsSocialNetwork
 
 notifications:
   email:

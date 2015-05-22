@@ -116,7 +116,7 @@ public class TestsChargeAndTiming {
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
                 timings[i - nbMembers] = (endTime - startTime);
-                if ((i - nbMembers) % 1000 == 0 || (i - nbMembers) == nb_user-1) {
+                if ((i - nbMembers) % 5000 == 0 || (i - nbMembers) == nb_user-1) {
                     System.out.print("\rAvancement " + (float) (i - nbMembers) / (float) nb_user * 100 + "%");
                    System.gc();
                 }
@@ -177,7 +177,7 @@ public class TestsChargeAndTiming {
                         10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbBooks] = (endTime - startTime);
-                if ((i - nbBooks) % 1000 == 0 || (i - nbBooks) == nb_book-1) {
+                if ((i - nbBooks) % 5000 == 0 || (i - nbBooks) == nb_book-1) {
                     System.out.print("\rAvancement " + (float) (i - nbBooks) / (float) nb_book * 100 + "%");
                     System.gc();
                 }
@@ -239,7 +239,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemBook("Utilisateur_" + rnd, "password_" + rnd, "Livre " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
-                if (i % 1000 == 0 || i == nb_review-1) {
+                if (i % 5000 == 0 || i == nb_review-1) {
                     System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
                     System.gc();
                 }
@@ -302,7 +302,7 @@ public class TestsChargeAndTiming {
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbFilms] = (endTime - startTime);
-                if ((i - nbFilms) % 1000 == 0 || (i - nbFilms) == nb_film-1) {
+                if ((i - nbFilms) % 5000 == 0 || (i - nbFilms) == nb_film-1) {
                     System.out.print("\rAvancement " + (float) (i - nbFilms) / (float) nb_film * 100 + "%");
                     System.gc();
                 }
@@ -363,7 +363,7 @@ public class TestsChargeAndTiming {
                 sn.reviewItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
-                if (i % 1000 == 0 || i == nb_review-1) {
+                if (i % 5000 == 0 || i == nb_review-1) {
                     System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
                     System.gc();
                 }
