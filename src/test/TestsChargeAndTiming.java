@@ -2,8 +2,6 @@ package test;
 
 import avis.SocialNetwork;
 import java.lang.ref.WeakReference;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * @author Antoine GIRARD
@@ -11,6 +9,7 @@ import java.util.logging.Logger;
  * @date mai 2015
  * @version V1.0
  */
+//TODO starting with -XX:MaxGCPauseMillis=n so no need to clear the gc will not old to many time by cycle
 public class TestsChargeAndTiming {
 
     /**
@@ -88,12 +87,7 @@ public class TestsChargeAndTiming {
         WeakReference ref = new WeakReference<Object>(obj);
         obj = null;
         while (ref.get() != null) {
-            System.gc();
-            try {  
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(TestsChargeAndTiming.class.getName()).log(Level.SEVERE, null, ex);
-            }
+             System.gc();
         }
     }
 
@@ -111,7 +105,7 @@ public class TestsChargeAndTiming {
 
     private static int addNMember(SocialNetwork sn, int nb_user, int max_ms_op, boolean blocking,
             String idTest) {
-        System.out.println("Testing to add "+nb_user+" Users");
+        System.out.println("Testing to add " + nb_user + " Users");
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
         long[] timings = new long[nb_user];
@@ -122,11 +116,13 @@ public class TestsChargeAndTiming {
                         "Description de l'utitilisateur n°" + i);
                 long endTime = System.nanoTime();
                 timings[i - nbMembers] = (endTime - startTime);
-                System.out.print("Avancement "+(float)(i-nbMembers)/(float)nb_user*100+"% \r");
-                if(timings.length%1000==0){gc();}
+                if ((i - nbMembers) % 1000 == 0 || (i - nbMembers) == nb_user-1) {
+                    System.out.print("\rAvancement " + (float) (i - nbMembers) / (float) nb_user * 100 + "%");
+                   System.gc();
+                }
                 if (timings[i - nbMembers] > max_ns_op) {
                     System.out
-                            .println("Test "
+                            .println("\nTest "
                                     + idTest
                                     + " : l'operation " + (i - nbMembers) + " a pris plus de temps que le temps maximum. "
                                     + timings[i - nbMembers] / (1000 * 1000) + "ms");
@@ -142,23 +138,23 @@ public class TestsChargeAndTiming {
                 tot += timings[j];
                 max = (timings[j] > max) ? timings[j] : max;
             }
-            System.out.println("Temps total pour l'ajout de " + nb_user
+            System.out.println("\nTemps total pour l'ajout de " + nb_user
                     + " membre(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
-                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
+            System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de membre
             if (sn.nbMembers() != nbMembers + nb_user) {
                 System.out
-                        .println("Test "
+                        .println("\nTest "
                                 + idTest
                                 + " : les utilisateurs semblent avoir été ajoutés mais le nb de membres final est invalide.");
                 return 1;
             }
             return 0;
         } catch (Exception e) {
-            System.out.println("Test " + idTest + " : exception non prévue. "
+            System.out.println("\nTest " + idTest + " : exception non prévue. "
                     + e);
             e.printStackTrace();
             return 1;
@@ -167,7 +163,7 @@ public class TestsChargeAndTiming {
 
     private static int addNBook(SocialNetwork sn, int nb_book, int max_ms_op, boolean blocking,
             String idTest) {
-        System.out.println("Testing to add "+nb_book+" Books");
+        System.out.println("Testing to add " + nb_book + " Books");
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -181,11 +177,13 @@ public class TestsChargeAndTiming {
                         10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbBooks] = (endTime - startTime);
-                System.out.print("Avancement "+(float)(i-nbBooks)/(float)nb_book*100+"% \r");
-                if(timings.length%1000==0){gc();}
+                if ((i - nbBooks) % 1000 == 0 || (i - nbBooks) == nb_book-1) {
+                    System.out.print("\rAvancement " + (float) (i - nbBooks) / (float) nb_book * 100 + "%");
+                    System.gc();
+                }
                 if (timings[i - nbBooks] > max_ns_op) {
                     System.out
-                            .println("Test "
+                            .println("\nTest "
                                     + idTest
                                     + " : l'operation " + (i - nbBooks) + " a pris plus de temps que le temps maximum. "
                                     + timings[i - nbBooks] / (1000 * 1000) + "ms");
@@ -201,16 +199,16 @@ public class TestsChargeAndTiming {
                 tot += timings[j];
                 max = (timings[j] > max) ? timings[j] : max;
             }
-            System.out.println("Temps total pour l'ajout de " + nb_book
+            System.out.println("\nTemps total pour l'ajout de " + nb_book
                     + " book(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
-                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
+            System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de livre
             if (sn.nbBooks() != nbBooks + nb_book) {
                 System.out
-                        .println("Test "
+                        .println("\nTest "
                                 + idTest
                                 + " : les books semblent avoir été ajoutés mais le nb de books final est invalide.");
                 return 1;
@@ -218,7 +216,7 @@ public class TestsChargeAndTiming {
 
             return 0;
         } catch (Exception e) {
-            System.out.println("Test " + idTest + " : exception non prévue. "
+            System.out.println("\nTest " + idTest + " : exception non prévue. "
                     + e);
             e.printStackTrace();
             return 1;
@@ -227,7 +225,7 @@ public class TestsChargeAndTiming {
 
     private static int addNReviewBook(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
-        System.out.println("Testing to add "+nb_review+" ReviewBook");
+        System.out.println("Testing to add " + nb_review + " ReviewBook");
         int nbBooks = sn.nbBooks();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -241,11 +239,13 @@ public class TestsChargeAndTiming {
                 sn.reviewItemBook("Utilisateur_" + rnd, "password_" + rnd, "Livre " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
-                System.out.print("Avancement "+(float)(i)/(float)nb_review*100+"% \r");
-                if(timings.length%1000==0){gc();}
+                if (i % 1000 == 0 || i == nb_review-1) {
+                    System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
+                    System.gc();
+                }
                 if (timings[i] > max_ns_op) {
                     System.out
-                            .println("Test "
+                            .println("\nTest "
                                     + idTest
                                     + " : l'operation " + (i) + " a pris plus de temps que le temps maximum. "
                                     + timings[i] / (1000 * 1000) + "ms");
@@ -261,16 +261,16 @@ public class TestsChargeAndTiming {
                 tot += timings[j];
                 max = (timings[j] > max) ? timings[j] : max;
             }
-            System.out.println("Temps total pour l'ajout de " + nb_review
+            System.out.println("\nTemps total pour l'ajout de " + nb_review
                     + " reviewBook(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
-                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
+            System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
 
             // On vérifie que  nombre de livre n'a pas changé
             if (sn.nbBooks() != nbBooks) {
                 System.out
-                        .println("Test "
+                        .println("\nTest "
                                 + idTest
                                 + " : les reviews semblent avoir été ajoutés mais le nb de books à changé.");
                 return 1;
@@ -278,7 +278,7 @@ public class TestsChargeAndTiming {
 
             return 0;
         } catch (Exception e) {
-            System.out.println("Test " + idTest + " : exception non prévue. "
+            System.out.println("\nTest " + idTest + " : exception non prévue. "
                     + e);
             e.printStackTrace();
             return 1;
@@ -287,7 +287,7 @@ public class TestsChargeAndTiming {
 
     private static int addNFilm(SocialNetwork sn, int nb_film, int max_ms_op, boolean blocking,
             String idTest) {
-        System.out.println("Testing to add "+nb_film+" Films");
+        System.out.println("Testing to add " + nb_film + " Films");
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -302,11 +302,13 @@ public class TestsChargeAndTiming {
                         "Scenariste" + i, 10 + i);
                 long endTime = System.nanoTime();
                 timings[i - nbFilms] = (endTime - startTime);
-                System.out.print("Avancement "+(float)(i-nbFilms)/(float)nb_film*100+"% \r");
-                if(timings.length%1000==0){gc();}
+                if ((i - nbFilms) % 1000 == 0 || (i - nbFilms) == nb_film-1) {
+                    System.out.print("\rAvancement " + (float) (i - nbFilms) / (float) nb_film * 100 + "%");
+                    System.gc();
+                }
                 if (timings[i - nbFilms] > max_ns_op) {
                     System.out
-                            .println("Test "
+                            .println("\nTest "
                                     + idTest
                                     + " : l'operation " + (i - nbFilms) + " a pris plus de temps que le temps maximum. "
                                     + timings[i - nbFilms] / (1000 * 1000) + "ms");
@@ -322,23 +324,23 @@ public class TestsChargeAndTiming {
                 tot += timings[j];
                 max = (timings[j] > max) ? timings[j] : max;
             }
-            System.out.println("Temps total pour l'ajout de " + nb_film
+            System.out.println("\nTemps total pour l'ajout de " + nb_film
                     + " films(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
-                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
+            System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
 
             // On vérifie que l'on a le bon nombre de film
             if (sn.nbFilms() != nbFilms + nb_film) {
                 System.out
-                        .println("Test "
+                        .println("\nTest "
                                 + idTest
                                 + " : les films semblent avoir été ajoutés mais le nb de films final est invalide.");
                 return 1;
             }
             return 0;
         } catch (Exception e) {
-            System.out.println("Test " + idTest + " : exception non prévue. "
+            System.out.println("\nTest " + idTest + " : exception non prévue. "
                     + e);
             e.printStackTrace();
             return 1;
@@ -347,7 +349,7 @@ public class TestsChargeAndTiming {
 
     private static int addNReviewFilm(SocialNetwork sn, int nb_review, int max_ms_op, boolean blocking,
             String idTest) {
-        System.out.println("Testing to add "+nb_review+" ReviewFilm");
+        System.out.println("Testing to add " + nb_review + " ReviewFilm");
         int nbFilms = sn.nbFilms();
         int nbMembers = sn.nbMembers();
         long max_ns_op = max_ms_op * 1000 * 1000;
@@ -361,11 +363,13 @@ public class TestsChargeAndTiming {
                 sn.reviewItemFilm("Utilisateur_" + rnd, "password_" + rnd, "Film " + rnd2, note, "Commentaire n°" + i);
                 long endTime = System.nanoTime();
                 timings[i] = (endTime - startTime);
-                System.out.print("Avancement "+(float)(i)/(float)nb_review*100+"% \r");
-                if(timings.length%1000==0){gc();}
+                if (i % 1000 == 0 || i == nb_review-1) {
+                    System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
+                    System.gc();
+                }
                 if (timings[i] > max_ns_op) {
                     System.out
-                            .println("Test "
+                            .println("\nTest "
                                     + idTest
                                     + " : l'operation " + (i) + " a pris plus de temps que le temps maximum. "
                                     + timings[i] / (1000 * 1000) + "ms");
@@ -381,16 +385,16 @@ public class TestsChargeAndTiming {
                 tot += timings[j];
                 max = (timings[j] > max) ? timings[j] : max;
             }
-            System.out.println("Temps total pour l'ajout de " + nb_review
+            System.out.println("\nTemps total pour l'ajout de " + nb_review
                     + " reviewFilm(s) : " + tot / (1000 * 1000) + "ms");
             System.out.println("Soit une moyenne de : "
                     + (tot / timings.length) / (1000) + "us");
-                        System.out.println("Temps max : " + max / (1000*1000) + "ms");
+            System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
 
             // On vérifie que  nombre de livre n'a pas changé
             if (sn.nbFilms() != nbFilms) {
                 System.out
-                        .println("Test "
+                        .println("\nTest "
                                 + idTest
                                 + " : les reviews semblent avoir été ajoutés mais le nb de films à changé.");
                 return 1;
@@ -398,7 +402,7 @@ public class TestsChargeAndTiming {
 
             return 0;
         } catch (Exception e) {
-            System.out.println("Test " + idTest + " : exception non prévue. "
+            System.out.println("\nTest " + idTest + " : exception non prévue. "
                     + e);
             e.printStackTrace();
             return 1;
