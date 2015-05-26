@@ -48,7 +48,7 @@ public class TestsChargeAndTiming {
         nbErreurs += addNReviewFilm(sn, 125000, 2000, false, "2.5");
         nbTests++;
         nbErreurs += memoryTest(sn);
-
+/*
         nbTests++;
         nbErreurs += addNMember(sn, 50000, 2000, false, "3.1");
         nbTests++;
@@ -61,7 +61,7 @@ public class TestsChargeAndTiming {
         nbErreurs += addNReviewFilm(sn, 250000, 2000, false, "3.5");
         nbTests++;
         nbErreurs += memoryTest(sn);
-
+*/
         // ce n'est pas du test, mais cela peut "rassurer"...
         System.out.println(sn);
         // bilan du test de ReviewOpinion
