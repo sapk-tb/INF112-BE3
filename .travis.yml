@@ -10,8 +10,6 @@ sudo: false
 
 script: 
   - make clean && make && make test  && ls bin/* && make clean
-  - javac src/*/*.java
-  - cd src && java -Xmx8g -Xms256m test/TestsSocialNetwork
 
 notifications:
   email:
