@@ -40,7 +40,7 @@ public class Film extends Item {
     /**
      * @uml.property name="realisateur"
      */
-    private String realisateur;
+    private char[] realisateur;
 
     /**
      * Getter of the property <tt>realisateur</tt>
@@ -48,7 +48,7 @@ public class Film extends Item {
      * @return Returns the realisateur.
      * @uml.property name="realisateur"
      */
-    public String getRealisateur() {
+    public char[] getRealisateur() {
         return realisateur;
     }
 
@@ -61,15 +61,15 @@ public class Film extends Item {
      */
     public void setRealisateur(String realisateur) throws BadEntry {
         if (!isInstanced(realisateur)) {
-            throw new BadEntry("");
+            throw new BadEntry("Realisateur not instancied");
         }
-        this.realisateur = realisateur;
+        this.realisateur = realisateur.toCharArray();
     }
 
     /**
      * @uml.property name="scenariste"
      */
-    private String scenariste;
+    private char[] scenariste;
 
     /**
      * Getter of the property <tt>scenariste</tt>
@@ -77,7 +77,7 @@ public class Film extends Item {
      * @return Returns the scenariste.
      * @uml.property name="scenariste"
      */
-    public String getScenariste() {
+    public char[] getScenariste() {
         return scenariste;
     }
 
@@ -90,9 +90,9 @@ public class Film extends Item {
      */
     public void setScenariste(String scenariste) throws BadEntry {
         if (!isInstanced(scenariste)) {
-            throw new BadEntry("");
+            throw new BadEntry("Scenariste not instancied");
         }
-        this.scenariste = scenariste;
+        this.scenariste = scenariste.toCharArray();
     }
 
     /**

@@ -1,17 +1,8 @@
 package avis;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import exception.BadEntry;
 import exception.NotMember;
-/*
- * @author Antoine GIRARD
- * @author Simon LILLE
- * @date mai 2015
- * @version V1.0
- */
+import java.util.HashMap;
 
 /**
  * @author agirar01
@@ -52,36 +43,46 @@ public class Review {
         if (!isValidMembre(membre)) {
             throw new BadEntry("Member invalid");
         }
-        this.membre = membre;
+        this.membre = membre.getUID();
 
         this.setNote(note);
         this.setCommentaire(commentaire);
 
-        this.opinions = new LinkedHashMap<String, Float>();
+        this.opinions = new HashMap<String, Float>();
     }
 
-    private LinkedHashMap<String, Float> opinions;
+    private HashMap<String, Float> opinions;
 
     /**
      * @return la liste des opinions
      */
-    public LinkedHashMap<String, Float> getOpinions() {
+    public HashMap<String, Float> getOpinions() {
         return opinions;
     }
 
+    private Float localKarma = -1f;
+
+    public Float getLocalKarma() {
+        //Si la karma est pas instancié on le calcul en brut
+        if (localKarma == -1f) {
+            localKarma = calcLocalKarma();
+        }
+        return localKarma;
+    }
+
     /**
-     * @return le karma "local" de l'opinion
+     * @return le karma "local" de l'opinion 0 à 1
      */
-    public float getLocalKarma() {
-        if (opinions.size() == 0) {
-            return 2.5f;
+    public float calcLocalKarma() {
+        if (opinions.isEmpty()) {
+            return .5f;
         }
         float karma = 0f;
         /*
-        for (Entry<String, Float> opinion : opinions.entrySet()) {
-            karma += opinion.getValue();
-        }
-        */
+         for (Entry<String, Float> opinion : opinions.entrySet()) {
+         karma += opinion.getValue();
+         }
+         */
         for (Float opinion : opinions.values()) {
             karma += opinion;
         }
@@ -93,13 +94,23 @@ public class Review {
      *
      * @param membre le membre qui donne son opinion
      * @param opinion l'opinion à rajouters
+     * @return The last opinion of the member noting if it exist else null
+     * @throws exception.NotMember
      */
-    public void addOpinion(Membre membre, float opinion) throws NotMember {
+    public Float addOpinion(Membre membre, float opinion) throws NotMember {
         if (!isValidMembre(membre)) {
             throw new NotMember("Le membre n'est pas instancié");
         }
 
-        opinions.put(membre.getPseudo().trim().toLowerCase(), opinion);
+        Float lastOpinion = opinions.put(membre.getUID(), opinion);
+        if (lastOpinion == null) {
+            //l'utilisateur n'avais pas encore donné son opinion sur la review
+            this.localKarma = (this.localKarma * opinions.size() + opinion) / (opinions.size() + 1);
+        } else {
+            // Ici il la déjà donné
+            this.localKarma = (this.localKarma * opinions.size() - lastOpinion + opinion) / opinions.size();
+        }
+        return lastOpinion;
     }
 
     /**
@@ -119,10 +130,9 @@ public class Review {
     }
 
     /**
-     * @uml.property name="membre"
-     * @uml.associationEnd multiplicity="(1 1)" inverse="reviews:avis.Membre"
+     * The UID of the member
      */
-    private Membre membre = null;
+    private String membre = null;
 
     /**
      * Getter of the property <tt>membre</tt>
@@ -131,7 +141,7 @@ public class Review {
      * @uml.property name="membre"
      */
     public Membre getMembre() {
-        return membre;
+        return SocialNetwork.membres.get(this.membre);
     }
 
     /**

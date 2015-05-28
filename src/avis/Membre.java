@@ -5,7 +5,7 @@ import exception.NotMember;
 import exception.NotReview;
 import exception.NotType;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 /*
  * @author Antoine GIRARD
  * @author Simon LILLE
@@ -41,8 +41,8 @@ public class Membre extends Visiteur {
         this.pseudo = pseudo.trim();
         this.password = password;
         this.profil = profil;
-        this.reviews = new LinkedHashMap<String, Review>();
-        this.items = new LinkedHashMap<String, Item>();
+        this.reviews = new HashMap<String, Review>();
+        this.items = new HashMap<String, Item>();
     }
 
     /**
@@ -106,6 +106,15 @@ public class Membre extends Visiteur {
      */
     public String getPseudo() {
         return pseudo;
+    }
+
+    /**
+     * Récupére le UID du membre dérivé du pseudo
+     *
+     * @return Returns the uid.
+     */
+    public String getUID() {
+        return pseudo.toLowerCase().trim();
     }
 
     /**
@@ -188,7 +197,7 @@ public class Membre extends Visiteur {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="membre:avis.Review"
      */
-    private LinkedHashMap<String, Review> reviews;
+    private HashMap<String, Review> reviews;
 
     /**
      * Récupérer la liste de reviews d'un membre Getter of the property
@@ -197,7 +206,7 @@ public class Membre extends Visiteur {
      * @return Returns the reviews.
      * @uml.property name="reviews"
      */
-    public LinkedHashMap<String, Review> getReviews() {
+    public HashMap<String, Review> getReviews() {
         return reviews;
     }
 
@@ -210,21 +219,28 @@ public class Membre extends Visiteur {
         reviews.put(review.getItem().getTitre().trim().toLowerCase(), review);
     }
 
+    private Float karma = -1f;
+
+    public Float getKarma() {
+        //Si la karma est pas instancié on le calcul en brut
+        if (karma == -1f) {
+            karma = calcKarma();
+        }
+        return karma;
+    }
+
     /**
-     * Récupérer le karma d'un membre
+     * Recalcul le karma d'un membre
      *
      * @return Return the karma.
      */
-    public float getKarma() {
+    public float calcKarma() {
         //TODO consider caching
-        if (reviews.size() == 0) {
+        if (this.reviews.isEmpty()) {
             return 0.5f;
         }
         float karma = 0f;
-        /*
-         for (Map.Entry<String, Review> review : reviews.entrySet()) {
-         karma += review.getValue().getLocalKarma();
-         }*/
+
         for (Review review : reviews.values()) {
             karma += review.getLocalKarma();
         }
@@ -250,6 +266,7 @@ public class Membre extends Visiteur {
             throw new NotReview("L'utilisateur n'a pas donné d'avis sur ce titre");
         }
         Review review = reviews.get(titre.trim().toLowerCase());
+        float last_localKarma = review.getLocalKarma();
         try {
             switch (Item.Types.valueOf(type)) {
                 case Book:
@@ -269,6 +286,16 @@ public class Membre extends Visiteur {
         }
 
         review.addOpinion(membre, opinion);
+        //On récupère le poids précédent this.getKarma() * this.reviews.size()
+        this.karma = (this.getKarma() * this.reviews.size() - last_localKarma + review.getLocalKarma()) / this.reviews.size();
+        /*
+         if(last == null){
+         //Il n'y avait pas d'opinion de ce membre avant
+         }else{
+         //Il y avait une opinion de ce membre avant
+         this.karma = this.calcKarma() ;
+         }
+         */
         return getKarma();
     }
 
@@ -282,7 +309,7 @@ public class Membre extends Visiteur {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="creator:avis.Item"
      */
-    private LinkedHashMap<String, Item> items;
+    private HashMap<String, Item> items;
 
     /**
      * Getter of the property <tt>items</tt>
@@ -290,7 +317,7 @@ public class Membre extends Visiteur {
      * @return Returns the items.
      * @uml.property name="items"
      */
-    public LinkedHashMap<String, Item> getItems() {
+    public HashMap<String, Item> getItems() {
         return items;
     }
 

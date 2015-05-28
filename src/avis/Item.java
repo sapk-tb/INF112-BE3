@@ -1,7 +1,5 @@
 package avis;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 /*
  * @author Antoine GIRARD
  * @author Simon LILLE
@@ -9,8 +7,9 @@ import java.util.Map;
  * @version V1.0
  */
 import exception.BadEntry;
+import java.util.HashMap;
 
-public abstract class Item {
+public abstract class Item{
 
     @Override
     public String toString() {
@@ -32,11 +31,11 @@ public abstract class Item {
         super();
         this.setTitre(titre);
         this.setGenre(genre);
-        this.reviews = new LinkedHashMap<String, Review>();
+        this.reviews = new HashMap<>();
         if (!isInstanced(creator)) {
             throw new BadEntry("Creator invalid");
         }
-        this.creator = creator;
+        this.creator = creator.getUID();
     }
 
     /**
@@ -53,7 +52,15 @@ public abstract class Item {
     public String getTitre() {
         return titre;
     }
-
+    /**
+     * Getter of the property <tt>titre</tt>
+     *
+     * @return Returns the titre.
+     * @uml.property name="titre"
+     */
+    public String getUID() {
+        return titre.toLowerCase().trim();
+    }
     /**
      * Setter of the property <tt>titre</tt>
      *
@@ -102,7 +109,7 @@ public abstract class Item {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="item:avis.Review"
      */
-    private LinkedHashMap<String, Review> reviews;
+    private final HashMap<String, Review> reviews;
 
     /**
      * Getter of the property <tt>reviews</tt>
@@ -110,7 +117,7 @@ public abstract class Item {
      * @return Returns the reviews.
      * @uml.property name="reviews"
      */
-    public LinkedHashMap<String, Review> getReviews() {
+    public HashMap<String, Review> getReviews() {
         return reviews;
     }
 
@@ -121,8 +128,9 @@ public abstract class Item {
      * @return la note moyenne associé à l'item
      */
     public float addReview(Review review) {
-        reviews.put(review.getMembre().getPseudo().trim().toLowerCase(), review);
-        review.getMembre().addReview(review);
+        Membre membre = review.getMembre();
+        reviews.put(membre.getUID(), review);
+        membre.addReview(review);
         return this.getMoyenne();
     }
 
@@ -132,7 +140,7 @@ public abstract class Item {
      */
     public float getMoyenne() {
         //TODO consider caching
-        if (reviews.size() == 0) {
+        if (reviews.isEmpty()) {
             return -1f;
         }
         float moyenne = 0;
@@ -157,7 +165,7 @@ public abstract class Item {
      * @uml.property name="creator"
      * @uml.associationEnd multiplicity="(1 1)" inverse="items:avis.Membre"
      */
-    private Membre creator = null;
+    private String creator = null;
 
     /**
      * Getter of the property <tt>membre</tt>
@@ -166,7 +174,7 @@ public abstract class Item {
      * @uml.property name="creator"
      */
     public Membre getCreator() {
-        return creator;
+        return SocialNetwork.membres.get(this.creator);
     }
 
     /**

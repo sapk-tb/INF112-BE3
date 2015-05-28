@@ -118,7 +118,7 @@ public class TestsChargeAndTiming {
                 timings[i - nbMembers] = (endTime - startTime);
                 if ((i - nbMembers) % 5000 == 0 || (i - nbMembers) == nb_user-1) {
                     System.out.print("\rAvancement " + (float) (i - nbMembers) / (float) nb_user * 100 + "%");
-                   System.gc();
+                   //System.gc();
                 }
                 if (timings[i - nbMembers] > max_ns_op) {
                     System.out
@@ -179,7 +179,7 @@ public class TestsChargeAndTiming {
                 timings[i - nbBooks] = (endTime - startTime);
                 if ((i - nbBooks) % 5000 == 0 || (i - nbBooks) == nb_book-1) {
                     System.out.print("\rAvancement " + (float) (i - nbBooks) / (float) nb_book * 100 + "%");
-                    System.gc();
+                    //System.gc();
                 }
                 if (timings[i - nbBooks] > max_ns_op) {
                     System.out
@@ -241,7 +241,7 @@ public class TestsChargeAndTiming {
                 timings[i] = (endTime - startTime);
                 if (i % 5000 == 0 || i == nb_review-1) {
                     System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
-                    System.gc();
+                    //System.gc();
                 }
                 if (timings[i] > max_ns_op) {
                     System.out
@@ -304,7 +304,7 @@ public class TestsChargeAndTiming {
                 timings[i - nbFilms] = (endTime - startTime);
                 if ((i - nbFilms) % 5000 == 0 || (i - nbFilms) == nb_film-1) {
                     System.out.print("\rAvancement " + (float) (i - nbFilms) / (float) nb_film * 100 + "%");
-                    System.gc();
+                    //System.gc();
                 }
                 if (timings[i - nbFilms] > max_ns_op) {
                     System.out
@@ -365,7 +365,7 @@ public class TestsChargeAndTiming {
                 timings[i] = (endTime - startTime);
                 if (i % 5000 == 0 || i == nb_review-1) {
                     System.out.print("\rAvancement " + (float) (i) / (float) nb_review * 100 + "%");
-                    System.gc();
+                    //System.gc();
                 }
                 if (timings[i] > max_ns_op) {
                     System.out
