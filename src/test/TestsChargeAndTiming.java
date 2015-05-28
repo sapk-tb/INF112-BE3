@@ -30,7 +30,7 @@ public class TestsChargeAndTiming {
 
 		doTest(sn, 2000, 2000*10, 2500*10, 2500*10, 12500*10, 12500*10, false, "2");
 
-		doTest(sn, 2000, 2000*100, 2500*100, 2500*100, 12500*100, 12500*100, false, "2");
+		doTest(sn, 2000, 2000*100, 2500*100, 2500*100, 12500*100, 12500*100, false, "3");
 
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
@@ -116,6 +116,8 @@ public class TestsChargeAndTiming {
 									+ timings[i - nbMembers] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
+					} else {
+						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -177,6 +179,8 @@ public class TestsChargeAndTiming {
 									+ timings[i - nbBooks] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
+					}else {
+						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -239,6 +243,8 @@ public class TestsChargeAndTiming {
 									+ timings[i] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
+					}else {
+						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -302,6 +308,8 @@ public class TestsChargeAndTiming {
 									+ timings[i - nbFilms] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
+					}else {
+						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -363,6 +371,8 @@ public class TestsChargeAndTiming {
 									+ timings[i] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
+					}else {
+						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
