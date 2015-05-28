@@ -26,11 +26,11 @@ public class TestsChargeAndTiming {
 		System.out.println("Tests de charge et de timing au réseau social  ");
 		SocialNetwork sn = new SocialNetwork();
 
-		doTest(sn, 2000, 2000, 2500, 2500, 12500, 12500, 5000, true, "1");
+		doTest(sn, 2000, 2000, 2500, 2500, 12500, 12500, 500, true, "1");
 
-		doTest(sn, 2000, 2000 * 10, 2500 * 10, 2500 * 10, 12500 * 10, 12500 * 10, 5000 * 10, false, "2");
+		doTest(sn, 2000, 2000 * 10, 2500 * 10, 2500 * 10, 12500 * 10, 12500 * 10, 500 * 10, false, "2");
 
-		doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 5000 * 100, false, "3");
+		doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 500 * 100, false, "3");
 
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
