@@ -111,7 +111,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
 				if (i % 5000 == 0 || i + 1 == nbItemsToConsults) {
-					System.out.print("\rAvancement " + (float) (i + 1) / (float) nbItemsToConsults * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1) / (float) nbItemsToConsults * 100 + "%");
 					System.gc();
 				}
 				if (timings[i] > max_ns_op) {
@@ -123,7 +123,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -135,11 +135,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour consult de " + nbItemsToConsults
+			System.out.println("\n    Temps total pour consult de " + nbItemsToConsults
 					+ " membre(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 		} catch (Exception e) {
 			System.out.println("\nTest " + idTest + " : exception non prévue. "
 					+ e);
@@ -163,7 +163,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbMembers] = (endTime - startTime);
 				if ((i - nbMembers) % 5000 == 0 || (i - nbMembers) == nb_user - 1) {
-					System.out.print("\rAvancement " + (float) (i + 1 - nbMembers) / (float) nb_user * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1 - nbMembers) / (float) nb_user * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbMembers] > max_ns_op) {
@@ -175,7 +175,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -186,11 +186,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour l'ajout de " + nb_user
+			System.out.println("\n    Temps total pour l'ajout de " + nb_user
 					+ " membre(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 
 			// On vérifie que l'on a le bon nombre de membre
 			if (sn.nbMembers() != nbMembers + nb_user) {
@@ -226,7 +226,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbBooks] = (endTime - startTime);
 				if ((i - nbBooks) % 5000 == 0 || (i - nbBooks) == nb_book - 1) {
-					System.out.print("\rAvancement " + (float) (i + 1 - nbBooks) / (float) nb_book * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1 - nbBooks) / (float) nb_book * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbBooks] > max_ns_op) {
@@ -238,7 +238,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -249,11 +249,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour l'ajout de " + nb_book
+			System.out.println("\n    Temps total pour l'ajout de " + nb_book
 					+ " book(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 
 			// On vérifie que l'on a le bon nombre de livre
 			if (sn.nbBooks() != nbBooks + nb_book) {
@@ -290,7 +290,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
 				if (i % 5000 == 0 || i == nb_review - 1) {
-					System.out.print("\rAvancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
 					System.gc();
 				}
 				if (timings[i] > max_ns_op) {
@@ -302,7 +302,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -313,11 +313,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour l'ajout de " + nb_review
+			System.out.println("\n    Temps total pour l'ajout de " + nb_review
 					+ " reviewBook(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 
 			// On vérifie que  nombre de livre n'a pas changé
 			if (sn.nbBooks() != nbBooks) {
@@ -355,7 +355,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbFilms] = (endTime - startTime);
 				if ((i - nbFilms) % 5000 == 0 || (i - nbFilms) == nb_film - 1) {
-					System.out.print("\rAvancement " + (float) (i + 1 - nbFilms) / (float) nb_film * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1 - nbFilms) / (float) nb_film * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbFilms] > max_ns_op) {
@@ -367,7 +367,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -378,11 +378,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour l'ajout de " + nb_film
+			System.out.println("\n    Temps total pour l'ajout de " + nb_film
 					+ " films(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 
 			// On vérifie que l'on a le bon nombre de film
 			if (sn.nbFilms() != nbFilms + nb_film) {
@@ -418,7 +418,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
 				if (i % 5000 == 0 || i == nb_review - 1) {
-					System.out.print("\rAvancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
+					System.out.print("\r    Avancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
 					System.gc();
 				}
 				if (timings[i] > max_ns_op) {
@@ -430,7 +430,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cahier des charges");
 					}
 				}
 			}
@@ -441,11 +441,11 @@ public class TestsChargeAndTiming {
 				tot += timings[j];
 				max = (timings[j] > max) ? timings[j] : max;
 			}
-			System.out.println("\nTemps total pour l'ajout de " + nb_review
+			System.out.println("\n    Temps total pour l'ajout de " + nb_review
 					+ " reviewFilm(s) : " + tot / (1000 * 1000) + "ms");
-			System.out.println("Soit une moyenne de : "
+			System.out.println("    Soit une moyenne de : "
 					+ (tot / timings.length) / (1000) + "us");
-			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+			System.out.println("    Temps max : " + max / (1000 * 1000) + "ms");
 
 			// On vérifie que  nombre de livre n'a pas changé
 			if (sn.nbFilms() != nbFilms) {
