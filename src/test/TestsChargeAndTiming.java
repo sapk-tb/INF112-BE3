@@ -26,11 +26,11 @@ public class TestsChargeAndTiming {
 		System.out.println("Tests de charge et de timing au réseau social  ");
 		SocialNetwork sn = new SocialNetwork();
 
-		doTest(sn, 2000, 2000, 2500, 2500, 12500, 12500, true, "1");
+		doTest(sn, 2000, 2000, 2500, 2500, 12500, 12500, 5000, true, "1");
 
-		doTest(sn, 2000, 2000*10, 2500*10, 2500*10, 12500*10, 12500*10, false, "2");
+		doTest(sn, 2000, 2000 * 10, 2500 * 10, 2500 * 10, 12500 * 10, 12500 * 10, 5000 * 10, false, "2");
 
-		doTest(sn, 2000, 2000*100, 2500*100, 2500*100, 12500*100, 12500*100, false, "3");
+		doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 5000 * 100, false, "3");
 
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
@@ -61,7 +61,7 @@ public class TestsChargeAndTiming {
 		}
 	}
 
-	private static SocialNetwork doTest(SocialNetwork sn, int maxTime, int nbMember, int nbBook, int nbFilm, int nbReviewBook, int nbReviewFilm, boolean blocking, String numTest) {
+	private static SocialNetwork doTest(SocialNetwork sn, int maxTime, int nbMember, int nbBook, int nbFilm, int nbReviewBook, int nbReviewFilm, int nbItemsToConsults, boolean blocking, String numTest) {
 		nbTests++;
 		nbErreurs += addNMember(sn, nbMember, maxTime, blocking, numTest + ".1");
 		nbTests++;
@@ -73,8 +73,12 @@ public class TestsChargeAndTiming {
 		nbTests++;
 		nbErreurs += addNReviewFilm(sn, nbReviewFilm, maxTime, blocking, numTest + ".5");
 		nbTests++;
+		nbErreurs += addNConsultItems(sn, nbItemsToConsults, maxTime, blocking, numTest + ".6");
+		nbTests++;
 		nbErreurs += memoryTest(sn, numTest + ".6");
 
+		//TODO test consultItems
+		//TODO test reviewOpinion
 		return sn;
 	}
 
@@ -86,6 +90,60 @@ public class TestsChargeAndTiming {
 				.nbMembers() + sn.nbBooks() + sn.nbFilms()) / 1000) {
 			System.out
 					.println("\nTest " + idTest + "Too much memory used!");
+			return 1;
+		}
+		return 0;
+	}
+
+	private static int addNConsultItems(SocialNetwork sn, int nbItemsToConsults, int max_ms_op, boolean blocking,
+			String idTest) {
+
+		System.out.println("Testing to consult " + nbItemsToConsults + " Items");
+
+		long max_ns_op = max_ms_op * 1000 * 1000;
+		int range = Math.min(sn.nbFilms(), sn.nbBooks());
+		long[] timings = new long[nbItemsToConsults];
+		try {
+			for (int i = 0; i < nbItemsToConsults; i++) {
+				int rnd = (int) (Math.random() * range);
+				long startTime = System.nanoTime();
+				sn.consultItems(" "+rnd);
+				long endTime = System.nanoTime();
+				timings[i] = (endTime - startTime);
+				if (i % 5000 == 0 || i + 1 == nbItemsToConsults) {
+					System.out.print("\rAvancement " + (float) (i + 1) / (float) nbItemsToConsults * 100 + "%");
+					System.gc();
+				}
+				if (timings[i] > max_ns_op) {
+					System.out
+							.println("\nTest "
+									+ idTest
+									+ " : l'operation " + (i) + " a pris plus de temps que le temps maximum. "
+									+ timings[i] / (1000 * 1000) + "ms");
+					if (blocking) {
+						return 1;
+					} else {
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
+					}
+				}
+			}
+			
+			// Calcul du temps moyens de toutes les opréations
+			long tot = 0;
+			long max = -1;
+			for (int j = 0; j < timings.length; j++) {
+				tot += timings[j];
+				max = (timings[j] > max) ? timings[j] : max;
+			}
+			System.out.println("\nTemps total pour consult de " + nbItemsToConsults
+					+ " membre(s) : " + tot / (1000 * 1000) + "ms");
+			System.out.println("Soit une moyenne de : "
+					+ (tot / timings.length) / (1000) + "us");
+			System.out.println("Temps max : " + max / (1000 * 1000) + "ms");
+		} catch (Exception e) {
+			System.out.println("\nTest " + idTest + " : exception non prévue. "
+					+ e);
+			e.printStackTrace();
 			return 1;
 		}
 		return 0;
@@ -105,7 +163,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbMembers] = (endTime - startTime);
 				if ((i - nbMembers) % 5000 == 0 || (i - nbMembers) == nb_user - 1) {
-					System.out.print("\rAvancement " + (float) (i+1 - nbMembers) / (float) nb_user * 100 + "%");
+					System.out.print("\rAvancement " + (float) (i + 1 - nbMembers) / (float) nb_user * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbMembers] > max_ns_op) {
@@ -117,7 +175,7 @@ public class TestsChargeAndTiming {
 					if (blocking) {
 						return 1;
 					} else {
-						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -168,7 +226,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbBooks] = (endTime - startTime);
 				if ((i - nbBooks) % 5000 == 0 || (i - nbBooks) == nb_book - 1) {
-					System.out.print("\rAvancement " + (float) (i+1 - nbBooks) / (float) nb_book * 100 + "%");
+					System.out.print("\rAvancement " + (float) (i + 1 - nbBooks) / (float) nb_book * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbBooks] > max_ns_op) {
@@ -179,8 +237,8 @@ public class TestsChargeAndTiming {
 									+ timings[i - nbBooks] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
-					}else {
-						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
+					} else {
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -232,7 +290,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
 				if (i % 5000 == 0 || i == nb_review - 1) {
-					System.out.print("\rAvancement " + (float) (i+1) / (float) nb_review * 100 + "%");
+					System.out.print("\rAvancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
 					System.gc();
 				}
 				if (timings[i] > max_ns_op) {
@@ -243,8 +301,8 @@ public class TestsChargeAndTiming {
 									+ timings[i] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
-					}else {
-						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
+					} else {
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -297,7 +355,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i - nbFilms] = (endTime - startTime);
 				if ((i - nbFilms) % 5000 == 0 || (i - nbFilms) == nb_film - 1) {
-					System.out.print("\rAvancement " + (float) (i+1 - nbFilms) / (float) nb_film * 100 + "%");
+					System.out.print("\rAvancement " + (float) (i + 1 - nbFilms) / (float) nb_film * 100 + "%");
 					System.gc();
 				}
 				if (timings[i - nbFilms] > max_ns_op) {
@@ -308,8 +366,8 @@ public class TestsChargeAndTiming {
 									+ timings[i - nbFilms] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
-					}else {
-						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
+					} else {
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
@@ -360,7 +418,7 @@ public class TestsChargeAndTiming {
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
 				if (i % 5000 == 0 || i == nb_review - 1) {
-					System.out.print("\rAvancement " + (float) (i+1) / (float) nb_review * 100 + "%");
+					System.out.print("\rAvancement " + (float) (i + 1) / (float) nb_review * 100 + "%");
 					System.gc();
 				}
 				if (timings[i] > max_ns_op) {
@@ -371,8 +429,8 @@ public class TestsChargeAndTiming {
 									+ timings[i] / (1000 * 1000) + "ms");
 					if (blocking) {
 						return 1;
-					}else {
-						System.out.print(" mais n'est pas bloquant pour le cachier des charges");
+					} else {
+						System.out.println(" mais n'est pas bloquant pour le cachier des charges");
 					}
 				}
 			}
