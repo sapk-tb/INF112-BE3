@@ -1,191 +1,164 @@
 package avis;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 /*
  * @author Antoine GIRARD
  * @author Simon LILLE
- * @date mai 2015
+ * @date may 2015
  * @version V1.0
  */
 import exception.BadEntry;
 
 public abstract class Item {
 
-    @Override
-    public String toString() {
-        return " titre=" + titre + ", genre=" + genre + ", moyenne=" + getMoyenne() + ", reviews="
-                + reviews + ", creator=" + creator;
-    }
+	public static enum Types {
 
-    public static enum Types {Book, Film}
+		Book, Film
+	}
+	private Member creator = null;
+	private String title;
+	private String genre;
 
-    /**
-     * Création d'un Item par un membre
-     *
-     * @param titre
-     * @param genre
-     * @param creator
-     * @throws exception.BadEntry
-     */
-    public Item(String titre, String genre, Membre creator) throws BadEntry {
-        super();
-        this.setTitre(titre);
-        this.setGenre(genre);
-        this.reviews = new LinkedHashMap<String, Review>();
-        if (!isInstanced(creator)) {
-            throw new BadEntry("Creator invalid");
-        }
-        this.creator = creator;
-    }
+	private LinkedHashMap<String, Review> reviews;
 
-    /**
-     * @uml.property name="titre"
-     */
-    private String titre;
+	/**
+	 * Creation of one Item (generic) by one member
+	 *
+	 * @param title
+	 * @param genre
+	 * @param creator
+	 * @throws exception.BadEntry
+	 */
+	public Item(String title, String genre, Member creator) throws BadEntry {
+		super();
+		this.setTitle(title);
+		this.setGenre(genre);
+		this.reviews = new LinkedHashMap<String, Review>();
+		if (!isInstanced(creator)) {
+			throw new BadEntry("Creator invalid");
+		}
+		this.creator = creator;
+	}
 
-    /**
-     * Getter of the property <tt>titre</tt>
-     *
-     * @return Returns the titre.
-     * @uml.property name="titre"
-     */
-    public String getTitre() {
-        return titre;
-    }
+	/**
+	 * Getter of the property <tt>title</tt>
+	 *
+	 * @return Returns the title.
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * Setter of the property <tt>titre</tt>
-     *
-     * @param titre The titre to set.
-     * @throws exception.BadEntry si le titre de l'item est invalide
-     * @uml.property name="titre"
-     */
-    public void setTitre(String titre) throws BadEntry {
-        if (!isValidTitre(titre)) {
-            throw new BadEntry("Titre invalid");
-        }
-        this.titre = titre;
-    }
+	/**
+	 * Setter of the property <tt>title</tt>
+	 *
+	 * @param title The title to set.
+	 * @throws exception.BadEntry if the title is not instantiated or less than
+	 * 1 character other than spaces
+	 */
+	public void setTitle(String title) throws BadEntry {
+		if (!isValidTitle(title)) {
+			throw new BadEntry("Title invalid");
+		}
+		this.title = title;
+	}
 
-    /**
-     * @uml.property name="genre"
-     */
-    private String genre;
+	/**
+	 * Getter of the property <tt>genre</tt>
+	 *
+	 * @return Returns the genre.
+	 */
+	public String getGenre() {
+		return genre;
+	}
 
-    /**
-     * Getter of the property <tt>genre</tt>
-     *
-     * @return Returns the genre.
-     * @uml.property name="genre"
-     */
-    public String getGenre() {
-        return genre;
-    }
+	/**
+	 * Setter of the property <tt>genre</tt>
+	 *
+	 * @param genre The genre to set.
+	 * @throws exception.BadEntry if genre is not instantiated.
+	 */
+	public void setGenre(String genre) throws BadEntry {
+		if (!isInstanced(genre)) {
+			throw new BadEntry("Genre is not instantiated");
+		}
+		this.genre = genre;
+	}
 
-    /**
-     * Setter of the property <tt>genre</tt>
-     *
-     * @param genre The genre to set.
-     * @throws exception.BadEntry si le genre n'est pas instancié
-     * @uml.property name="genre"
-     */
-    public void setGenre(String genre) throws BadEntry {
-        if (!isInstanced(genre)) {
-            throw new BadEntry("");
-        }
-        this.genre = genre;
-    }
+	/**
+	 * Getter of the property <tt>reviews</tt>
+	 *
+	 * @return Returns the reviews.
+	 */
+	public LinkedHashMap<String, Review> getReviews() {
+		return reviews;
+	}
 
-    /**
-     * @uml.property name="reviews"
-     * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
-     * inverse="item:avis.Review"
-     */
-    private LinkedHashMap<String, Review> reviews;
+	/**
+	 * Add a review of the Item by a member
+	 *
+	 * @param review
+	 * @return the average of the item.
+	 */
+	public float addReview(Review review) {
+		reviews.put(review.getMember().getNickname().trim().toLowerCase(), review);
+		review.getMember().addReview(review);
+		return this.getAverage();
+	}
 
-    /**
-     * Getter of the property <tt>reviews</tt>
-     *
-     * @return Returns the reviews.
-     * @uml.property name="reviews"
-     */
-    public LinkedHashMap<String, Review> getReviews() {
-        return reviews;
-    }
+	/**
+	 * Getter of the property <tt>membre</tt>
+	 *
+	 * @return Returns the membre.
+	 */
+	public Member getCreator() {
+		return creator;
+	}
 
-    /**
-     * Permet au membre d'ajouter une review
-     *
-     * @param review
-     * @return la note moyenne associé à l'item
-     */
-    public float addReview(Review review) {
-        reviews.put(review.getMembre().getPseudo().trim().toLowerCase(), review);
-        review.getMembre().addReview(review);
-        return this.getMoyenne();
-    }
+	/**
+	 * Calculate and return the average of all the review.
+	 *
+	 * @return the average of the item.
+	 */
+	public float getAverage() {
+		if (reviews.size() == 0) {
+			return -1f;
+		}
+		float moyenne = 0;
+		float total_karma = 0;
+		// Not compatible with  Java 1.7 :   moyenne = reviews.entrySet().stream().map((review) -> review.getValue().getNote()).reduce(moyenne, (accumulator, _item) -> accumulator + _item);
+		for (Review review : reviews.values()) {
+			float user_karma = review.getMember().getKarma();
+			moyenne += review.getNote() * user_karma;
+			total_karma += user_karma;
+		}
+		return (total_karma == 0) ? -1f : moyenne / total_karma;
+	}
 
-    /**
-     *
-     * @return la note moyenne associé à l'item
-     */
-    public float getMoyenne() {
-        //TODO consider caching
-        if (reviews.size() == 0) {
-            return -1f;
-        }
-        float moyenne = 0;
-        float total_karma = 0;
-        //        moyenne = reviews.entrySet().stream().map((review) -> review.getValue().getNote()).reduce(moyenne, (accumulator, _item) -> accumulator + _item);
-        /*
-        for (Map.Entry<String, Review> review : reviews.entrySet()) {
-            float user_karma = review.getValue().getMembre().getKarma();
-            moyenne += review.getValue().getNote() * user_karma;
-            total_karma += user_karma;
-        }
-        */
-        for (Review review : reviews.values()) {
-            float user_karma = review.getMembre().getKarma();
-            moyenne += review.getNote() * user_karma;
-            total_karma += user_karma;
-        }
-        return (total_karma == 0) ? -1f : moyenne / total_karma;
-    }
+	/**
+	 * Test the given param title
+	 *
+	 * @param title the title to validate
+	 * @return true if the title is correctly instantiated
+	 */
+	public static boolean isValidTitle(String title) {
+		return title != null && title.trim().length() >= 1;
+	}
 
-    /**
-     * @uml.property name="creator"
-     * @uml.associationEnd multiplicity="(1 1)" inverse="items:avis.Membre"
-     */
-    private Membre creator = null;
+	/**
+	 * Test the given param is instantiated
+	 *
+	 * @param o the object to validate
+	 * @return true if the param is correctly instantiated
+	 */
+	public static boolean isInstanced(Object o) {
+		return o != null;
+	}
 
-    /**
-     * Getter of the property <tt>membre</tt>
-     *
-     * @return Returns the membre.
-     * @uml.property name="creator"
-     */
-    public Membre getCreator() {
-        return creator;
-    }
+	@Override
+	public String toString() {
+		return " title=" + title + ", genre=" + genre + ", average=" + getAverage() + ", reviews="
+				+ reviews + ", creator=" + creator;
+	}
 
-    /**
-     * Test le paramètre d'entrée titre
-     *
-     * @param titre titre à valider
-     * @return vrai si le paramètre est correctement instancié
-     */
-    public static boolean isValidTitre(String titre) {
-        return titre != null && titre.trim().length() >= 1;
-    }
-
-    /**
-     * Test si le paramètre est instancié
-     *
-     * @param o l'objet à verifier
-     * @return vrai si le paramètre est correctement instancié
-     */
-    public static boolean isInstanced(Object o) {
-        return o != null;
-    }
 }

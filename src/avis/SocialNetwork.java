@@ -52,7 +52,7 @@ public class SocialNetwork {
      *
      */
     public SocialNetwork() {
-        membres = new LinkedHashMap<String, Membre>();
+        membres = new LinkedHashMap<String, Member>();
         books = new LinkedHashMap<String, Book>();
         films = new LinkedHashMap<String, Film>();
     }
@@ -111,8 +111,8 @@ public class SocialNetwork {
         if (memberAlreadyExists(pseudo)) {
             throw new MemberAlreadyExists();
         }
-        Membre membre = new Membre(pseudo, password, profil);
-        membres.put(membre.getPseudo().toLowerCase().trim(), membre);
+        Member membre = new Member(pseudo, password, profil);
+        membres.put(membre.getNickname().toLowerCase().trim(), membre);
     }
 
     /**
@@ -150,13 +150,13 @@ public class SocialNetwork {
             String genre, String realisateur, String scenariste, int duree)
             throws BadEntry, NotMember, ItemFilmAlreadyExists {
 
-        if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+        if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
             throw new BadEntry("Utilisateur incorrect");
         }
         if (!memberAlreadyExists(pseudo)) {
             throw new NotMember(pseudo + " is not a member");
         }
-        Membre creator = membres.get(pseudo.trim().toLowerCase());
+        Member creator = membres.get(pseudo.trim().toLowerCase());
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -210,13 +210,13 @@ public class SocialNetwork {
             String genre, String auteur, int nbPages) throws BadEntry,
             NotMember, ItemBookAlreadyExists {
 
-        if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+        if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
             throw new BadEntry("Utilisateur incorrect");
         }
         if (!memberAlreadyExists(pseudo)) {
             throw new NotMember(pseudo + " is not a member");
         }
-        Membre creator = membres.get(pseudo.trim().toLowerCase());
+        Member creator = membres.get(pseudo.trim().toLowerCase());
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -248,18 +248,18 @@ public class SocialNetwork {
      * a été noté. (une liste vide si aucun item ne correspond)
      */
     public LinkedList<String> consultItems(String nom) throws BadEntry {
-        if (!(Item.isValidTitre(nom))) {
+        if (!(Item.isValidTitle(nom))) {
             throw new BadEntry("Titre invalid");
         }
         LinkedList<String> results = new LinkedList<String>();
         for (Entry<String, Film> film : films.entrySet()) {
             //We use toLowerCase to be insensible to the case
-            if (film.getValue().getTitre().toLowerCase().contains(nom.toLowerCase())) {
+            if (film.getValue().getTitle().toLowerCase().contains(nom.toLowerCase())) {
                 results.add(film.getValue().toString());
             }
         }
         for (Entry<String, Book> book : books.entrySet()) {
-            if (book.getValue().getTitre().toLowerCase().contains(nom.toLowerCase())) {
+            if (book.getValue().getTitle().toLowerCase().contains(nom.toLowerCase())) {
                 results.add(book.getValue().toString());
             }
         }
@@ -298,14 +298,14 @@ public class SocialNetwork {
     public float reviewItemFilm(String pseudo, String password, String titre,
             float note, String commentaire) throws BadEntry, NotMember, NotItem {
 
-        if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+        if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
             throw new BadEntry("User invalid");
         }
-        if (!(Item.isValidTitre(titre))) {
+        if (!(Item.isValidTitle(titre))) {
             throw new BadEntry("Titre invalid");
         }
         if (!(Review.isValidNote(note) && Review
-                .isValidCommentaire(commentaire))) {
+                .isValidComment(commentaire))) {
             throw new BadEntry("Review data invalid");
         }
 
@@ -313,7 +313,7 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Membre membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = membres.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -363,10 +363,10 @@ public class SocialNetwork {
     public float reviewOpinion(String pseudo, String password, String user, String titre, String type,
             float note) throws BadEntry, NotMember, NotItem, NotReview, NotType {
 
-        if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+        if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
             throw new BadEntry("User invalid");
         }
-        if (!(Item.isValidTitre(titre))) {
+        if (!(Item.isValidTitle(titre))) {
             throw new BadEntry("Titre invalid");
         }
         if (!(Review.isValidNote(note))) {
@@ -377,7 +377,7 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Membre membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = membres.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -386,7 +386,7 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Membre utilisateur = membres.get(user.trim().toLowerCase());
+        Member utilisateur = membres.get(user.trim().toLowerCase());
 
         Item item;
         try {
@@ -444,14 +444,14 @@ public class SocialNetwork {
     public float reviewItemBook(String pseudo, String password, String titre,
             float note, String commentaire) throws BadEntry, NotMember, NotItem {
 
-        if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+        if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
             throw new BadEntry("User invalid");
         }
-        if (!(Item.isValidTitre(titre))) {
+        if (!(Item.isValidTitle(titre))) {
             throw new BadEntry("Titre invalid");
         }
         if (!(Review.isValidNote(note) && Review
-                .isValidCommentaire(commentaire))) {
+                .isValidComment(commentaire))) {
             throw new BadEntry("Review data invalid");
         }
 
@@ -459,7 +459,7 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Membre membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = membres.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -475,14 +475,14 @@ public class SocialNetwork {
      private float reviewItemOf(LinkedHashMap<String, Item> items, String pseudo, String password, String titre,
      float note, String commentaire) throws BadEntry, NotMember, NotItem {
 		
-     if (!(Membre.isValidPseudo(pseudo) && Membre.isValidPassword(password))) {
+     if (!(Member.isValidNickname(pseudo) && Member.isValidPassword(password))) {
      throw new BadEntry("User invalid");
      }
-     if (!(Item.isValidTitre(titre))) {
+     if (!(Item.isValidTitle(titre))) {
      throw new BadEntry("Titre invalid");
      }
      if (!(Review.isValidNote(note) && Review
-     .isValidCommentaire(commentaire))) {
+     .isValidComment(commentaire))) {
      throw new BadEntry("Review data invalid");
      }
 
@@ -490,7 +490,7 @@ public class SocialNetwork {
      throw new NotMember(pseudo + " is not a member");
      }
 
-     Membre membre = membres.get(pseudo.trim().toLowerCase());
+     Member membre = membres.get(pseudo.trim().toLowerCase());
      if (!membre.auth(password)) {
      throw new NotMember("Password incorrect");
      }
@@ -532,7 +532,7 @@ public class SocialNetwork {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="socialNetwork:avis.Membre"
      */
-    private final LinkedHashMap<String, Membre> membres;
+    private final LinkedHashMap<String, Member> membres;
 
     /**
      * @param pseudo
@@ -540,7 +540,7 @@ public class SocialNetwork {
      * @throws exception.BadEntry
      */
     protected boolean memberAlreadyExists(String pseudo) throws BadEntry {
-        if (!Membre.isValidPseudo(pseudo)) {
+        if (!Member.isValidNickname(pseudo)) {
             throw new BadEntry("Pseudo invalid");
         }
         return membres.containsKey(pseudo.toLowerCase().trim());
@@ -552,7 +552,7 @@ public class SocialNetwork {
      * @throws exception.BadEntry
      */
     protected boolean bookAlreadyExists(String titre) throws BadEntry {
-        if (!Book.isValidTitre(titre)) {
+        if (!Book.isValidTitle(titre)) {
             throw new BadEntry("Titre invalid");
         }
         return books.containsKey(titre.toLowerCase().trim());
@@ -564,7 +564,7 @@ public class SocialNetwork {
      * @throws exception.BadEntry
      */
     protected boolean filmAlreadyExists(String titre) throws BadEntry {
-        if (!Film.isValidTitre(titre)) {
+        if (!Film.isValidTitle(titre)) {
             throw new BadEntry("Titre invalid");
         }
         return films.containsKey(titre.toLowerCase().trim());
