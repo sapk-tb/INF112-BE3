@@ -31,4 +31,7 @@ test:
 	java -Xms256m -classpath $(CLASSPATH) test/TestsSocialNetwork
 
 clean:
-	rm -f $(CLASSPATH)/*.class
+	rm -f $(CLASSPATH)/*.class && rm -Rf doc
+
+doc:
+	cd src && javadoc -d ../doc avis
