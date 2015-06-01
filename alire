@@ -1,8 +1,0 @@
-Pour compiler :
-> make
-
-Après pour executer les tests :
-> make test
-
-Puis pour executer l'interface :
-> make run
