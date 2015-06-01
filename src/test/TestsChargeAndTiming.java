@@ -109,7 +109,7 @@ public class TestsChargeAndTiming {
 				sn.consultItems(" "+rnd);
 				long endTime = System.nanoTime();
 				timings[i] = (endTime - startTime);
-				if (i % 5000 == 0 || i + 1 == nbItemsToConsults) {
+				if (i % 50 == 0 || i + 1 == nbItemsToConsults) {
 					System.out.print("\r    Avancement " + (float) (i + 1) / (float) nbItemsToConsults * 100 + "%");
 					System.gc();
 				}
