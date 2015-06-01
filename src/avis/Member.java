@@ -219,8 +219,8 @@ public class Member extends Visiteur {
      *
      * @param nickname his nickname
      * @param password his password
-     * @param profil un slogan choisi par le membre pour se définir
-     * @return vrai si les paramètres sont valides
+     * @param profil a slogan chosen by the member to be described
+     * @return true if all the params are correctly instantiated
      */
     public static boolean isValidMemberInput(String nickname, String password,
             String profil) {
