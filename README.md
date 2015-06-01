@@ -16,3 +16,6 @@ Puis pour generer la javadoc :
 
 ![Diagramme UML sequence](https://raw.githubusercontent.com/sapk-tb/INF112-BE3/master/img/diagramme-seq-addmember.png)
 ![Diagramme UML sequence](https://raw.githubusercontent.com/sapk-tb/INF112-BE3/master/img/diagramme-seq-addItemBook.png)
+![Diagramme UML sequence](https://raw.githubusercontent.com/sapk-tb/INF112-BE3/master/img/diagramme-seq-reviewOpinion.png)
+
+
