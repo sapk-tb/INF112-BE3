@@ -30,7 +30,7 @@ public class TestsChargeAndTiming {
 
 		doTest(sn, 2000, 2000 * 10, 2500 * 10, 2500 * 10, 12500 * 10, 12500 * 10, 500 * 10, false, "2");
 
-		doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 500 * 100, false, "3");
+		doTest(sn, 2000, 2000 * 50, 2500 * 50, 2500 * 50, 12500 * 50, 12500 * 50, 500 * 50, false, "3");
 
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
