@@ -38,12 +38,12 @@ import exception.NotType;
  * deux sera effectivement levée.
  * </p>
  * <p>
- * Dans une version avancée (version 2), une opinion peut également être
- * évaluée. Chaque membre se voit dans cette version décerner un "karma" qui
- * mesure la moyenne des notes portant sur les opinions qu'il a émises. L'impact
- * des opinions entrant dans le calcul de la note moyenne attribuée à un item
- * est pondéré par le karma des membres qui les émettent.
- * </p>
+ Dans une version avancée (version 2), une opinion peut également être
+ évaluée. Chaque membre se voit dans cette version décerner un "karma" qui
+ mesure la moyenne des notes portant sur les opinions qu'il a émises. L'impact
+ des opinions entrant dans le calcul de la note moyenne attribuée à un item
+ est pondéré par le karma des members qui les émettent.
+ </p>
  */
 public class SocialNetwork {
 
@@ -52,18 +52,18 @@ public class SocialNetwork {
      *
      */
     public SocialNetwork() {
-        membres = new LinkedHashMap<String, Member>();
+        members = new LinkedHashMap<String, Member>();
         books = new LinkedHashMap<String, Book>();
         films = new LinkedHashMap<String, Film>();
     }
 
     /**
-     * Obtenir le nombre de membres du <i>SocialNetwork</i>
+     * Obtenir le nombre de members du <i>SocialNetwork</i>
      *
-     * @return le nombre de membres
+     * @return le nombre de members
      */
     public int nbMembers() {
-        return membres.size();
+        return members.size();
     }
 
     /**
@@ -112,7 +112,7 @@ public class SocialNetwork {
             throw new MemberAlreadyExists();
         }
         Member membre = new Member(pseudo, password, profil);
-        membres.put(membre.getNickname().toLowerCase().trim(), membre);
+        members.put(membre.getNickname().toLowerCase().trim(), membre);
     }
 
     /**
@@ -156,7 +156,7 @@ public class SocialNetwork {
         if (!memberAlreadyExists(pseudo)) {
             throw new NotMember(pseudo + " is not a member");
         }
-        Member creator = membres.get(pseudo.trim().toLowerCase());
+        Member creator = members.get(pseudo.trim().toLowerCase());
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -216,7 +216,7 @@ public class SocialNetwork {
         if (!memberAlreadyExists(pseudo)) {
             throw new NotMember(pseudo + " is not a member");
         }
-        Member creator = membres.get(pseudo.trim().toLowerCase());
+        Member creator = members.get(pseudo.trim().toLowerCase());
         if (!creator.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -313,12 +313,12 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Member membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = members.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
         if (!filmAlreadyExists(titre)) {
-            throw new NotItem("Le film n'existe pas");
+            throw new NotItem("This film doesn't exist");
         }
 
         Film film = films.get(titre.trim().toLowerCase());
@@ -367,7 +367,7 @@ public class SocialNetwork {
             throw new BadEntry("User invalid");
         }
         if (!(Item.isValidTitle(titre))) {
-            throw new BadEntry("Titre invalid");
+            throw new BadEntry("Title invalid");
         }
         if (!(Review.isValidNote(note))) {
             throw new BadEntry("Opinion invalid");
@@ -377,7 +377,7 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Member membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = members.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
@@ -386,20 +386,20 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Member utilisateur = membres.get(user.trim().toLowerCase());
+        Member utilisateur = members.get(user.trim().toLowerCase());
 
         Item item;
         try {
             switch (Item.Types.valueOf(type)) {
                 case Book:
                     if (!bookAlreadyExists(titre)) {
-                        throw new NotItem("Le book n'existe pas");
+                        throw new NotItem("This book doesn't exist");
                     }
                     item = books.get(titre.trim().toLowerCase());
                     break;
                 case Film:
                     if (!filmAlreadyExists(titre)) {
-                        throw new NotItem("Le film n'existe pas");
+                        throw new NotItem("This film doesn't exist");
                     }
                     item = films.get(titre.trim().toLowerCase());
                     break;
@@ -459,12 +459,12 @@ public class SocialNetwork {
             throw new NotMember(pseudo + " is not a member");
         }
 
-        Member membre = membres.get(pseudo.trim().toLowerCase());
+        Member membre = members.get(pseudo.trim().toLowerCase());
         if (!membre.auth(password)) {
             throw new NotMember("Password incorrect");
         }
         if (!bookAlreadyExists(titre)) {
-            throw new NotItem("Le book n'existe pas");
+            throw new NotItem("This book doesn't exist");
         }
 
         Book book = books.get(titre.trim().toLowerCase());
@@ -490,7 +490,7 @@ public class SocialNetwork {
      throw new NotMember(pseudo + " is not a member");
      }
 
-     Member membre = membres.get(pseudo.trim().toLowerCase());
+     Member membre = members.get(pseudo.trim().toLowerCase());
      if (!membre.auth(password)) {
      throw new NotMember("Password incorrect");
      }
@@ -512,7 +512,7 @@ public class SocialNetwork {
      */
     @Override
     public String toString() {
-        return "Social Network contains : " + this.nbMembers() + " Membres, " + this.nbBooks() + " Books, " + this.nbFilms() + " Films";
+        return "Social Network contains : " + this.nbMembers() + " members, " + this.nbBooks() + " Books, " + this.nbFilms() + " Films";
     }
 
     /**
@@ -532,7 +532,7 @@ public class SocialNetwork {
      * @uml.associationEnd multiplicity="(0 -1)" dimension="1" ordering="true"
      * inverse="socialNetwork:avis.Membre"
      */
-    private final LinkedHashMap<String, Member> membres;
+    private final LinkedHashMap<String, Member> members;
 
     /**
      * @param pseudo
@@ -543,7 +543,7 @@ public class SocialNetwork {
         if (!Member.isValidNickname(pseudo)) {
             throw new BadEntry("Pseudo invalid");
         }
-        return membres.containsKey(pseudo.toLowerCase().trim());
+        return members.containsKey(pseudo.toLowerCase().trim());
     }
 
     /**
@@ -553,7 +553,7 @@ public class SocialNetwork {
      */
     protected boolean bookAlreadyExists(String titre) throws BadEntry {
         if (!Book.isValidTitle(titre)) {
-            throw new BadEntry("Titre invalid");
+            throw new BadEntry("Title invalid");
         }
         return books.containsKey(titre.toLowerCase().trim());
     }
@@ -565,7 +565,7 @@ public class SocialNetwork {
      */
     protected boolean filmAlreadyExists(String titre) throws BadEntry {
         if (!Film.isValidTitle(titre)) {
-            throw new BadEntry("Titre invalid");
+            throw new BadEntry("Title invalid");
         }
         return films.containsKey(titre.toLowerCase().trim());
     }
