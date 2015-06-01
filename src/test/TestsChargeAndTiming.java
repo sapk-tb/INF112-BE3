@@ -30,7 +30,7 @@ public class TestsChargeAndTiming {
 
 		doTest(sn, 2000, 2000 * 10, 2500 * 10, 2500 * 10, 12500 * 10, 12500 * 10, 500 * 10, false, "2");
 
-		//doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 500 * 100, false, "3");
+		doTest(sn, 2000, 2000 * 100, 2500 * 100, 2500 * 100, 12500 * 100, 12500 * 100, 500 * 100, false, "3");
 
 		// ce n'est pas du test, mais cela peut "rassurer"...
 		System.out.println(sn);
@@ -77,8 +77,7 @@ public class TestsChargeAndTiming {
 		nbTests++;
 		nbErreurs += memoryTest(sn, numTest + ".6");
 
-		//TODO test consultItems
-		//TODO test reviewOpinion
+                System.out.println(sn);
 		return sn;
 	}
 
